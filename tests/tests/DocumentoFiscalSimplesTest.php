@@ -37,10 +37,10 @@ class DocumentoFiscalSimplesTest extends TestCase
 
         $item = &$this->NF->addItem($prod);
         $this->NF->totalizarDocumento();
-        $this->assertEquals(null, $item->imposto->ICMS->CST, 'CST');
-        $this->assertEquals(101, $item->imposto->ICMS->CSOSN, 'CSOSN');
-        $this->assertEquals(null, $item->imposto->ICMS->modBC, 'modBC');
-        $this->assertEquals(null, $item->imposto->ICMS->pRedBC, 'pRedBC');
+        $this->assertEquals(null, $item->imposto->ICMS->CST(), 'CST');
+        $this->assertEquals(101, $item->imposto->ICMS->CSOSN(), 'CSOSN');
+        $this->assertEquals(null, $item->imposto->ICMS->modBC(), 'modBC');
+        $this->assertEquals(null, $item->imposto->ICMS->pRedBC(), 'pRedBC');
         $this->assertEquals(null, $item->imposto->ICMS->vBC, 'vBC');
         $this->assertEquals(null, $item->imposto->ICMS->vBC_Desonerado, 'vBC_Desonerado');
         $this->assertEquals(null, $item->imposto->ICMS->pICMS, 'pICMS');

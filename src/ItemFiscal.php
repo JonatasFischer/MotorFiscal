@@ -45,7 +45,6 @@ class ItemFiscal extends Base
      * Operação do Item da Nota Fiscal.
      */
     public $Operacao;
-    private $tipoItem = 0;
 
     private function __construct()
     {
@@ -57,8 +56,8 @@ class ItemFiscal extends Base
         $item->Operacao = $operacao;
         $item->prod = $produto;
         $item->imposto = new Imposto();
-
-        if ($produto->tipoItem === Produto::PRODUTO) {
+    
+        if ($produto->tipoItem() === Produto::PRODUTO) {
             $item->imposto->ICMS = new ICMS();
 
             //se o emitente é contribuinte do IPI

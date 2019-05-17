@@ -36,10 +36,10 @@ class DocumentoFiscalRpaTest extends TestCase
         $this->NF->itens = [];
         $item = &$this->NF->addItem($prod);
         $this->NF->totalizarDocumento();
-        $this->assertEquals('00', $item->imposto->ICMS->CST, 'CST');
-        $this->assertEquals(null, $item->imposto->ICMS->CSOSN, 'CSOSN');
-        $this->assertEquals(3, $item->imposto->ICMS->modBC, 'modBC');
-        $this->assertEquals(null, $item->imposto->ICMS->pRedBC, 'pRedBC');
+        $this->assertEquals('00', $item->imposto->ICMS->CST(), 'CST');
+        $this->assertEquals(null, $item->imposto->ICMS->CSOSN(), 'CSOSN');
+        $this->assertEquals(3, $item->imposto->ICMS->modBC(), 'modBC');
+        $this->assertEquals(null, $item->imposto->ICMS->pRedBC(), 'pRedBC');
         $this->assertEquals(120, $item->imposto->ICMS->vBC, 'vBC');
         $this->assertEquals(null, $item->imposto->ICMS->vBC_Desonerado, 'vBC_Desonerado');
         $this->assertEquals(12, $item->imposto->ICMS->pICMS, 'pICMS');
@@ -68,7 +68,7 @@ class DocumentoFiscalRpaTest extends TestCase
         $this->assertEquals(null, $item->imposto->ICMS->vBCSTDest, 'vBCSTDest');
         $this->assertEquals(null, $item->imposto->ICMS->vICMSSTDest, 'vICMSSTDest');
         $this->assertEquals('1.49', $item->imposto->PIS->vPIS, 'vPIS');
-        $this->assertEquals('01', $item->imposto->PIS->CST, 'CST');
+        $this->assertEquals('01', $item->imposto->PIS->CST(), 'CST');
         $this->assertEquals('18.00', $item->imposto->vTotTrib, 'vTotTrib');
         $this->assertEquals('1.65', $item->imposto->PIS->pPIS, 'pPIS');
         $this->assertEquals(999, $item->imposto->IPI->clEnq, 'clEnq');
@@ -95,10 +95,10 @@ class DocumentoFiscalRpaTest extends TestCase
         $this->NF->itens = [];
         $item = &$this->NF->addItem($prod);
         $this->NF->totalizarDocumento();
-        $this->assertEquals('10', $item->imposto->ICMS->CST, 'CST');
-        $this->assertEquals(null, $item->imposto->ICMS->CSOSN, 'CSOSN');
-        $this->assertEquals(3, $item->imposto->ICMS->modBC, 'modBC');
-        $this->assertEquals(null, $item->imposto->ICMS->pRedBC, 'pRedBC');
+        $this->assertEquals('10', $item->imposto->ICMS->CST(), 'CST');
+        $this->assertEquals(null, $item->imposto->ICMS->CSOSN(), 'CSOSN');
+        $this->assertEquals(3, $item->imposto->ICMS->modBC(), 'modBC');
+        $this->assertEquals(null, $item->imposto->ICMS->pRedBC(), 'pRedBC');
         $this->assertEquals(100, $item->imposto->ICMS->vBC, 'vBC');
         $this->assertEquals(null, $item->imposto->ICMS->vBC_Desonerado, 'vBC_Desonerado');
         $this->assertEquals(12, $item->imposto->ICMS->pICMS, 'pICMS');
@@ -127,7 +127,7 @@ class DocumentoFiscalRpaTest extends TestCase
         $this->assertEquals(null, $item->imposto->ICMS->vBCSTDest, 'vBCSTDest');
         $this->assertEquals(null, $item->imposto->ICMS->vICMSSTDest, 'vICMSSTDest');
         $this->assertEquals('1.65', $item->imposto->PIS->vPIS, 'vPIS');
-        $this->assertEquals('01', $item->imposto->PIS->CST, 'CST');
+        $this->assertEquals('01', $item->imposto->PIS->CST(), 'CST');
         $this->assertEquals('20.00', $item->imposto->vTotTrib, 'vTotTrib');
         $this->assertEquals('1.65', $item->imposto->PIS->pPIS, 'pPIS');
         $this->assertEquals(999, $item->imposto->IPI->clEnq, 'clEnq');
@@ -154,10 +154,10 @@ class DocumentoFiscalRpaTest extends TestCase
         $this->NF->itens = [];
         $item = &$this->NF->addItem($prod);
         $this->NF->totalizarDocumento();
-        $this->assertEquals('10', $item->imposto->ICMS->CST, 'CST');
-        $this->assertEquals(null, $item->imposto->ICMS->CSOSN, 'CSOSN');
-        $this->assertEquals(3, $item->imposto->ICMS->modBC, 'modBC');
-        $this->assertEquals(null, $item->imposto->ICMS->pRedBC, 'pRedBC');
+        $this->assertEquals('10', $item->imposto->ICMS->CST(), 'CST');
+        $this->assertEquals(null, $item->imposto->ICMS->CSOSN(), 'CSOSN');
+        $this->assertEquals(3, $item->imposto->ICMS->modBC(), 'modBC');
+        $this->assertEquals(null, $item->imposto->ICMS->pRedBC(), 'pRedBC');
         $this->assertEquals(100, $item->imposto->ICMS->vBC, 'vBC');
         $this->assertEquals(null, $item->imposto->ICMS->vBC_Desonerado, 'vBC_Desonerado');
         $this->assertEquals(12, $item->imposto->ICMS->pICMS, 'pICMS');
@@ -186,7 +186,7 @@ class DocumentoFiscalRpaTest extends TestCase
         $this->assertEquals(null, $item->imposto->ICMS->vBCSTDest, 'vBCSTDest');
         $this->assertEquals(null, $item->imposto->ICMS->vICMSSTDest, 'vICMSSTDest');
         $this->assertEquals('1.65', $item->imposto->PIS->vPIS, 'vPIS');
-        $this->assertEquals('01', $item->imposto->PIS->CST, 'CST');
+        $this->assertEquals('01', $item->imposto->PIS->CST(), 'CST');
         $this->assertEquals('20.00', $item->imposto->vTotTrib, 'vTotTrib');
         $this->assertEquals('1.65', $item->imposto->PIS->pPIS, 'pPIS');
         $this->assertEquals(999, $item->imposto->IPI->clEnq, 'clEnq');
@@ -312,13 +312,13 @@ class DocumentoFiscalRpaTest extends TestCase
         };
 
         $this->NF->buscaTribFunctionIBPT = function (Produto $produto) {
-            if ($produto->tipoItem == 0) {
-                $ret = new \stdClass();
+            if ($produto->tipoItem() === 0) {
+                $ret              = new stdClass();
                 $ret->PercTribFed = 10;
                 $ret->PercTribEst = 10;
                 $ret->PercTribMun = 0;
             } else {
-                $ret = new \stdClass();
+                $ret              = new stdClass();
                 $ret->PercTribFed = 10;
                 $ret->PercTribEst = 0;
                 $ret->PercTribMun = 15;
@@ -330,7 +330,7 @@ class DocumentoFiscalRpaTest extends TestCase
         };
 
         $this->NF->buscaTribFunctionISSQN = function ($produto) {
-            $ret = new \stdClass();
+            $ret           = new stdClass();
             $ret->Aliquota = 15;
             //Reten��o de ISS
             $ret->ISSRetemPF = true;

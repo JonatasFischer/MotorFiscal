@@ -42,7 +42,10 @@ class DocumentoFiscal extends Base
      * @var \MotorFiscal\IdentificacaoNFe
      */
     public $ide;
-
+    
+    /**
+     * @var \MotorFiscal\ItemFiscal[]
+     */
     public $itens = [];
 
     public $buscaTribFunction;
@@ -134,8 +137,8 @@ class DocumentoFiscal extends Base
                 if ($tributacaoICMS->IncluirFreteBaseICMS && is_numeric($produto->vFrete)) {
                     $vBC_ICMS_CredSN += $produto->vFrete;
                 }
-
-                switch ($item->imposto->ICMS->CSOSN) {
+    
+                switch ($item->imposto->ICMS->CSOSN()) {
                     case '101':
                     case '201':
                         if ($this->emit->PercCreditoSimples) {
@@ -161,10 +164,10 @@ class DocumentoFiscal extends Base
                 }
             } else {
                 /* N12a */
-                $item->imposto->ICMS->CST = $tributacaoICMS->CST;
+                $item->imposto->ICMS->setCST($tributacaoICMS->CST);
 
                 /* Calcula valor de crédito do ICMS */
-                switch ($item->imposto->ICMS->CST) {
+                switch ($item->imposto->ICMS->CST()) {
                     case '00':
                     case '10':
                     case '20':
@@ -184,7 +187,8 @@ class DocumentoFiscal extends Base
             $item = $this->calcularPartilhaICMS($tributacaoICMS, $item);
 
             /* Calcula do ICMS-ST */
-            $CST_ST = $item->imposto->ICMS->CST ?: $item->imposto->ICMS->CSOSN;
+            $CST_ST = $item->imposto->ICMS->CST()
+                ? : $item->imposto->ICMS->CSOSN();
             switch ($CST_ST) {
                 case '101':
                 case '102':
@@ -201,14 +205,16 @@ class DocumentoFiscal extends Base
                     /* ======= Se existe informacao válida de ICMS ST ========================== */
                     if (!empty($tributacaoICMS->ModalidadeBaseICMSST) && $tributacaoICMS->ModalidadeBaseICMSST >= 0) {
                         /* N18 */
-                        $item->imposto->ICMS->modBCST = $tributacaoICMS->ModalidadeBaseICMSST;
+                        $item->imposto->ICMS->setModBCST($tributacaoICMS->ModalidadeBaseICMSST);
                         /* N20 */
-                        $item->imposto->ICMS->pRedBCST = (empty($tributacaoICMS->PercRedICMSST)) ? 0 : $tributacaoICMS->PercRedICMSST;
+                        $item->imposto->ICMS->setPRedBCST((empty($tributacaoICMS->PercRedICMSST))
+                            ? 0
+                            : $tributacaoICMS->PercRedICMSST);
                         /* N22 */
-                        $item->imposto->ICMS->pICMSST = $tributacaoICMS->AliquotaICMSST;
+                        $item->imposto->ICMS->setPICMSST($tributacaoICMS->AliquotaICMSST);
 
                         /* Margem Valor Agregado (%) */
-                        if ($item->imposto->ICMS->modBCST == 4) {
+                        if ($item->imposto->ICMS->modBCST() == 4) {
                             /* Percentual MVA Ajustado */
                             /* N19 */
                             $item->imposto->ICMS->pMVAST = $tributacaoICMS->PercMVAAjustadoST;
@@ -221,17 +227,17 @@ class DocumentoFiscal extends Base
                             if ($this->emit->ContribuinteIPI) {
                                 $vBC_ICMS_ST += (empty($item->imposto->IPI->vIPI)) ? 0 : $item->imposto->IPI->vIPI;
                             }
-
-                            $vBC_ICMS_ST = round($vBC_ICMS_ST * (100 + $item->imposto->ICMS->pMVAST) / 100, 2);
+        
+                            $vBC_ICMS_ST = round($vBC_ICMS_ST * (100 + $item->imposto->ICMS->pMVAST()) / 100, 2);
                             if ($item->imposto->ICMS->pRedBCST > 0) {
                                 $vBC_ICMS_ST = round($vBC_ICMS_ST * (100 - $item->imposto->ICMS->pRedBCST) / 100, 2);
                             }
 
                             /* N21 */
-                            $item->imposto->ICMS->vBCST = number_format($vBC_ICMS_ST, 2, '.', '');
+                            $item->imposto->ICMS->setVBCST(number_format($vBC_ICMS_ST, 2, '.', ''));
                         } else {
                             /* N21 */
-                            $item->imposto->ICMS->vBCST = $tributacaoICMS->BaseCalcICMSST;
+                            $item->imposto->ICMS->setVBCST($tributacaoICMS->BaseCalcICMSST);
                         }
 
                         /* N23 */
@@ -386,8 +392,8 @@ class DocumentoFiscal extends Base
     private function &calcularTributacaoIntegral(ItemFiscal &$item, $tributacaoICMS, $produto)
     {
         /* N13 */
-        $item->imposto->ICMS->modBC = $tributacaoICMS->ModalidadeBaseICMS;
-        if ($item->imposto->ICMS->modBC == 3 || $item->imposto->ICMS->modBC == 0) {
+        $item->imposto->ICMS->setModBC($tributacaoICMS->ModalidadeBaseICMS);
+        if ($item->imposto->ICMS->modBC() === 3 || $item->imposto->ICMS->modBC() === 0) {
             $vBC_ICMS = $produto->vProd - $produto->vDesc + $produto->vSeg + $produto->vOutro;
             if ($tributacaoICMS->IncluirIPIBaseICMS && $this->emit->ContribuinteIPI) {
                 $vBC_ICMS += is_numeric($item->imposto->IPI->vIPI) ? $item->imposto->IPI->vIPI : 0;
@@ -396,7 +402,7 @@ class DocumentoFiscal extends Base
                 $vBC_ICMS += $produto->vFrete;
             }
             //aplica MVA sobre ICMS próprio
-            if ($item->imposto->ICMS->modBC == 0) {
+            if ($item->imposto->ICMS->modBC() == 0) {
                 $vBC_ICMS = $vBC_ICMS * (100 + $tributacaoICMS->PercMVAProprio) / 100;
             }
         } elseif ($item->imposto->ICMS->modBC == 1 || $item->imposto->ICMS->modBC == 2) {
@@ -405,11 +411,11 @@ class DocumentoFiscal extends Base
 
         //calcula a redução da base de calculo apenas para os casos
         //que possuem redução de base de calculo.
-        if ($item->imposto->ICMS->CST == '20'
-            || $item->imposto->ICMS->CST == '51'
-            || $item->imposto->ICMS->CST == '70'
-            || $item->imposto->ICMS->CST == '90'
-            || $item->imposto->ICMS->CSOSN == '900') {
+        if ($item->imposto->ICMS->CST() == '20'
+            || $item->imposto->ICMS->CST() == '51'
+            || $item->imposto->ICMS->CST() == '70'
+            || $item->imposto->ICMS->CST() == '90'
+            || $item->imposto->ICMS->CSOSN() == '900') {
             /* N14 */
             $item->imposto->ICMS->pRedBC = $tributacaoICMS->PercRedICMS;
             $vBC_ICMS_Red = round($vBC_ICMS * (100 - $item->imposto->ICMS->pRedBC) / 100, 2);
@@ -462,19 +468,19 @@ class DocumentoFiscal extends Base
                 $item->imposto->ICMSUFDest->vICMSUFRemet = $diferencial_icms - $item->imposto->ICMSUFDest->vICMSUFDest;
             }
         }
-
-        if ($item->imposto->ICMS->CST == '51') {
-            $item->imposto->ICMS->vBC = ceil($vBC_ICMS * 100) / 100;
+    
+        if ($item->imposto->ICMS->CST() == '51') {
+            $item->imposto->ICMS->setVBC(ceil($vBC_ICMS * 100) / 100);
             /* N16 */
-            $item->imposto->ICMS->pICMS = $tributacaoICMS->AliquotaICMS;
+            $item->imposto->ICMS->setPICMS($tributacaoICMS->AliquotaICMS);
             /* N16a */
-            $item->imposto->ICMS->vICMSOp = ceil($item->imposto->ICMS->vICMS_Ficto * 100) / 100;
+            $item->imposto->ICMS->setVICMSO(ceil($item->imposto->ICMS->vICMS_Ficto * 100) / 100);
             /* N16b */
-            $item->imposto->ICMS->pDif = $tributacaoICMS->PercDiferimento;
+            $item->imposto->ICMS->setPDif($tributacaoICMS->PercDiferimento);
             /* N16c */
-            $item->imposto->ICMS->vICMSDif = ceil(round($item->imposto->ICMS->vICMS_Ficto
-                        - ($item->imposto->ICMS->vICMS_Ficto
-                            * $tributacaoICMS->PercDiferimento / 100), 2) * 100) / 100;
+            $item->imposto->ICMS->setVICMSDif(ceil(round($item->imposto->ICMS->vICMS_Ficto
+                                                         - ($item->imposto->ICMS->vICMS_Ficto
+                                                            * $tributacaoICMS->PercDiferimento / 100), 2) * 100) / 100);
             /* N17 */
             $item->imposto->ICMS->vICMS = $item->imposto->ICMS->vICMS_Ficto - $item->imposto->ICMS->vICMSDif;
         }
@@ -524,19 +530,19 @@ class DocumentoFiscal extends Base
         $vTotDescCond = 0;
 
         $this->ICMSTot = new ICMSTot();
-
+    
         foreach ($this->itens as $item) {
-            if ($item->prod->tipoItem() == Produto::PRODUTO) {
-                $this->ICMSTot->vBC += $this->toFloat($item->imposto->ICMS->vBC);
-                $this->ICMSTot->vICMS += $this->toFloat($item->imposto->ICMS->vICMS);
-                $this->ICMSTot->vICMSDeson += $this->toFloat($item->imposto->ICMS->vICMSDeson);
-                $this->ICMSTot->vBCST += $this->toFloat($item->imposto->ICMS->vBCST);
-                $this->ICMSTot->vST += $this->toFloat($item->imposto->ICMS->vICMSST);
-                $this->ICMSTot->vProd += $this->toFloat($item->prod->vProd);
-                $this->ICMSTot->vFrete += $this->toFloat($item->prod->vFrete);
-                $this->ICMSTot->vSeg += $this->toFloat($item->prod->vSeg);
-                $this->ICMSTot->vDesc += $this->toFloat($item->prod->vDesc);
-                $this->ICMSTot->vOutro += $this->toFloat($item->prod->vOutro);
+            if ($item->prod->tipoItem() === Produto::PRODUTO) {
+                $this->ICMSTot->vBC        += $this->toFloat($item->imposto->ICMS->vBC());
+                $this->ICMSTot->vICMS      += $this->toFloat($item->imposto->ICMS->vICMS());
+                $this->ICMSTot->vICMSDeson += $this->toFloat($item->imposto->ICMS->vICMSDeson());
+                $this->ICMSTot->vBCST      += $this->toFloat($item->imposto->ICMS->vBCST());
+                $this->ICMSTot->vST        += $this->toFloat($item->imposto->ICMS->vICMSST());
+                $this->ICMSTot->vProd      += $this->toFloat($item->prod->vProd);
+                $this->ICMSTot->vFrete     += $this->toFloat($item->prod->vFrete());
+                $this->ICMSTot->vSeg       += $this->toFloat($item->prod->vSeg());
+                $this->ICMSTot->vDesc      += $this->toFloat($item->prod->vDesc());
+                $this->ICMSTot->vOutro     += $this->toFloat($item->prod->vOutro());
 
                 if (!empty($item->imposto->vTotTrib)) {
                     $this->ICMSTot->vTotTrib += $item->imposto->vTotTrib;
@@ -916,7 +922,7 @@ class DocumentoFiscal extends Base
 
     private function &calcularTributacaoServicos(ItemFiscal &$item)
     {
-        if ($item->prod->tipoItem() == Produto::SERVICO) {
+        if ($item->prod->tipoItem() === Produto::SERVICO) {
             $tributacaoISSQN = $this->getTribISSQN($item->prod, $item->Operacao);
             $item->imposto->ISSQN = new ISSQN();
 

@@ -51,16 +51,16 @@ class Base
      *
      * @return mixed
      */
-    public function __set($name, $value)
+    /*public function __set($name, $value)
     {
         if (property_exists($this, $name)) {
-            return $this->$name = $value;
+            $this->$name = $value;
         } else {
             $trace = debug_backtrace();
             trigger_error('Undefined property via __get(): '.$name.' in '.$trace[0]['file'].' on line '
                           .$trace[0]['line'], E_USER_NOTICE);
         }
-    }
+    }*/
 
     /**
      * @param $name
