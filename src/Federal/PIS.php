@@ -207,7 +207,7 @@ class PIS extends Base
                 if ($tributacaoPIS->TipoTributacaoPISCOFINS == 0) {
                     $this->setCST($tributacaoPIS->CST);
                     $this->setPPIS($tributacaoPIS->AliquotaPis);
-                    $this->setVBC($item->prod()->vProdv - $item->prod()->vDesc());
+                    $this->setVBC($item->prod()->vProd() - $item->prod()->vDesc());
                     $this->setVPIS(ceil($this->vBC() * $this->pPIS()) / 100);
                 } else {
                     $this->setCST($tributacaoPIS->CST);
@@ -247,7 +247,7 @@ class PIS extends Base
         
         if ($documento->tipoParametroPesquisa() === DocumentoFiscal::IDENTIFICADOR) {
             $tributacaoPIS = $callback($item->prod()->identificador(), $item->Operacao()->identificador(),
-                $this->emit()->identificador(), $this->dest->identificador());
+                $documento->emit()->identificador(), $documento->dest()->identificador());
         } else {
             $tributacaoPIS = $callback($item->prod(), $item->Operacao(), $documento->emit(), $documento->dest());
         }

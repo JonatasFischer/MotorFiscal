@@ -93,7 +93,7 @@ class Imposto extends Base
             $imposto->ICMS = new ICMS();
             
             /* N11 */
-            $imposto->ICMS()->setOrig($produto->OrigemMercadoria());
+            $imposto->ICMS()->setOrig($produto->origemMercadoria());
             
             //se o emitente é contribuinte do IPI
             if ($documento->emit()->ContribuinteIPI()) {

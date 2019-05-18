@@ -135,6 +135,9 @@ class Produto extends Base
     
     protected $identificador;
     
+    /**
+     * @var int
+     */
     protected $tipoItem     = self::PRODUTO;
     
     protected $cMunFG       = '';
@@ -158,12 +161,6 @@ class Produto extends Base
     protected $vDescIncond  = 0;
     
     protected $vDescCond    = 0;
-    
-    
-    public static function createForNF(DocumentoFiscal $documento)
-    {
-    
-    }
     
     
     public function vDesc()
@@ -209,7 +206,7 @@ class Produto extends Base
     
     
     /**
-     * @return string
+     * @return int
      */
     public function tipoItem()
     {
@@ -277,20 +274,20 @@ class Produto extends Base
     /**
      * @return int
      */
-    public function TipoTributacaoPISCOFINS()
+    public function tipoTributacaoPISCOFINS()
     {
-        return $this->TipoTributacaoPISCOFINS;
+        return $this->tipoTributacaoPISCOFINS;
     }
     
     
     /**
-     * @param int $TipoTributacaoPISCOFINS
+     * @param int $tipoTributacaoPISCOFINS
      *
      * @return Produto
      */
-    public function setTipoTributacaoPISCOFINS($TipoTributacaoPISCOFINS)
+    public function setTipoTributacaoPISCOFINS($tipoTributacaoPISCOFINS)
     {
-        $this->TipoTributacaoPISCOFINS = $TipoTributacaoPISCOFINS;
+        $this->tipoTributacaoPISCOFINS = $tipoTributacaoPISCOFINS;
         
         return $this;
     }
@@ -299,20 +296,20 @@ class Produto extends Base
     /**
      * @return int
      */
-    public function OrigemMercadoria()
+    public function origemMercadoria()
     {
         return $this->origemMercadoria;
     }
     
     
     /**
-     * @param int $OrigemMercadoria
+     * @param int $origemMercadoria
      *
      * @return Produto
      */
-    public function setOrigemMercadoria($OrigemMercadoria)
+    public function setOrigemMercadoria($origemMercadoria)
     {
-        $this->OrigemMercadoria = $OrigemMercadoria;
+        $this->origemMercadoria = $origemMercadoria;
         
         return $this;
     }
@@ -321,20 +318,19 @@ class Produto extends Base
     /**
      * @return int
      */
-    public function FormaAquisicao()
+    public function formaAquisicao()
     {
         return $this->formaAquisicao;
     }
     
-    
     /**
-     * @param int $FormaAquisicao
+     * @param int $formaAquisicao
      *
      * @return Produto
      */
-    public function setFormaAquisicao($FormaAquisicao)
+    public function setFormaAquisicao($formaAquisicao)
     {
-        $this->formaAquisicao = ($FormaAquisicao * 1);
+        $this->formaAquisicao = ($formaAquisicao * 1);
         
         return $this;
     }

@@ -55,7 +55,7 @@ class ItemFiscal extends Base
         $item->imposto  = Imposto::createImposto($documento, $produto);
         
         if ($produto->tipoItem() === Produto::PRODUTO) {
-            if ($item->prod()->FormaAquisicao() === 1) {
+            if ($item->prod()->formaAquisicao() === 1) {
                 /* I08 */
                 $item->prod()->setCFOP($item->Operacao()->CFOPMercadoria());
             } else {

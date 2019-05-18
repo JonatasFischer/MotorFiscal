@@ -97,6 +97,11 @@ class ICMSTot extends Base
     protected $vOutro = 0;
     
     /**
+     * NF-e/NFC-e :W16 - vNF - Valor Total da NF-e.
+     */
+    protected $vNF = 0;
+    
+    /**
      * NF-e/NFC-e :W16a - vTotTrib.
      */
     protected $vTotTrib = 0;

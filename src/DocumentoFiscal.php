@@ -658,7 +658,7 @@ class DocumentoFiscal extends Base
                     /* N23 */
                     $item->imposto()->ICMS()->setVICMSST(null);
                 } else {
-                    if ($item->prod()->FormaAquisicao() === 1) {
+                    if ($item->prod()->formaAquisicao() === 1) {
                         /* I08 */
                         $item->prod()->setCFOP($item->Operacao()->CFOPMercadoriaST());
                     } else {
