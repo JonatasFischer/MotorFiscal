@@ -251,9 +251,9 @@ class COFINS extends Base
     private function getTribCOFINS(DocumentoFiscal $documento, ItemFiscal $item)
     {
         $callback = $documento->buscaTribFunctionCOFINS();
-        if ($documento->tipoParametroPesquisa() !== DocumentoFiscal::IDENTIFICADOR) {
+        if ($documento->tipoParametroPesquisa() === DocumentoFiscal::IDENTIFICADOR) {
             $tributacaoCOFINS = $callback($item->prod()->identificador(), $item->Operacao()->identificador(),
-                $documento->emit()->identificador(), $this->dest->identificador());
+                $documento->emit()->identificador(), $documento->dest()->identificador());
         } else {
             $tributacaoCOFINS = $callback($item->prod(), $item->Operacao(), $documento->emit(), $documento->dest());
         }
