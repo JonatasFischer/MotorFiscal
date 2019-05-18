@@ -3,6 +3,8 @@
 namespace MotorFiscal;
 
 use MotorFiscal\Estadual\ICMSTot;
+use MotorFiscal\Federal\COFINS;
+use MotorFiscal\Federal\PIS;
 use MotorFiscal\Federal\RetTrib;
 use MotorFiscal\Municipal\ISSQNtot;
 
@@ -331,124 +333,19 @@ class DocumentoFiscal extends Base
         }
     
         $this->validate($produto, $operacao);
-    
         $item = ItemFiscal::criarItemFiscal($produto, $operacao, $this);
     
-        $item = $this->calcularTributacaoFinal($item);
-    
         if ($produto->tipoItem() === Produto::PRODUTO) {
-        
-            $item = $this->calcularTributacaoBens($item);
+            $item = $this->calcularTributacaoProdutos($item);
         } elseif ($produto->tipoItem() === Produto::SERVICO) {
-        
             $this->calcularTributacaoServicos($item);
         }
     
-        /* Busca as informações de Tributacao do PIS */
+        $item->imposto()->setPIS(PIS::createFromItemAndDocumento($this, $item));
+        $item->imposto()->setCOFINS(COFINS::createFromItemAndDocumento($this, $item));
     
-        $tributacaoPIS = $this->getTribPIS($produto, $operacao);
-    
-        $item->imposto()->PIS()->assign($tributacaoPIS);
-        switch ($tributacaoPIS->CST) {
-            case '01':
-            case '02':
-                $item->imposto()->PIS()->setCST($tributacaoPIS->CST);
-                $item->imposto()->PIS()->setpPIS($tributacaoPIS->AliquotaPis);
-                $item->imposto()->PIS()->setVBC($produto->vProd() - $produto->vDesc());
-                $item->imposto()->PIS()->setVPIS(number_format(ceil($item->imposto()->PIS()->vBC() * $item->imposto()
-                                                                                                          ->PIS()
-                                                                                                          ->pPIS())
-                                                               / 100, 2, '.', ''));
-                break;
-            case '03':
-                $item->imposto()->PIS()->setCST($tributacaoPIS->CST);
-                $item->imposto()->PIS()->setQBCProd($produto->qTrib());
-                $item->imposto()->PIS()->setVAliqProd($tributacaoPIS->ValorPIS);
-                $item->imposto()->PIS()->setVPIS($item->imposto()->PIS()->qBCProd() * $item->imposto()
-                                                                                           ->PIS()
-                                                                                           ->vAliqProd());
-                break;
-            case '04':
-            case '05':
-            case '06':
-            case '07':
-            case '08':
-            case '09':
-                $item->imposto()->PIS()->setCST($tributacaoPIS->CST);
-                break;
-            default:
-                if ($tributacaoPIS->TipoTributacaoPISCOFINS == 0) {
-                    $item->imposto()->PIS()->setCST($tributacaoPIS->CST);
-                    $item->imposto()->PIS()->setPPIS($tributacaoPIS->AliquotaPis);
-                    $item->imposto()->PIS()->setVBC($produto->vProdv - $produto->vDesc());
-                    $item->imposto()->PIS()->setVPIS(ceil($item->imposto()->PIS()->vBC() * $item->imposto()
-                                                                                                ->PIS()
-                                                                                                ->PIS()) / 100);
-                } else {
-                    $item->imposto()->PIS()->setCST($tributacaoPIS->CST);
-                    $item->imposto()->PIS()->setQBCProd($produto->qTrib());
-                    $item->imposto()->PIS()->setVAliqProd($tributacaoPIS->ValorPIS);
-                    $item->imposto()->PIS()->setVPIS($item->imposto()->PIS()->qBCProd() * $item->imposto()
-                                                                                               ->PIS()
-                                                                                               ->vAliqProd());
-                }
-        }
-    
-        unset($tributacaoPIS);
-    
-        /* Calcula a Base do PIS */
-    
-        /* ================== Busca as informacoes de Tributacao do COFINS ==================== */
-        $tributacaoCOFINS = $this->getTribCOFINS($produto, $operacao);
-    
-        $item->imposto()->COFINS()->assign($tributacaoCOFINS);
-        /* Calcula a Base do COFINS */
-        //$item->imposto()->COFINS()->CST = $tributacaoCOFINS->CST;
-        switch ($tributacaoCOFINS->CST) {
-            case '01':
-            case '02':
-                $item->imposto()->COFINS()->setCST($tributacaoCOFINS->CST);
-                $item->imposto()->COFINS()->setPCOFINS($tributacaoCOFINS->AliquotaCofins);
-                $item->imposto()->COFINS()->setVBC($produto->vProd() - $produto->vDesc());
-                $item->imposto()->COFINS()->setvCOFINS(ceil($item->imposto()->COFINS()->vBC() * $item->imposto()
-                                                                                                     ->COFINS()
-                                                                                                     ->pCOFINS())
-                                                       / 100);
-                break;
-            case '03':
-                $item->imposto()->COFINS()->setCST($tributacaoCOFINS->CST);
-                $item->imposto()->COFINS()->setQBCProd($produto->qTrib());
-                $item->imposto()->COFINS()->setVAliqProd($tributacaoCOFINS->ValorCOFINS);
-                $item->imposto()->COFINS()->setVCOFINS($item->imposto()->COFINS()->qBCProd() * $item->imposto()
-                                                                                                    ->COFINS()
-                                                                                                    ->vAliqProd());
-                break;
-            case '04':
-            case '05':
-            case '06':
-            case '07':
-            case '08':
-            case '09':
-                $item->imposto()->COFINS()->setCST($tributacaoCOFINS->CST);
-                break;
-            default:
-                if ($tributacaoCOFINS->TipoTributacaoPISCOFINS == 0) {
-                    $item->imposto()->COFINS()->setCST($tributacaoCOFINS->CST);
-                    $item->imposto()->COFINS()->setPCOFINS($tributacaoCOFINS->AliquotaCofins);
-                    $item->imposto()->COFINS()->setVBC($produto->vProd() - $produto->vDesc());
-                    $item->imposto()->COFINS()->setVCOFINS(ceil($item->imposto()->COFINS()->vBC() * $item->imposto()
-                                                                                                         ->COFINS()
-                                                                                                         ->pCOFINS())
-                                                           / 100);
-                } else {
-                    $item->imposto()->COFINS()->setCST($tributacaoCOFINS->CST);
-                    $item->imposto()->COFINS()->setQBCProd($produto->qTribv);
-                    $item->imposto()->COFINS()->setVAliqProd($tributacaoCOFINS->ValorCOFINS);
-                    $item->imposto()->COFINS()->setvCOFINS($item->imposto()->COFINS()->qBCProd() * $item->imposto()
-                                                                                                        ->COFINS()
-                                                                                                        ->vAliqProd());
-                }
-        }
+        $item = $this->calcularTributacaoFinal($item);
+        
         $item->setNItem(count($this->itens) + 1);
         $this->itens[] = $item;
     
@@ -597,7 +494,7 @@ class DocumentoFiscal extends Base
     }
     
     
-    protected function calcularTributacaoBens(ItemFiscal $item)
+    protected function calcularTributacaoProdutos(ItemFiscal $item)
     {
         $item = $this->calcularTributacaoIPI($item);
         /* ============================= Calculo da Tributacao do ICMS =================== */
@@ -921,10 +818,10 @@ class DocumentoFiscal extends Base
                 $item->imposto()->ICMSUFDest()->setPICMSUFDest($tributacaoICMS->PercIcmsUFDest);
                 $item->imposto()->ICMSUFDest()->setPICMSInter($item->imposto()->ICMS()->pICMS());
                 $item->imposto()->ICMSUFDest()->setPICMSInterPart($this->getDiferencialAliquota(date('Y')));
-        
+    
                 $item->imposto()->ICMSUFDest()->setVFCPUFDest($item->imposto()->ICMSUFDest()->vBCUFDest()
                                                               * $item->imposto()->ICMSUFDest()->pFCPUFDest() / 100);
-        
+    
                 $diferencial_icms = ceil(round(($item->imposto()->ICMSUFDest()->vBCUFDest() * $item->imposto()
                                                                                                    ->ICMSUFDest()
                                                                                                    ->pICMSUFDest()
@@ -933,7 +830,7 @@ class DocumentoFiscal extends Base
                 if ($diferencial_icms < 0) {
                     $diferencial_icms = 0;
                 }
-        
+    
                 $item->imposto()->ICMSUFDest()->setVICMSUFDest(ceil(round($diferencial_icms * $item->imposto()
                                                                                                    ->ICMSUFDest()
                                                                                                    ->pICMSInterPart()
@@ -1061,9 +958,11 @@ class DocumentoFiscal extends Base
             if (!$tributacaoISSQN->ISSRetemPF) {
                 $tributacaoISSQN->ISSValorMinRetPF = -1;
             }
+    
             if (!$tributacaoISSQN->ISSRetemPJ) {
                 $tributacaoISSQN->ISSValorMinRetPJ = -1;
             }
+    
             $vMinRetISS = $this->emit()->CPF()
                 ? $tributacaoISSQN->ISSValorMinRetPF
                 : $tributacaoISSQN->ISSValorMinRetPJ;
@@ -1110,35 +1009,6 @@ class DocumentoFiscal extends Base
         }
         
         return $tributacaoISSQN;
-    }
-    
-    
-    private function getTribPIS(Produto $produto, Operacao $operacao)
-    {
-        $callback = $this->buscaTribFunctionPIS;
-        
-        if ($this->tipoParametroPesquisa === self::IDENTIFICADOR) {
-            $tributacaoPIS = $callback($produto->identificador(), $operacao->identificador(),
-                $this->emit()->identificador(), $this->dest->identificador());
-        } else {
-            $tributacaoPIS = $callback($produto, $operacao, $this->emit, $this->dest);
-        }
-        
-        return $tributacaoPIS;
-    }
-    
-    
-    private function getTribCOFINS(Produto $produto, Operacao $operacao)
-    {
-        $callback = $this->buscaTribFunctionCOFINS;
-        if (!$this->tipoParametroPesquisa === self::IDENTIFICADOR) {
-            $tributacaoCOFINS = $callback($produto->identificador(), $operacao->identificador(),
-                $this->emit()->identificador(), $this->dest->identificador());
-        } else {
-            $tributacaoCOFINS = $callback($produto, $operacao, $this->emit, $this->dest);
-        }
-        
-        return $tributacaoCOFINS;
     }
     
     

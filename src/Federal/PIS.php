@@ -3,6 +3,8 @@
 namespace MotorFiscal\Federal;
 
 use MotorFiscal\Base;
+use MotorFiscal\DocumentoFiscal;
+use MotorFiscal\ItemFiscal;
 
 class PIS extends Base
 {
@@ -168,5 +170,89 @@ class PIS extends Base
         $this->vAliqProd = $vAliqProd;
         
         return $this;
+    }
+    
+    
+    /**
+     * @param \MotorFiscal\DocumentoFiscal $documento
+     * @param \MotorFiscal\ItemFiscal      $item
+     */
+    protected function initialize(DocumentoFiscal $documento, ItemFiscal &$item)
+    {
+        $tributacaoPIS = $this->getTribPIS($item, $documento);
+        
+        $this->assign($tributacaoPIS);
+        switch ($tributacaoPIS->CST) {
+            case '01':
+            case '02':
+                $this->setCST($tributacaoPIS->CST);
+                $this->setpPIS($tributacaoPIS->AliquotaPis);
+                $this->setVBC($item->prod()->vProd() - $item->prod()->vDesc());
+                $this->setVPIS(number_format(ceil($this->vBC() * $this->pPIS()) / 100, 2, '.', ''));
+                break;
+            case '03':
+                $this->setCST($tributacaoPIS->CST);
+                $this->setQBCProd($item->prod()->qTrib());
+                $this->setVAliqProd($tributacaoPIS->ValorPIS);
+                $this->setVPIS($this->qBCProd() * $this->vAliqProd());
+                break;
+            case '04':
+            case '05':
+            case '06':
+            case '07':
+            case '08':
+            case '09':
+                $this->setCST($tributacaoPIS->CST);
+                break;
+            default:
+                if ($tributacaoPIS->TipoTributacaoPISCOFINS == 0) {
+                    $this->setCST($tributacaoPIS->CST);
+                    $this->setPPIS($tributacaoPIS->AliquotaPis);
+                    $this->setVBC($item->prod()->vProdv - $item->prod()->vDesc());
+                    $this->setVPIS(ceil($this->vBC() * $this->pPIS()) / 100);
+                } else {
+                    $this->setCST($tributacaoPIS->CST);
+                    $this->setQBCProd($item->prod()->qTrib());
+                    $this->setVAliqProd($tributacaoPIS->ValorPIS);
+                    $this->setVPIS($this->qBCProd() * $this->vAliqProd());
+                }
+        }
+    }
+    
+    
+    /**
+     * @param \MotorFiscal\DocumentoFiscal $documento
+     * @param \MotorFiscal\ItemFiscal      $item
+     *
+     * @return \MotorFiscal\Federal\PIS
+     */
+    public static function createFromItemAndDocumento(DocumentoFiscal $documento, ItemFiscal &$item)
+    {
+        
+        $PIS = new self();
+        $PIS->initialize($documento, $item);
+        
+        return $PIS;
+    }
+    
+    
+    /**
+     * @param \MotorFiscal\ItemFiscal      $item
+     * @param \MotorFiscal\DocumentoFiscal $documento
+     *
+     * @return mixed
+     */
+    protected function getTribPIS(ItemFiscal $item, DocumentoFiscal $documento)
+    {
+        $callback = $documento->buscaTribFunctionPIS();
+        
+        if ($documento->tipoParametroPesquisa() === DocumentoFiscal::IDENTIFICADOR) {
+            $tributacaoPIS = $callback($item->prod()->identificador(), $item->Operacao()->identificador(),
+                $this->emit()->identificador(), $this->dest->identificador());
+        } else {
+            $tributacaoPIS = $callback($item->prod(), $item->Operacao(), $documento->emit(), $documento->dest());
+        }
+        
+        return $tributacaoPIS;
     }
 }
