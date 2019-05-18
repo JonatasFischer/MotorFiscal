@@ -38,7 +38,6 @@ class PIS extends Base
      */
     protected $vAliqProd;
     
-    private   $_vBC;
     
     
     /**

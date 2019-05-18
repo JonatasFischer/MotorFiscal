@@ -204,7 +204,6 @@ class COFINS extends Base
         
         $this->assign($tributacaoCOFINS);
         /* Calcula a Base do COFINS */
-        //$this->>CST = $tributacaoCOFINS->CST;
         switch ($tributacaoCOFINS->CST) {
             case '01':
             case '02':
@@ -235,7 +234,7 @@ class COFINS extends Base
                     $this->setVCOFINS(ceil($this->vBC() * $this->pCOFINS()) / 100);
                 } else {
                     $this->setCST($tributacaoCOFINS->CST);
-                    $this->setQBCProd($item->prod()->qTribv);
+                    $this->setQBCProd($item->prod()->qTrib());
                     $this->setVAliqProd($tributacaoCOFINS->ValorCOFINS);
                     $this->setvCOFINS($this->qBCProd() * $this->vAliqProd());
                 }

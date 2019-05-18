@@ -17,13 +17,13 @@ class Produto extends Base
      */
     public    $indTot                  = 1;
     
-    protected $TipoTributacaoIPI       = 0;
+    protected $tipoTributacaoIPI       = 0;
     
-    protected $TipoTributacaoPISCOFINS = 0;
+    protected $tipoTributacaoPISCOFINS = 0;
     
-    protected $OrigemMercadoria        = 0;
+    protected $origemMercadoria        = 0;
     
-    protected $FormaAquisicao          = 0;
+    protected $formaAquisicao          = 0;
     
     /**
      * NF-e/NFC-e :I02 - cProd.
@@ -255,9 +255,9 @@ class Produto extends Base
     /**
      * @return int
      */
-    public function TipoTributacaoIPI()
+    public function tipoTributacaoIPI()
     {
-        return $this->TipoTributacaoIPI;
+        return $this->tipoTributacaoIPI;
     }
     
     
@@ -301,7 +301,7 @@ class Produto extends Base
      */
     public function OrigemMercadoria()
     {
-        return $this->OrigemMercadoria;
+        return $this->origemMercadoria;
     }
     
     
@@ -323,7 +323,7 @@ class Produto extends Base
      */
     public function FormaAquisicao()
     {
-        return $this->FormaAquisicao;
+        return $this->formaAquisicao;
     }
     
     

@@ -697,8 +697,8 @@ class DocumentoFiscal extends Base
                 case '49':
                 case '50':
                 case '99':
-                    
-                    if ($item->prod()->TipoTributacaoIPI() == 0) {/* Tributado por aliquota */
+    
+                    if ($item->prod()->tipoTributacaoIPI() == 0) {/* Tributado por aliquota */
                         /* O10 */
                         $item->imposto()->IPI()->setVBC($item->prod()->vProd() - $item->prod()->vDesc());
                         /* O13 */

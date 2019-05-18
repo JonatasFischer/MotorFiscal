@@ -27,7 +27,7 @@ class ICMS extends Base
     /**
      * NF-e/NFC-e :N12 - CST.
      *
-     * @var integer
+     * @var string
      */
     private $CST;
     

@@ -16,11 +16,6 @@ class ISSQN extends Base
     public $indIncentivo;
     
     /**
-     * NF-e/NFC-e : U01 - ISSQN.
-     */
-    protected $ISSQN;
-    
-    /**
      * NF-e/NFC-e : U02 - vBC.
      */
     protected $vBC;
@@ -123,29 +118,6 @@ class ISSQN extends Base
         
         return $ISSQN;
     }
-    
-    
-    /**
-     * @return mixed
-     */
-    public function ISSQN()
-    {
-        return $this->ISSQN;
-    }
-    
-    
-    /**
-     * @param mixed $ISSQN
-     *
-     * @return ISSQN
-     */
-    public function setISSQN($ISSQN)
-    {
-        $this->ISSQN = $ISSQN;
-        
-        return $this;
-    }
-    
     
     /**
      * @return mixed
