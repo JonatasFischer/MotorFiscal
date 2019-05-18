@@ -2,67 +2,330 @@
 
 namespace MotorFiscal;
 
+use MotorFiscal\Estadual\ICMS;
+use MotorFiscal\Estadual\ICMSUFDest;
+use MotorFiscal\Federal\COFINS;
+use MotorFiscal\Federal\IPI;
+use MotorFiscal\Federal\PIS;
+use MotorFiscal\Municipal\ISSQN;
+
 class Imposto extends Base
 {
     /**
      * NF-e/NFC-e :M02 - vTotTrib.
      */
-    public $vTotTrib;
+    protected $vTotTrib;
+    
     /**
      * vTotTribFederal.
      */
-    public $vTotTribFederal;
+    protected $vTotTribFederal;
+    
     /**
      * vTotTribEstadual.
      */
-    public $vTotTribEstadual;
+    protected $vTotTribEstadual;
+    
     /**
      * vTotTribMunicipal.
      */
-    public $vTotTribMunicipal;
-    /**
-     * NF-e/NFC-e :N01 - ICMS.
-     *
-     * @var \MotorFiscal\Estadual\ICMS
-     */
-    public $ICMS;
-    /**
-     * NF-e/NFC-e :NA01 - ICMSUFDest.
-     *
-     * @var \MotorFiscal\Estadual\ICMSUFDest
-     */
-    public $ICMSUFDest;
+    protected $vTotTribMunicipal;
+    
     /**
      * NF-e/NFC-e :O01 - IPI.
      *
      * @var \MotorFiscal\Federal\IPI
      */
-    public $IPI;
+    protected $IPI;
+    
     /**
      * NF-e/NFC-e :P01 - II.
      */
-    public $II;
+    protected $II;
+    
     /**
      * NF-e/NFC-e :Q01 - PIS.
      *
      * @var \MotorFiscal\Federal\PIS
      */
-    public $PIS;
+    protected $PIS;
+    
     /**
      * NF-e/NFC-e :S01 - COFINS.
      *
      * @var \MotorFiscal\Federal\COFINS
      */
-    public $COFINS;
+    protected $COFINS;
+    
     /**
      * NF-e/NFC-e :U01 - ISSQN.
      *
      * @var \MotorFiscal\Municipal\ISSQN
      */
-    public $ISSQN;
-
+    protected $ISSQN;
+    
+    /**
+     * NF-e/NFC-e :NA01 - ICMSUFDest.
+     *
+     * @var \MotorFiscal\Estadual\ICMSUFDest
+     */
+    private $ICMSUFDest;
+    
+    /**
+     * NF-e/NFC-e :N01 - ICMS.
+     *
+     * @var \MotorFiscal\Estadual\ICMS
+     */
+    private $ICMS;
+    
+    
     public function __construct()
     {
         $this->ICMSUFDest = null;
+    }
+    
+    
+    public static function createImposto(DocumentoFiscal $documento, Produto $produto)
+    {
+        $imposto = new Imposto();
+        
+        if ($produto->tipoItem() === Produto::PRODUTO) {
+            $imposto->ICMS = new ICMS();
+            
+            /* N11 */
+            $imposto->ICMS()->setOrig($produto->OrigemMercadoria());
+            
+            //se o emitente é contribuinte do IPI
+            if ($documento->emit()->ContribuinteIPI()) {
+                $imposto->IPI = new IPI();
+            }
+            
+            if ($documento->emit()->UF() != $documento->dest()->UF() && $documento->ide()->indFinal() == 1) {
+                $imposto->setICMSUFDest(new ICMSUFDest());
+            }
+        } else {
+            $imposto->ISSQN = ISSQN::createFromProduct($produto);
+        }
+        
+        $imposto->PIS    = new PIS();
+        $imposto->COFINS = new COFINS();
+        
+        return $imposto;
+    }
+    
+    
+    /**
+     * @return \MotorFiscal\Estadual\ICMS
+     */
+    public function ICMS()
+    {
+        return $this->ICMS;
+    }
+    
+    
+    /**
+     * @param \MotorFiscal\Estadual\ICMS $ICMS
+     *
+     * @return Imposto
+     */
+    public function setICMS($ICMS)
+    {
+        $this->ICMS = $ICMS;
+        
+        return $this;
+    }
+    
+    
+    /**
+     * @return mixed
+     */
+    public function vTotTrib()
+    {
+        return $this->vTotTrib;
+    }
+    
+    
+    /**
+     * @param mixed $vTotTrib
+     *
+     * @return Imposto
+     */
+    public function setVTotTrib($vTotTrib)
+    {
+        $this->vTotTrib = $vTotTrib;
+        
+        return $this;
+    }
+    
+    
+    /**
+     * @return mixed
+     */
+    public function vTotTribFederal()
+    {
+        return $this->vTotTribFederal;
+    }
+    
+    
+    /**
+     * @param mixed $vTotTribFederal
+     *
+     * @return Imposto
+     */
+    public function setVTotTribFederal($vTotTribFederal)
+    {
+        $this->vTotTribFederal = $vTotTribFederal;
+        
+        return $this;
+    }
+    
+    
+    /**
+     * @return mixed
+     */
+    public function vTotTribEstadual()
+    {
+        return $this->vTotTribEstadual;
+    }
+    
+    
+    /**
+     * @param mixed $vTotTribEstadual
+     *
+     * @return Imposto
+     */
+    public function setVTotTribEstadual($vTotTribEstadual)
+    {
+        $this->vTotTribEstadual = $vTotTribEstadual;
+        
+        return $this;
+    }
+    
+    
+    /**
+     * @return mixed
+     */
+    public function vTotTribMunicipal()
+    {
+        return $this->vTotTribMunicipal;
+    }
+    
+    
+    /**
+     * @param mixed $vTotTribMunicipal
+     *
+     * @return Imposto
+     */
+    public function setVTotTribMunicipal($vTotTribMunicipal)
+    {
+        $this->vTotTribMunicipal = $vTotTribMunicipal;
+        
+        return $this;
+    }
+    
+    
+    /**
+     * @return \MotorFiscal\Estadual\ICMSUFDest
+     */
+    public function ICMSUFDest()
+    {
+        return $this->ICMSUFDest;
+    }
+    
+    
+    /**
+     * @return \MotorFiscal\Federal\IPI
+     */
+    public function IPI()
+    {
+        return $this->IPI;
+    }
+    
+    
+    /**
+     * @param \MotorFiscal\Federal\IPI $IPI
+     *
+     * @return Imposto
+     */
+    public function setIPI($IPI)
+    {
+        $this->IPI = $IPI;
+        
+        return $this;
+    }
+    
+    
+    /**
+     * @return mixed
+     */
+    public function II()
+    {
+        return $this->II;
+    }
+    
+    
+    /**
+     * @param mixed $II
+     *
+     * @return Imposto
+     */
+    public function setII($II)
+    {
+        $this->II = $II;
+        
+        return $this;
+    }
+    
+    
+    /**
+     * @return \MotorFiscal\Federal\PIS
+     */
+    public function PIS()
+    {
+        return $this->PIS;
+    }
+    
+    
+    /**
+     * @param \MotorFiscal\Federal\PIS $PIS
+     *
+     * @return Imposto
+     */
+    public function setPIS($PIS)
+    {
+        $this->PIS = $PIS;
+        
+        return $this;
+    }
+    
+    
+    /**
+     * @return \MotorFiscal\Federal\COFINS
+     */
+    public function COFINS()
+    {
+        return $this->COFINS;
+    }
+    
+    
+    /**
+     * @param \MotorFiscal\Federal\COFINS $COFINS
+     *
+     * @return Imposto
+     */
+    public function setCOFINS($COFINS)
+    {
+        $this->COFINS = $COFINS;
+        
+        return $this;
+    }
+    
+    
+    /**
+     * @return \MotorFiscal\Municipal\ISSQN
+     */
+    public function ISSQN()
+    {
+        return $this->ISSQN;
     }
 }

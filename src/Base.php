@@ -10,13 +10,14 @@ class Base
     /**
      * @var array
      */
-    public $customInfo = [];
-
+    protected $customInfo = [];
+    
     /**
      * @var array
      */
     protected $externalProp = [];
-
+    
+    
     /**
      * @param $obj
      */
@@ -28,50 +29,8 @@ class Base
             }
         }
     }
-
-    /**
-     * @param $name
-     *
-     * @return mixed
-     */
-    public function __get($name)
-    {
-        if (property_exists($this, $name)) {
-            return $this->$name;
-        } else {
-            $trace = debug_backtrace();
-            trigger_error('Undefined property via __get(): '.$name.' in '.$trace[0]['file'].' on line '
-                          .$trace[0]['line'], E_USER_NOTICE);
-        }
-    }
-
-    /**
-     * @param $name
-     * @param $value
-     *
-     * @return mixed
-     */
-    /*public function __set($name, $value)
-    {
-        if (property_exists($this, $name)) {
-            $this->$name = $value;
-        } else {
-            $trace = debug_backtrace();
-            trigger_error('Undefined property via __get(): '.$name.' in '.$trace[0]['file'].' on line '
-                          .$trace[0]['line'], E_USER_NOTICE);
-        }
-    }*/
-
-    /**
-     * @param $name
-     *
-     * @return bool
-     */
-    public function __isset($name)
-    {
-        return property_exists($this, $name);
-    }
-
+    
+    
     protected function toFloat($value)
     {
         return is_numeric($value)

@@ -11,126 +11,200 @@ class Produto extends Base
 {
     const SERVICO = 1;
     const PRODUTO = 0;
-
-    public $TipoTributacaoIPI = 0;
-    public $TipoTributacaoPISCOFINS = 0;
-    public $OrigemMercadoria = 0;
-    public $FormaAquisicao = 0;
-    /**
-     * NF-e/NFC-e :I02 - cProd.
-     */
-    public $cProd;
-    /**
-     * NF-e/NFC-e :I03 - cEAN.
-     */
-    public $cEAN;
-    /**
-     * NF-e/NFC-e :I04 - xProd.
-     */
-    public $xProd;
-    /**
-     * NF-e/NFC-e :I05 - NCM.
-     */
-    public $NCM;
-    /**
-     * NF-e/NFC-e :I05a - NVE.
-     */
-    public $NVE;
-    /**
-     * NF-e/NFC-e :I06 - EXTIPI.
-     */
-    public $EXTIPI;
-    /**
-     * NF-e/NFC-e :I08 - CFOP.
-     */
-    public $CFOP;
-    /**
-     * NF-e/NFC-e :I09 - uCom.
-     */
-    public $uCom = 0;
-    /**
-     * NF-e/NFC-e :I10 - qCom.
-     */
-    public $qCom = 0;
-
-    //dados do banco de dados
-    /**
-     * NF-e/NFC-e :I10a - vUnCom.
-     */
-    public $vUnCom = 0; /*0 = Aliquota; 1 = Quantidade*/
-    /**
-     * NF-e/NFC-e :I05c - CEST - CÃ³digo CEST.
-     */
-    public $CEST; /*0 = Aliquota; 1 = Quantidade*/
-    /**
-     * NF-e/NFC-e :I11 - vProd.
-     */
-    public $vProd = 0;
-    /**
-     * NF-e/NFC-e :I12 - cEANTrib.
-     */
-    public $cEANTrib;
-    /**
-     * Campos com chave para pesquisa do produto no banco de dados.
-     */
-
-    //dados da NF-e
-    /**
-     * NF-e/NFC-e :I13 - uTrib.
-     */
-    public $uTrib;
-    /**
-     * NF-e/NFC-e :I14 - qTrib.
-     */
-    public $qTrib = 0;
-    /**
-     * NF-e/NFC-e :I14a - vUnTrib.
-     */
-    public $vUnTrib = 0;
-    /**
-     * NF-e/NFC-e :I15 - vFrete.
-     */
-    public $vFrete = 0;
-    /**
-     * NF-e/NFC-e :I16 - vSeg.
-     */
-    public $vSeg = 0;
-    /**
-     * NF-e/NFC-e :I17 - vDesc.
-     */
-    public $vDesc = 0.00;
-
-    /**
-     * NF-e/NFC-e :I17a - vOutro.
-     */
-    public $vOutro = 0;
+    
     /**
      * NF-e/NFC-e :I17b - indTot.
      */
-    public $indTot = 1;
-    protected $identificador;
-    protected $tipoItem = self::PRODUTO;
+    public    $indTot                  = 1;
     
-    protected $cMunFG = '';
-    protected $cMun = '';
-    protected $cPais = '';
-    protected $cListServ = '';
-    protected $cServico = '';
-    protected $indISS = '';
-    protected $nProcesso = '';
+    protected $TipoTributacaoIPI       = 0;
+    
+    protected $TipoTributacaoPISCOFINS = 0;
+    
+    protected $OrigemMercadoria        = 0;
+    
+    protected $FormaAquisicao          = 0;
+    
+    /**
+     * NF-e/NFC-e :I02 - cProd.
+     */
+    protected $cProd;
+    
+    /**
+     * NF-e/NFC-e :I03 - cEAN.
+     */
+    protected $cEAN;
+    
+    /**
+     * NF-e/NFC-e :I04 - xProd.
+     */
+    protected $xProd;
+    
+    /**
+     * NF-e/NFC-e :I05 - NCM.
+     */
+    protected $NCM;
+    
+    /**
+     * NF-e/NFC-e :I05a - NVE.
+     */
+    protected $NVE;
+    
+    /**
+     * NF-e/NFC-e :I06 - EXTIPI.
+     */
+    protected $EXTIPI;
+    
+    /**
+     * NF-e/NFC-e :I08 - CFOP.
+     */
+    protected $CFOP;
+    
+    /**
+     * NF-e/NFC-e :I09 - uCom.
+     */
+    protected $uCom = 0;
+    
+    //dados do banco de dados
+    
+    /**
+     * NF-e/NFC-e :I10 - qCom.
+     */
+    protected $qCom = 0; /*0 = Aliquota; 1 = Quantidade*/
+    
+    /**
+     * NF-e/NFC-e :I10a - vUnCom.
+     */
+    protected $vUnCom = 0; /*0 = Aliquota; 1 = Quantidade*/
+    
+    /**
+     * NF-e/NFC-e :I05c - CEST - CÃ³digo CEST.
+     */
+    protected $CEST;
+    
+    /**
+     * NF-e/NFC-e :I11 - vProd.
+     */
+    protected $vProd = 0;
+    
+    /**
+     * Campos com chave para pesquisa do produto no banco de dados.
+     */
+    
+    //dados da NF-e
+    
+    /**
+     * NF-e/NFC-e :I12 - cEANTrib.
+     */
+    protected $cEANTrib;
+    
+    /**
+     * NF-e/NFC-e :I13 - uTrib.
+     */
+    protected $uTrib;
+    
+    /**
+     * NF-e/NFC-e :I14 - qTrib.
+     */
+    protected $qTrib = 0;
+    
+    /**
+     * NF-e/NFC-e :I14a - vUnTrib.
+     */
+    protected $vUnTrib = 0;
+    
+    /**
+     * NF-e/NFC-e :I15 - vFrete.
+     */
+    protected $vFrete = 0;
+    
+    /**
+     * NF-e/NFC-e :I16 - vSeg.
+     */
+    protected $vSeg = 0;
+    
+    /**
+     * NF-e/NFC-e :I17 - vDesc.
+     */
+    protected $vDesc = 0.00;
+    
+    /**
+     * NF-e/NFC-e :I17a - vOutro.
+     */
+    protected $vOutro       = 0;
+    
+    protected $identificador;
+    
+    protected $tipoItem     = self::PRODUTO;
+    
+    protected $cMunFG       = '';
+    
+    protected $cMun         = '';
+    
+    protected $cPais        = '';
+    
+    protected $cListServ    = '';
+    
+    protected $cServico     = '';
+    
+    protected $indISS       = '';
+    
+    protected $nProcesso    = '';
+    
     protected $indIncentivo = '';
-    protected $vDeducao = 0;
-    protected $vDescIncond = 0;
-    protected $vDescCond = 0;
-
+    
+    protected $vDeducao     = 0;
+    
+    protected $vDescIncond  = 0;
+    
+    protected $vDescCond    = 0;
+    
+    
+    public static function createForNF(DocumentoFiscal $documento)
+    {
+    
+    }
+    
+    
     public function vDesc()
     {
-        return (empty($this->vDesc)) ? 0.00 : $this->vDesc;
+        return (empty($this->vDesc))
+            ? 0.00
+            : $this->vDesc;
     }
-
+    
+    
+    /**
+     * @param mixed $vDesc
+     *
+     * @return Produto
+     */
+    public function setVDesc($vDesc)
+    {
+        $this->vDesc = $vDesc;
+        
+        return $this;
+    }
+    
+    
     public function vDeducao()
     {
-        return (empty($this->vDeducao)) ? 0.00 : $this->vDeducao;
+        return (empty($this->vDeducao))
+            ? 0.00
+            : $this->vDeducao;
+    }
+    
+    
+    /**
+     * @param int $vDeducao
+     *
+     * @return Produto
+     */
+    public function setVDeducao($vDeducao)
+    {
+        $this->vDeducao = $vDeducao;
+        
+        return $this;
     }
     
     
@@ -140,6 +214,19 @@ class Produto extends Base
     public function tipoItem()
     {
         return $this->tipoItem;
+    }
+    
+    
+    /**
+     * @param int $tipoItem
+     *
+     * @return Produto
+     */
+    public function setTipoItem($tipoItem)
+    {
+        $this->tipoItem = $tipoItem;
+        
+        return $this;
     }
     
     
@@ -181,7 +268,7 @@ class Produto extends Base
      */
     public function setTipoTributacaoIPI($TipoTributacaoIPI)
     {
-        $this->TipoTributacaoIPI = $TipoTributacaoIPI;
+        $this->tipoTributacaoIPI = $TipoTributacaoIPI;
         
         return $this;
     }
@@ -247,7 +334,7 @@ class Produto extends Base
      */
     public function setFormaAquisicao($FormaAquisicao)
     {
-        $this->FormaAquisicao = $FormaAquisicao;
+        $this->formaAquisicao = ($FormaAquisicao * 1);
         
         return $this;
     }
@@ -911,7 +998,6 @@ class Produto extends Base
         
         return $this;
     }
-    
     
     
 }

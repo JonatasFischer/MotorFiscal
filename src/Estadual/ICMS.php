@@ -13,6 +13,11 @@ use MotorFiscal\Base;
 class ICMS extends Base
 {
     /**
+     * @var float
+     */
+    protected $vICMS_Ficto = 0;
+    
+    /**
      * NF-e/NFC-e :N11 - Orig.
      *
      * @var integer
@@ -84,21 +89,25 @@ class ICMS extends Base
     private $vICMS;
     
     private $vICMS_Desonerado;
+    
     /**
      * NF-e/NFC-e :N18 - modBCST.
      */
     
     private $modBCST;
+    
     /**
      * NF-e/NFC-e :N19 - pMVAST.
      */
     
     private $pMVAST;
+    
     /**
      * NF-e/NFC-e :N20 - pRedBCST.
      */
     
     private $pRedBCST;
+    
     /**
      * NF-e/NFC-e :N21 - vBCST.
      */
@@ -117,7 +126,10 @@ class ICMS extends Base
      */
     private $vICMSST;
     
-    private $vICMSST_NaoDestacado;
+    /**
+     * @var double
+     */
+    private $vICMSSTNaoDestacado;
     
     /**
      * NF-e/NFC-e :N24 - UFST.
@@ -170,16 +182,11 @@ class ICMS extends Base
      */
     private $vICMSSTDest;
     
-    /**
-     * @var float
-     */
-    protected $vICMS_Ficto = 0;
-    
     
     /**
      * @return float
      */
-    public function vICMS_Ficto()
+    public function vICMSFicto()
     {
         return $this->vICMS_Ficto;
     }
@@ -487,7 +494,7 @@ class ICMS extends Base
     /**
      * @return mixed
      */
-    public function vICMS_Desonerado()
+    public function vICMSDesonerado()
     {
         return $this->vICMS_Desonerado;
     }
@@ -597,7 +604,7 @@ class ICMS extends Base
     /**
      * @return mixed
      */
-    public function vBCST_NaoDestacado()
+    public function vBCSTNaoDestacado()
     {
         return $this->vBCST_NaoDestacado;
     }
@@ -663,20 +670,20 @@ class ICMS extends Base
     /**
      * @return mixed
      */
-    public function vICMSST_NaoDestacado()
+    public function vICMSSTNaoDestacado()
     {
-        return $this->vICMSST_NaoDestacado;
+        return $this->vICMSSTNaoDestacado;
     }
     
     
     /**
-     * @param mixed $vICMSST_NaoDestacado
+     * @param mixed $vICMSSTNaoDestacado
      *
      * @return ICMS
      */
-    public function setVICMSSTNaoDestacado($vICMSST_NaoDestacado)
+    public function setVICMSSTNaoDestacado($vICMSSTNaoDestacado)
     {
-        $this->vICMSST_NaoDestacado = $vICMSST_NaoDestacado;
+        $this->vICMSSTNaoDestacado = $vICMSSTNaoDestacado;
         
         return $this;
     }
