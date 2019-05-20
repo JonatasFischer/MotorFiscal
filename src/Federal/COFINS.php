@@ -10,6 +10,7 @@ namespace MotorFiscal\Federal;
 
 use MotorFiscal\Base;
 use MotorFiscal\DocumentoFiscal;
+use MotorFiscal\Exception;
 use MotorFiscal\ItemFiscal;
 
 class COFINS extends Base
@@ -182,6 +183,7 @@ class COFINS extends Base
      * @param \MotorFiscal\ItemFiscal      $item
      *
      * @return \MotorFiscal\Federal\COFINS
+     * @throws \MotorFiscal\Exception
      */
     public static function createFromItemAndDocumento(DocumentoFiscal $documento, ItemFiscal &$item)
     {
@@ -196,6 +198,8 @@ class COFINS extends Base
     /**
      * @param \MotorFiscal\DocumentoFiscal $documento
      * @param \MotorFiscal\ItemFiscal      $item
+     *
+     * @throws \MotorFiscal\Exception
      */
     protected function initialize(DocumentoFiscal $documento, ItemFiscal &$item)
     {
@@ -207,16 +211,10 @@ class COFINS extends Base
         switch ($tributacaoCOFINS->CST) {
             case '01':
             case '02':
-                $this->setCST($tributacaoCOFINS->CST);
-                $this->setPCOFINS($tributacaoCOFINS->AliquotaCofins);
-                $this->setVBC($item->prod()->vProd() - $item->prod()->vDesc());
-                $this->setvCOFINS(ceil($this->vBC() * $this->pCOFINS()) / 100);
+                $this->calcularPorAliquota($item, $tributacaoCOFINS);
                 break;
             case '03':
-                $this->setCST($tributacaoCOFINS->CST);
-                $this->setQBCProd($item->prod()->qTrib());
-                $this->setVAliqProd($tributacaoCOFINS->ValorCOFINS);
-                $this->setVCOFINS($this->qBCProd() * $this->vAliqProd());
+                $this->calcularPorQuantidade($item, $tributacaoCOFINS);
                 break;
             case '04':
             case '05':
@@ -228,17 +226,37 @@ class COFINS extends Base
                 break;
             default:
                 if ($tributacaoCOFINS->TipoTributacaoPISCOFINS == 0) {
-                    $this->setCST($tributacaoCOFINS->CST);
-                    $this->setPCOFINS($tributacaoCOFINS->AliquotaCofins);
-                    $this->setVBC($item->prod()->vProd() - $item->prod()->vDesc());
-                    $this->setVCOFINS(ceil($this->vBC() * $this->pCOFINS()) / 100);
+                    $this->calcularPorAliquota($item, $tributacaoCOFINS);
                 } else {
-                    $this->setCST($tributacaoCOFINS->CST);
-                    $this->setQBCProd($item->prod()->qTrib());
-                    $this->setVAliqProd($tributacaoCOFINS->ValorCOFINS);
-                    $this->setvCOFINS($this->qBCProd() * $this->vAliqProd());
+                    $this->calcularPorQuantidade($item, $tributacaoCOFINS);
                 }
         }
+    }
+    
+    
+    /**
+     * @param \MotorFiscal\ItemFiscal $item
+     * @param                         $tributacaoCOFINS
+     */
+    protected function calcularPorQuantidade(ItemFiscal $item, $tributacaoCOFINS)
+    {
+        $this->setCST($tributacaoCOFINS->CST);
+        $this->setQBCProd($item->prod()->qTrib());
+        $this->setVAliqProd($tributacaoCOFINS->ValorCOFINS);
+        $this->setvCOFINS($this->qBCProd() * $this->vAliqProd());
+    }
+    
+    
+    /**
+     * @param \MotorFiscal\ItemFiscal $item
+     * @param                         $tributacaoCOFINS
+     */
+    protected function calcularPorAliquota(ItemFiscal $item, $tributacaoCOFINS)
+    {
+        $this->setCST($tributacaoCOFINS->CST);
+        $this->setPCOFINS($tributacaoCOFINS->AliquotaCofins);
+        $this->setVBC($item->prod()->vProd() - $item->prod()->vDesc());
+        $this->setVCOFINS(ceil($this->vBC() * $this->pCOFINS()) / 100);
     }
     
     
@@ -247,10 +265,15 @@ class COFINS extends Base
      * @param \MotorFiscal\ItemFiscal      $item
      *
      * @return mixed
+     * @throws \MotorFiscal\Exception
      */
     private function getTribCOFINS(DocumentoFiscal $documento, ItemFiscal $item)
     {
         $callback = $documento->buscaTribFunctionCOFINS();
+        if (!$callback) {
+            throw new Exception('buscaTribFunctionCOFINS nao inicializada');
+        }
+        
         if ($documento->tipoParametroPesquisa() === DocumentoFiscal::IDENTIFICADOR) {
             $tributacaoCOFINS = $callback($item->prod()->identificador(), $item->Operacao()->identificador(),
                 $documento->emit()->identificador(), $documento->dest()->identificador());

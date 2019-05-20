@@ -229,6 +229,7 @@ class ICMSUFDest extends Base
      * @param \MotorFiscal\ItemFiscal                        $item
      * @param \MotorFiscal\Estadual\ParametrosTributacaoICMS $tributacaoICMS
      *
+     * @return \MotorFiscal\Estadual\ICMSUFDest
      * @throws \MotorFiscal\Exception
      */
     public static function createfrom(
@@ -259,9 +260,16 @@ class ICMSUFDest extends Base
         
         $ICMSUFDest->setVICMSUFDest(ceil(round($diferencial_icms * $ICMSUFDest->pICMSInterPart() / 100)));
         $ICMSUFDest->setVICMSUFRemet($diferencial_icms - $ICMSUFDest->vICMSUFDest());
+    
+        return $ICMSUFDest;
     }
     
     
+    /**
+     * @param $year
+     *
+     * @return int
+     */
     private function getDiferencialAliquota($year)
     {
         switch ($year) {

@@ -848,29 +848,9 @@ class DocumentoFiscal extends Base
             $item->imposto()->ICMS()->setVICMS(number_format($item->imposto()->ICMS()->vICMSFicto(), 2, '.', ''));
             /* N16 */
             $item->imposto()->ICMS()->setPICMS($tributacaoICMS->AliquotaICMS());
-            
             //Partilha do ICMS - NT 2015 - 003 - v150
-            if ($item->imposto()->ICMSUFDest() /* NA01 */) {
-                $item->imposto()->ICMSUFDest()->setVBCUFDest($item->imposto()->ICMS()->vBC());
-                $item->imposto()->ICMSUFDest()->setPFCPUFDest($tributacaoICMS->PercFCPUFDest());
-                $item->imposto()->ICMSUFDest()->setPICMSUFDest($tributacaoICMS->PercIcmsUFDest());
-                $item->imposto()->ICMSUFDest()->setPICMSInter($item->imposto()->ICMS()->pICMS());
-                $item->imposto()->ICMSUFDest()->setPICMSInterPart($this->getDiferencialAliquota(date('Y')));
-                
-                $item->imposto()->ICMSUFDest()->setVFCPUFDest($item->imposto()->ICMSUFDest()->vBCUFDest()
-                                                              * $item->imposto()->ICMSUFDest()->pFCPUFDest() / 100);
-                
-                $vICMSUFDestino = round($item->imposto()->ICMSUFDest()->vBCUFDest() * $item->imposto()->ICMSUFDest()->pICMSUFDest() / 100, 2);
-                
-                $diferencialIcms = $vICMSUFDestino - $item->imposto()->ICMS()->vICMS();
-                
-                if ($diferencialIcms < 0) {
-                    $diferencialIcms = 0;
-                }
-                
-                $item->imposto()->ICMSUFDest()->setVICMSUFDest(round($diferencialIcms * $item->imposto()->ICMSUFDest()->pICMSInterPart() / 100));
-                $item->imposto()->ICMSUFDest()->setVICMSUFRemet($diferencialIcms - $item->imposto()->ICMSUFDest()->vICMSUFDest());
-            }
+            $this->calcularPartilhaICMS($tributacaoICMS, $item);
+
         }
         
         if ($item->imposto()->ICMS()->CST() === '51') {

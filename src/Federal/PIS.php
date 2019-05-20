@@ -4,6 +4,7 @@ namespace MotorFiscal\Federal;
 
 use MotorFiscal\Base;
 use MotorFiscal\DocumentoFiscal;
+use MotorFiscal\Exception;
 use MotorFiscal\ItemFiscal;
 
 class PIS extends Base
@@ -240,10 +241,15 @@ class PIS extends Base
      * @param \MotorFiscal\DocumentoFiscal $documento
      *
      * @return mixed
+     * @throws \MotorFiscal\Exception
      */
     protected function getTribPIS(ItemFiscal $item, DocumentoFiscal $documento)
     {
         $callback = $documento->buscaTribFunctionPIS();
+    
+        if (!$callback) {
+            throw new Exception('buscaTribFunctionPIS nao inicializada');
+        }
         
         if ($documento->tipoParametroPesquisa() === DocumentoFiscal::IDENTIFICADOR) {
             $tributacaoPIS = $callback($item->prod()->identificador(), $item->Operacao()->identificador(),
