@@ -3,7 +3,6 @@
 namespace MotorFiscal;
 
 use MotorFiscal\Estadual\ICMS;
-use MotorFiscal\Estadual\ICMSUFDest;
 use MotorFiscal\Federal\COFINS;
 use MotorFiscal\Federal\IPI;
 use MotorFiscal\Federal\PIS;
@@ -99,10 +98,6 @@ class Imposto extends Base
             if ($documento->emit()->ContribuinteIPI()) {
                 $imposto->IPI = new IPI();
             }
-            
-            if ($documento->emit()->UF() != $documento->dest()->UF() && $documento->ide()->indFinal() == 1) {
-                $imposto->ICMSUFDest = new ICMSUFDest();
-            }
         } else {
             $imposto->ISSQN = ISSQN::createFromProduct($produto);
         }
@@ -111,6 +106,32 @@ class Imposto extends Base
         $imposto->COFINS = new COFINS();
         
         return $imposto;
+    }
+    
+    
+    /**
+     * @param \MotorFiscal\Municipal\ISSQN $ISSQN
+     *
+     * @return Imposto
+     */
+    public function setISSQN($ISSQN)
+    {
+        $this->ISSQN = $ISSQN;
+        
+        return $this;
+    }
+    
+    
+    /**
+     * @param \MotorFiscal\Estadual\ICMSUFDest $ICMSUFDest
+     *
+     * @return Imposto
+     */
+    public function setICMSUFDest($ICMSUFDest)
+    {
+        $this->ICMSUFDest = $ICMSUFDest;
+        
+        return $this;
     }
     
     

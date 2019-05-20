@@ -3,6 +3,8 @@
 namespace MotorFiscal\Municipal;
 
 use MotorFiscal\Base;
+use MotorFiscal\Emitente;
+use MotorFiscal\ItemFiscal;
 use MotorFiscal\Produto;
 
 /**
@@ -578,5 +580,50 @@ class ISSQN extends Base
         $this->vRetINSS = $vRetINSS;
         
         return $this;
+    }
+    
+    
+    public static function createFrom(ItemFiscal $item, $tributacaoISSQN, Emitente $emit)
+    {
+        
+        
+        $ISSQN = new ISSQN();
+        //Calculo dos impostos
+        $ISSQN->setVBC($item->prod()->vProd() - $item->prod()->vDesc() - $item->prod()->vDeducao());
+        
+        $ISSQN->setVAliq($tributacaoISSQN->Aliquota);
+        $ISSQN->setVISSQN(number_format($ISSQN->vBC() * $ISSQN->vAliq() / 100, 2, '.', ''));
+        
+        if (!$tributacaoISSQN->ISSRetemPF) {
+            $tributacaoISSQN->ISSValorMinRetPF = -1;
+        }
+        
+        if (!$tributacaoISSQN->ISSRetemPJ) {
+            $tributacaoISSQN->ISSValorMinRetPJ = -1;
+        }
+        
+        $vMinRetISS = $emit->CPF()
+            ? $tributacaoISSQN->ISSValorMinRetPF
+            : $tributacaoISSQN->ISSValorMinRetPJ;
+        if ($ISSQN->vISSQN() > $vMinRetISS && $vMinRetISS > 0) {
+            $ISSQN->setVISSRet($ISSQN->vISSQN());
+        }
+        
+        if ($tributacaoISSQN->IRRetem) {
+            $ISSQN->setVRetIR(number_format($ISSQN->vBC() * $tributacaoISSQN->IRRetPerc / 100, 2, '.', ''));
+        }
+        if ($tributacaoISSQN->CSLLRetem) {
+            $ISSQN->setVRetCSLL(number_format($ISSQN->vBC() * $tributacaoISSQN->CSLLRetPerc / 100, 2, '.', ''));
+        }
+        if ($tributacaoISSQN->INSSRetem) {
+            $ISSQN->setVRetINSS(number_format($ISSQN->vBC() * $tributacaoISSQN->INSSRetPerc / 100, 2, '.', ''));
+        }
+        if ($tributacaoISSQN->PISCOFINSRetem) {
+            $ISSQN->setVRetPIS(number_format($ISSQN->vBC() * $tributacaoISSQN->PISRetPerc / 100, 2, '.', ''));
+            
+            $ISSQN->setVRetCOFINS(number_format($ISSQN->vBC() * $tributacaoISSQN->COFINSRetPerc / 100, 2, '.', ''));
+        }
+        
+        return $ISSQN;
     }
 }

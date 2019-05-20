@@ -605,7 +605,7 @@ class Emitente extends Base
     
     
     /**
-     * @return mixed
+     * @return int
      */
     public function CRT()
     {
@@ -614,13 +614,13 @@ class Emitente extends Base
     
     
     /**
-     * @param mixed $CRT
+     * @param int $CRT
      *
      * @return Emitente
      */
     public function setCRT($CRT)
     {
-        $this->CRT = $CRT;
+        $this->CRT = trim($CRT) * 1;
         
         return $this;
     }

@@ -48,6 +48,17 @@ class ParametrosTributacaoICMS
     
     private $percRedICMSST;
     
+    private $baseCalcICMSST;
+    
+    
+    /**
+     * @return mixed
+     */
+    public function baseCalcICMSST()
+    {
+        return $this->baseCalcICMSST;
+    }
+    
     
     public function __construct($parametros)
     {
