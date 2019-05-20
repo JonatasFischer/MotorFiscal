@@ -50,6 +50,72 @@ class ICMSUFDest extends Base
     
     
     /**
+     * @param \MotorFiscal\ItemFiscal                        $item
+     * @param \MotorFiscal\Estadual\ParametrosTributacaoICMS $tributacaoICMS
+     *
+     * @return \MotorFiscal\Estadual\ICMSUFDest
+     * @throws \MotorFiscal\Exception
+     */
+    public static function createfrom(
+        ItemFiscal $item,
+        ParametrosTributacaoICMS $tributacaoICMS
+    ) {
+        
+        $ICMSUFDest = new self();
+        
+        if (!$tributacaoICMS->PercIcmsUFDest()) {
+            throw new Exception('Deve ser informada a alíquota de ICMS interestadual para operações com partilha de ICMS');
+        }
+        
+        //Calculo da Partilha do ICMS
+        $ICMSUFDest->setVBCUFDest($item->imposto()->ICMS()->vICMSFicto());
+        $ICMSUFDest->setPFCPUFDest($tributacaoICMS->PercFCPUFDest());
+        $ICMSUFDest->setPICMSUFDest($tributacaoICMS->PercIcmsUFDest());
+        $ICMSUFDest->setPICMSInter($tributacaoICMS->AliquotaICMS());
+        $ICMSUFDest->setPICMSInterPart($ICMSUFDest->getDiferencialAliquota(date('Y')));
+        $ICMSUFDest->setvFCPUFDest($ICMSUFDest->vBCUFDest() * $ICMSUFDest->pFCPUFDest() / 100);
+        
+        $diferencial_icms = ceil(round(($ICMSUFDest->vBCUFDest() * $ICMSUFDest->pICMSUFDest() / 100)
+                                       - ($ICMSUFDest->vBCUFDest() * $ICMSUFDest->pICMSInter() / 100)));
+        
+        if ($diferencial_icms < 0) {
+            $diferencial_icms = 0;
+        }
+        
+        $ICMSUFDest->setVICMSUFDest(ceil(round($diferencial_icms * $ICMSUFDest->pICMSInterPart() / 100)));
+        $ICMSUFDest->setVICMSUFRemet($diferencial_icms - $ICMSUFDest->vICMSUFDest());
+        
+        return $ICMSUFDest;
+    }
+    
+    
+    /**
+     * @param $year
+     *
+     * @return int
+     */
+    private function getDiferencialAliquota($year)
+    {
+        switch ($year) {
+            case 2016:
+                $result = 40;
+                break;
+            case 2017:
+                $result = 60;
+                break;
+            case 2018:
+                $result = 80;
+                break;
+            default:
+                $result = 100;
+                break;
+        }
+        
+        return $result;
+    }
+    
+    
+    /**
      * @return mixed
      */
     public function vBCUFDest()
@@ -154,6 +220,28 @@ class ICMSUFDest extends Base
     public function setPICMSInterPart($pICMSInterPart)
     {
         $this->pICMSInterPart = $pICMSInterPart;
+    
+        return $this;
+    }
+    
+    
+    /**
+     * @return mixed
+     */
+    public function vICMSUFDest()
+    {
+        return $this->vICMSUFDest;
+    }
+    
+    
+    /**
+     * @param mixed $vICMSUFDest
+     *
+     * @return ICMSUFDest
+     */
+    public function setVICMSUFDest($vICMSUFDest)
+    {
+        $this->vICMSUFDest = $vICMSUFDest;
         
         return $this;
     }
@@ -184,28 +272,6 @@ class ICMSUFDest extends Base
     /**
      * @return mixed
      */
-    public function vICMSUFDest()
-    {
-        return $this->vICMSUFDest;
-    }
-    
-    
-    /**
-     * @param mixed $vICMSUFDest
-     *
-     * @return ICMSUFDest
-     */
-    public function setVICMSUFDest($vICMSUFDest)
-    {
-        $this->vICMSUFDest = $vICMSUFDest;
-        
-        return $this;
-    }
-    
-    
-    /**
-     * @return mixed
-     */
     public function vICMSUFRemet()
     {
         return $this->vICMSUFRemet;
@@ -222,71 +288,5 @@ class ICMSUFDest extends Base
         $this->vICMSUFRemet = $vICMSUFRemet;
         
         return $this;
-    }
-    
-    
-    /**
-     * @param \MotorFiscal\ItemFiscal                        $item
-     * @param \MotorFiscal\Estadual\ParametrosTributacaoICMS $tributacaoICMS
-     *
-     * @return \MotorFiscal\Estadual\ICMSUFDest
-     * @throws \MotorFiscal\Exception
-     */
-    public static function createfrom(
-        ItemFiscal $item,
-        ParametrosTributacaoICMS $tributacaoICMS
-    ) {
-        
-        $ICMSUFDest = new self();
-        
-        if (!$tributacaoICMS->PercIcmsUFDest()) {
-            throw new Exception('Deve ser informada a alíquota de ICMS interestadual para operações com partilha de ICMS');
-        }
-        
-        //Calculo da Partilha do ICMS
-        $ICMSUFDest->setVBCUFDest($item->imposto()->ICMS()->vICMSFicto());
-        $ICMSUFDest->setPFCPUFDest($tributacaoICMS->PercFCPUFDest());
-        $ICMSUFDest->setPICMSUFDest($tributacaoICMS->PercIcmsUFDest());
-        $ICMSUFDest->setPICMSInter($tributacaoICMS->AliquotaICMS());
-        $ICMSUFDest->setPICMSInterPart($ICMSUFDest->getDiferencialAliquota(date('Y')));
-        $ICMSUFDest->setvFCPUFDest($ICMSUFDest->vBCUFDest() * $ICMSUFDest->pFCPUFDest() / 100);
-        
-        $diferencial_icms = ceil(round(($ICMSUFDest->vBCUFDest() * $ICMSUFDest->pICMSUFDest() / 100)
-                                       - ($ICMSUFDest->vBCUFDest() * $ICMSUFDest->pICMSInter() / 100)));
-        
-        if ($diferencial_icms < 0) {
-            $diferencial_icms = 0;
-        }
-        
-        $ICMSUFDest->setVICMSUFDest(ceil(round($diferencial_icms * $ICMSUFDest->pICMSInterPart() / 100)));
-        $ICMSUFDest->setVICMSUFRemet($diferencial_icms - $ICMSUFDest->vICMSUFDest());
-    
-        return $ICMSUFDest;
-    }
-    
-    
-    /**
-     * @param $year
-     *
-     * @return int
-     */
-    private function getDiferencialAliquota($year)
-    {
-        switch ($year) {
-            case 2016:
-                $result = 40;
-                break;
-            case 2017:
-                $result = 60;
-                break;
-            case 2018:
-                $result = 80;
-                break;
-            default:
-                $result = 100;
-                break;
-        }
-        
-        return $result;
     }
 }

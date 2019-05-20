@@ -110,32 +110,6 @@ class Imposto extends Base
     
     
     /**
-     * @param \MotorFiscal\Municipal\ISSQN $ISSQN
-     *
-     * @return Imposto
-     */
-    public function setISSQN($ISSQN)
-    {
-        $this->ISSQN = $ISSQN;
-        
-        return $this;
-    }
-    
-    
-    /**
-     * @param \MotorFiscal\Estadual\ICMSUFDest $ICMSUFDest
-     *
-     * @return Imposto
-     */
-    public function setICMSUFDest($ICMSUFDest)
-    {
-        $this->ICMSUFDest = $ICMSUFDest;
-        
-        return $this;
-    }
-    
-    
-    /**
      * @return \MotorFiscal\Estadual\ICMS
      */
     public function ICMS()
@@ -255,6 +229,19 @@ class Imposto extends Base
     
     
     /**
+     * @param \MotorFiscal\Estadual\ICMSUFDest $ICMSUFDest
+     *
+     * @return Imposto
+     */
+    public function setICMSUFDest($ICMSUFDest)
+    {
+        $this->ICMSUFDest = $ICMSUFDest;
+        
+        return $this;
+    }
+    
+    
+    /**
      * @return \MotorFiscal\Federal\IPI
      */
     public function IPI()
@@ -348,5 +335,18 @@ class Imposto extends Base
     public function ISSQN()
     {
         return $this->ISSQN;
+    }
+    
+    
+    /**
+     * @param \MotorFiscal\Municipal\ISSQN $ISSQN
+     *
+     * @return Imposto
+     */
+    public function setISSQN($ISSQN)
+    {
+        $this->ISSQN = $ISSQN;
+        
+        return $this;
     }
 }

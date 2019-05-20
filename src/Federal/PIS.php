@@ -40,136 +40,19 @@ class PIS extends Base
     protected $vAliqProd;
     
     
-    
     /**
-     * @return mixed
-     */
-    public function CST()
-    {
-        return $this->CST;
-    }
-    
-    
-    /**
-     * @param mixed $CST
+     * @param \MotorFiscal\DocumentoFiscal $documento
+     * @param \MotorFiscal\ItemFiscal      $item
      *
-     * @return PIS
+     * @return \MotorFiscal\Federal\PIS
      */
-    public function setCST($CST)
+    public static function createFromItemAndDocumento(DocumentoFiscal $documento, ItemFiscal &$item)
     {
-        $this->CST = $CST;
-        
-        return $this;
-    }
     
+        $PIS = new self();
+        $PIS->initialize($documento, $item);
     
-    /**
-     * @return mixed
-     */
-    public function vBC()
-    {
-        return $this->vBC;
-    }
-    
-    
-    /**
-     * @param mixed $vBC
-     *
-     * @return PIS
-     */
-    public function setVBC($vBC)
-    {
-        $this->vBC = $vBC;
-        
-        return $this;
-    }
-    
-    
-    /**
-     * @return mixed
-     */
-    public function pPIS()
-    {
-        return $this->pPIS;
-    }
-    
-    
-    /**
-     * @param mixed $pPIS
-     *
-     * @return PIS
-     */
-    public function setPPIS($pPIS)
-    {
-        $this->pPIS = $pPIS;
-        
-        return $this;
-    }
-    
-    
-    /**
-     * @return mixed
-     */
-    public function vPIS()
-    {
-        return $this->vPIS;
-    }
-    
-    
-    /**
-     * @param mixed $vPIS
-     *
-     * @return PIS
-     */
-    public function setVPIS($vPIS)
-    {
-        $this->vPIS = $vPIS;
-        
-        return $this;
-    }
-    
-    
-    /**
-     * @return mixed
-     */
-    public function qBCProd()
-    {
-        return $this->qBCProd;
-    }
-    
-    
-    /**
-     * @param mixed $qBCProd
-     *
-     * @return PIS
-     */
-    public function setQBCProd($qBCProd)
-    {
-        $this->qBCProd = $qBCProd;
-        
-        return $this;
-    }
-    
-    
-    /**
-     * @return mixed
-     */
-    public function vAliqProd()
-    {
-        return $this->vAliqProd;
-    }
-    
-    
-    /**
-     * @param mixed $vAliqProd
-     *
-     * @return PIS
-     */
-    public function setVAliqProd($vAliqProd)
-    {
-        $this->vAliqProd = $vAliqProd;
-        
-        return $this;
+        return $PIS;
     }
     
     
@@ -221,22 +104,6 @@ class PIS extends Base
     
     
     /**
-     * @param \MotorFiscal\DocumentoFiscal $documento
-     * @param \MotorFiscal\ItemFiscal      $item
-     *
-     * @return \MotorFiscal\Federal\PIS
-     */
-    public static function createFromItemAndDocumento(DocumentoFiscal $documento, ItemFiscal &$item)
-    {
-        
-        $PIS = new self();
-        $PIS->initialize($documento, $item);
-        
-        return $PIS;
-    }
-    
-    
-    /**
      * @param \MotorFiscal\ItemFiscal      $item
      * @param \MotorFiscal\DocumentoFiscal $documento
      *
@@ -259,5 +126,137 @@ class PIS extends Base
         }
         
         return $tributacaoPIS;
+    }
+    
+    
+    /**
+     * @return mixed
+     */
+    public function vBC()
+    {
+        return $this->vBC;
+    }
+    
+    
+    /**
+     * @param mixed $vBC
+     *
+     * @return PIS
+     */
+    public function setVBC($vBC)
+    {
+        $this->vBC = $vBC;
+        
+        return $this;
+    }
+    
+    
+    /**
+     * @return mixed
+     */
+    public function pPIS()
+    {
+        return $this->pPIS;
+    }
+    
+    
+    /**
+     * @param mixed $pPIS
+     *
+     * @return PIS
+     */
+    public function setPPIS($pPIS)
+    {
+        $this->pPIS = $pPIS;
+        
+        return $this;
+    }
+    
+    
+    /**
+     * @return mixed
+     */
+    public function qBCProd()
+    {
+        return $this->qBCProd;
+    }
+    
+    
+    /**
+     * @param mixed $qBCProd
+     *
+     * @return PIS
+     */
+    public function setQBCProd($qBCProd)
+    {
+        $this->qBCProd = $qBCProd;
+        
+        return $this;
+    }
+    
+    
+    /**
+     * @return mixed
+     */
+    public function vAliqProd()
+    {
+        return $this->vAliqProd;
+    }
+    
+    
+    /**
+     * @param mixed $vAliqProd
+     *
+     * @return PIS
+     */
+    public function setVAliqProd($vAliqProd)
+    {
+        $this->vAliqProd = $vAliqProd;
+        
+        return $this;
+    }
+    
+    
+    /**
+     * @return mixed
+     */
+    public function CST()
+    {
+        return $this->CST;
+    }
+    
+    
+    /**
+     * @param mixed $CST
+     *
+     * @return PIS
+     */
+    public function setCST($CST)
+    {
+        $this->CST = $CST;
+        
+        return $this;
+    }
+    
+    
+    /**
+     * @return mixed
+     */
+    public function vPIS()
+    {
+        return $this->vPIS;
+    }
+    
+    
+    /**
+     * @param mixed $vPIS
+     *
+     * @return PIS
+     */
+    public function setVPIS($vPIS)
+    {
+        $this->vPIS = $vPIS;
+        
+        return $this;
     }
 }

@@ -135,46 +135,6 @@ class DocumentoFiscal extends Base
     
     
     /**
-     * @return \MotorFiscal\Federal\RetTrib
-     */
-    public function retTrib()
-    {
-        return $this->retTrib;
-    }
-    
-    
-    /**
-     * @return \MotorFiscal\Destinatario
-     */
-    public function dest()
-    {
-        return $this->dest;
-    }
-    
-    
-    /**
-     * @param \MotorFiscal\Destinatario $dest
-     *
-     * @return DocumentoFiscal
-     */
-    public function setDest($dest)
-    {
-        $this->dest = $dest;
-        
-        return $this;
-    }
-    
-    
-    /**
-     * @return \MotorFiscal\IdentificacaoNFe
-     */
-    public function ide()
-    {
-        return $this->ide;
-    }
-    
-    
-    /**
      * @return \Closure
      */
     public function buscaTribFunction()
@@ -487,45 +447,6 @@ class DocumentoFiscal extends Base
     }
     
     
-    private function &calcularTributacaoFinal(ItemFiscal $item)
-    {
-        /* ================= Calcula Percentual Tributacao ============================== */
-        
-        $tabelaIBPT = $this->getTabelaIBPT($item->prod());
-        if ($tabelaIBPT) {
-            $item->imposto()->setVTotTribFederal(number_format(($item->prod()->vProd() - $item->prod()->vDesc())
-                                                               * $tabelaIBPT->PercTribFed / 100, 2, '.', ''));
-            $item->imposto()->setVTotTribEstadual(number_format(($item->prod()->vProd() - $item->prod()->vDesc())
-                                                                * $tabelaIBPT->PercTribEst / 100, 2, '.', ''));
-            $item->imposto()->setVTotTribMunicipal(number_format(($item->prod()->vProd() - $item->prod()->vDesc())
-                                                                 * $tabelaIBPT->PercTribMun / 100, 2, '.', ''));
-            /* M02 */
-            $item->imposto()->setVTotTrib(number_format($item->imposto()->vTotTribFederal() + $item->imposto()->vTotTribEstadual()
-                                                        + $item->imposto()->vTotTribMunicipal(), 2, '.', ''));
-        }
-        
-        return $item;
-    }
-    
-    
-    private function getTabelaIBPT(Produto $produto)
-    {
-        if (!isset($this->buscaTribFunctionIBPT)) {
-            return false;
-        }
-        
-        $callback = $this->buscaTribFunctionIBPT;
-        
-        if ($this->tipoParametroPesquisa === self::IDENTIFICADOR) {
-            $tabelaIBPT = $callback($produto->identificador(), $this->emit()->identificador(), $this->dest->identificador());
-        } else {
-            $tabelaIBPT = $callback($produto, $this->emit, $this->dest);
-        }
-        
-        return $tabelaIBPT;
-    }
-    
-    
     /**
      * @param \MotorFiscal\ItemFiscal $item
      *
@@ -552,7 +473,8 @@ class DocumentoFiscal extends Base
             $item->imposto()->ICMS()->setVICMSFicto(round($vBC_ICMS_FICTO * $tributacaoICMS->AliquotaICMS() / 100, 2));
             
             /* Calcula valor de crédito do ICMS */
-            $vBC_ICMS_CredSN = $item->prod()->vProd() - $item->prod()->vDesc() + $item->prod()->vSeg() + $item->prod()->vOutro();
+            $vBC_ICMS_CredSN = $item->prod()->vProd() - $item->prod()->vDesc() + $item->prod()->vSeg() + $item->prod()
+                                                                                                              ->vOutro();
             
             if ($tributacaoICMS->IncluirIPIBaseICMS() && $this->emit()->ContribuinteIPI()) {
                 $vBC_ICMS_CredSN += is_numeric($item->imposto()->IPI()->vIPI())
@@ -668,7 +590,8 @@ class DocumentoFiscal extends Base
                     }
                     
                     /* N23 */
-                    $item->imposto()->ICMS()->setVICMSST(round($item->imposto()->ICMS()->vBCST() * $tributacaoICMS->AliquotaICMSST() / 100, 2)
+                    $item->imposto()->ICMS()->setVICMSST(round($item->imposto()->ICMS()->vBCST()
+                                                               * $tributacaoICMS->AliquotaICMSST() / 100, 2)
                                                          - $item->imposto()->ICMS()->vICMSFicto(), 2, '.', '');
                     
                     if (!$tributacaoICMS->DestacarICMSST()) {
@@ -738,15 +661,18 @@ class DocumentoFiscal extends Base
                         $item->imposto()->IPI()->setPIPI($tributacaoIPI->Aliquota);
                         /* O14 */
                         $item->imposto()->IPI()->setVIPI(round($item->imposto()->IPI()->vBC() * $item->imposto()
-                                    ->IPI()
-                                    ->pIPI()) / 100, 2);
+                                                                                                     ->IPI()
+                                                                                                     ->pIPI()) / 100,
+                            2);
                     } else { /* Tributado por quantidade */
                         /* O11 */
                         $item->imposto()->IPI()->setQUnid($item->prod()->qTrib());
                         /* O12 */
                         $item->imposto()->IPI()->setVUnid($tributacaoIPI->vUnidTribIPI);
                         /* O14 */
-                        $item->imposto()->IPI()->setVIPI($item->imposto()->IPI()->qUnid() * $item->imposto()->IPI()->vUnid());
+                        $item->imposto()->IPI()->setVIPI($item->imposto()->IPI()->qUnid() * $item->imposto()
+                                                                                                 ->IPI()
+                                                                                                 ->vUnid());
                     }
                     break;
             }
@@ -781,7 +707,8 @@ class DocumentoFiscal extends Base
         $callback = $this->buscaTribFunctionICMS;
         /* pode pesquisar a tributação do produto passando dados como parametros ou os objetos*/
         if ($this->tipoParametroPesquisa === self::IDENTIFICADOR) {
-            $tributacaoICMS = $callback($produto->identificador(), $operacao->identificador(), $this->emit()->identificador(), $this->dest->identificador());
+            $tributacaoICMS = $callback($produto->identificador(), $operacao->identificador(),
+                $this->emit()->identificador(), $this->dest->identificador());
         } else {
             $tributacaoICMS = $callback($produto, $operacao, $this->emit, $this->dest);
         }
@@ -850,7 +777,6 @@ class DocumentoFiscal extends Base
             $item->imposto()->ICMS()->setPICMS($tributacaoICMS->AliquotaICMS());
             //Partilha do ICMS - NT 2015 - 003 - v150
             $this->calcularPartilhaICMS($tributacaoICMS, $item);
-
         }
         
         if ($item->imposto()->ICMS()->CST() === '51') {
@@ -862,10 +788,13 @@ class DocumentoFiscal extends Base
             /* N16b */
             $item->imposto()->ICMS()->setPDif($tributacaoICMS->PercDiferimento());
             /* N16c */
-            $item->imposto()->ICMS()->setVICMSDif($item->imposto()->ICMS()->vICMSFicto() * (100 - $tributacaoICMS->PercDiferimento())
+            $item->imposto()->ICMS()->setVICMSDif($item->imposto()->ICMS()->vICMSFicto() * (100
+                                                                                            - $tributacaoICMS->PercDiferimento())
                                                   / 100);
             /* N17 */
-            $item->imposto()->ICMS()->setVICMS($item->imposto()->ICMS()->vICMSFicto() - $item->imposto()->ICMS()->vICMSDif());
+            $item->imposto()->ICMS()->setVICMS($item->imposto()->ICMS()->vICMSFicto() - $item->imposto()
+                                                                                             ->ICMS()
+                                                                                             ->vICMSDif());
         }
         
         return $item;
@@ -902,6 +831,37 @@ class DocumentoFiscal extends Base
     }
     
     
+    /**
+     * @return \MotorFiscal\Destinatario
+     */
+    public function dest()
+    {
+        return $this->dest;
+    }
+    
+    
+    /**
+     * @param \MotorFiscal\Destinatario $dest
+     *
+     * @return DocumentoFiscal
+     */
+    public function setDest($dest)
+    {
+        $this->dest = $dest;
+        
+        return $this;
+    }
+    
+    
+    /**
+     * @return \MotorFiscal\IdentificacaoNFe
+     */
+    public function ide()
+    {
+        return $this->ide;
+    }
+    
+    
     private function &calcularTributacaoServicos(ItemFiscal $item)
     {
         if ($item->prod()->tipoItem() === Produto::SERVICO) {
@@ -918,12 +878,54 @@ class DocumentoFiscal extends Base
     {
         $callback = $this->buscaTribFunctionISSQN;
         if ($this->tipoParametroPesquisa === self::IDENTIFICADOR) {
-            $tributacaoISSQN = $callback($produto->identificador(), $operacao->identificador(), $this->emit()->identificador(), $this->dest->identificador());
+            $tributacaoISSQN = $callback($produto->identificador(), $operacao->identificador(),
+                $this->emit()->identificador(), $this->dest->identificador());
         } else {
             $tributacaoISSQN = $callback($produto, $operacao, $this->emit, $this->dest);
         }
         
         return $tributacaoISSQN;
+    }
+    
+    
+    private function &calcularTributacaoFinal(ItemFiscal $item)
+    {
+        /* ================= Calcula Percentual Tributacao ============================== */
+        
+        $tabelaIBPT = $this->getTabelaIBPT($item->prod());
+        if ($tabelaIBPT) {
+            $item->imposto()->setVTotTribFederal(number_format(($item->prod()->vProd() - $item->prod()->vDesc())
+                                                               * $tabelaIBPT->PercTribFed / 100, 2, '.', ''));
+            $item->imposto()->setVTotTribEstadual(number_format(($item->prod()->vProd() - $item->prod()->vDesc())
+                                                                * $tabelaIBPT->PercTribEst / 100, 2, '.', ''));
+            $item->imposto()->setVTotTribMunicipal(number_format(($item->prod()->vProd() - $item->prod()->vDesc())
+                                                                 * $tabelaIBPT->PercTribMun / 100, 2, '.', ''));
+            /* M02 */
+            $item->imposto()->setVTotTrib(number_format($item->imposto()->vTotTribFederal() + $item->imposto()
+                                                                                                   ->vTotTribEstadual()
+                                                        + $item->imposto()->vTotTribMunicipal(), 2, '.', ''));
+        }
+        
+        return $item;
+    }
+    
+    
+    private function getTabelaIBPT(Produto $produto)
+    {
+        if (!isset($this->buscaTribFunctionIBPT)) {
+            return false;
+        }
+        
+        $callback = $this->buscaTribFunctionIBPT;
+        
+        if ($this->tipoParametroPesquisa === self::IDENTIFICADOR) {
+            $tabelaIBPT = $callback($produto->identificador(), $this->emit()->identificador(),
+                $this->dest->identificador());
+        } else {
+            $tabelaIBPT = $callback($produto, $this->emit, $this->dest);
+        }
+        
+        return $tabelaIBPT;
     }
     
     
@@ -973,5 +975,14 @@ class DocumentoFiscal extends Base
                 $this->itens[$key]->imposto()->ISSQN()->setVOutro($vOutro);
             }
         }
+    }
+    
+    
+    /**
+     * @return \MotorFiscal\Federal\RetTrib
+     */
+    public function retTrib()
+    {
+        return $this->retTrib;
     }
 }

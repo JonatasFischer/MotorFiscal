@@ -51,15 +51,6 @@ class ParametrosTributacaoICMS
     private $baseCalcICMSST;
     
     
-    /**
-     * @return mixed
-     */
-    public function baseCalcICMSST()
-    {
-        return $this->baseCalcICMSST;
-    }
-    
-    
     public function __construct($parametros)
     {
         foreach ($parametros as $name => $value) {
@@ -73,6 +64,15 @@ class ParametrosTributacaoICMS
                 throw new Exception('Invalid property name: private $' . $name . ';');
             }
         }
+    }
+    
+    
+    /**
+     * @return mixed
+     */
+    public function baseCalcICMSST()
+    {
+        return $this->baseCalcICMSST;
     }
     
     

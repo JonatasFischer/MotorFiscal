@@ -47,138 +47,6 @@ class COFINS extends Base
     
     
     /**
-     * @return mixed
-     */
-    public function CST()
-    {
-        return $this->CST;
-    }
-    
-    
-    /**
-     * @param mixed $CST
-     *
-     * @return COFINS
-     */
-    public function setCST($CST)
-    {
-        $this->CST = $CST;
-        
-        return $this;
-    }
-    
-    
-    /**
-     * @return mixed
-     */
-    public function vBC()
-    {
-        return $this->vBC;
-    }
-    
-    
-    /**
-     * @param mixed $vBC
-     *
-     * @return COFINS
-     */
-    public function setVBC($vBC)
-    {
-        $this->vBC = $vBC;
-        
-        return $this;
-    }
-    
-    
-    /**
-     * @return mixed
-     */
-    public function pCOFINS()
-    {
-        return $this->pCOFINS;
-    }
-    
-    
-    /**
-     * @param mixed $pCOFINS
-     *
-     * @return COFINS
-     */
-    public function setPCOFINS($pCOFINS)
-    {
-        $this->pCOFINS = $pCOFINS;
-        
-        return $this;
-    }
-    
-    
-    /**
-     * @return mixed
-     */
-    public function qBCProd()
-    {
-        return $this->qBCProd;
-    }
-    
-    
-    /**
-     * @param mixed $qBCProd
-     *
-     * @return COFINS
-     */
-    public function setQBCProd($qBCProd)
-    {
-        $this->qBCProd = $qBCProd;
-        
-        return $this;
-    }
-    
-    
-    /**
-     * @return mixed
-     */
-    public function vAliqProd()
-    {
-        return $this->vAliqProd;
-    }
-    
-    
-    /**
-     * @param mixed $vAliqProd
-     *
-     * @return COFINS
-     */
-    public function setVAliqProd($vAliqProd)
-    {
-        $this->vAliqProd = $vAliqProd;
-        
-        return $this;
-    }
-    
-    
-    /**
-     * @return mixed
-     */
-    public function vCOFINS()
-    {
-        return $this->vCOFINS;
-    }
-    
-    
-    /**
-     * @param mixed $vCOFINS
-     *
-     * @return COFINS
-     */
-    public function setVCOFINS($vCOFINS)
-    {
-        $this->vCOFINS = $vCOFINS;
-        
-        return $this;
-    }
-    
-    
-    /**
      * @param \MotorFiscal\DocumentoFiscal $documento
      * @param \MotorFiscal\ItemFiscal      $item
      *
@@ -235,32 +103,6 @@ class COFINS extends Base
     
     
     /**
-     * @param \MotorFiscal\ItemFiscal $item
-     * @param                         $tributacaoCOFINS
-     */
-    protected function calcularPorQuantidade(ItemFiscal $item, $tributacaoCOFINS)
-    {
-        $this->setCST($tributacaoCOFINS->CST);
-        $this->setQBCProd($item->prod()->qTrib());
-        $this->setVAliqProd($tributacaoCOFINS->ValorCOFINS);
-        $this->setvCOFINS($this->qBCProd() * $this->vAliqProd());
-    }
-    
-    
-    /**
-     * @param \MotorFiscal\ItemFiscal $item
-     * @param                         $tributacaoCOFINS
-     */
-    protected function calcularPorAliquota(ItemFiscal $item, $tributacaoCOFINS)
-    {
-        $this->setCST($tributacaoCOFINS->CST);
-        $this->setPCOFINS($tributacaoCOFINS->AliquotaCofins);
-        $this->setVBC($item->prod()->vProd() - $item->prod()->vDesc());
-        $this->setVCOFINS(ceil($this->vBC() * $this->pCOFINS()) / 100);
-    }
-    
-    
-    /**
      * @param \MotorFiscal\DocumentoFiscal $documento
      * @param \MotorFiscal\ItemFiscal      $item
      *
@@ -282,6 +124,164 @@ class COFINS extends Base
         }
         
         return $tributacaoCOFINS;
+    }
+    
+    
+    /**
+     * @param \MotorFiscal\ItemFiscal $item
+     * @param                         $tributacaoCOFINS
+     */
+    protected function calcularPorAliquota(ItemFiscal $item, $tributacaoCOFINS)
+    {
+        $this->setCST($tributacaoCOFINS->CST);
+        $this->setPCOFINS($tributacaoCOFINS->AliquotaCofins);
+        $this->setVBC($item->prod()->vProd() - $item->prod()->vDesc());
+        $this->setVCOFINS(ceil($this->vBC() * $this->pCOFINS()) / 100);
+    }
+    
+    
+    /**
+     * @return mixed
+     */
+    public function vBC()
+    {
+        return $this->vBC;
+    }
+    
+    
+    /**
+     * @param mixed $vBC
+     *
+     * @return COFINS
+     */
+    public function setVBC($vBC)
+    {
+        $this->vBC = $vBC;
+        
+        return $this;
+    }
+    
+    
+    /**
+     * @return mixed
+     */
+    public function pCOFINS()
+    {
+        return $this->pCOFINS;
+    }
+    
+    
+    /**
+     * @param mixed $pCOFINS
+     *
+     * @return COFINS
+     */
+    public function setPCOFINS($pCOFINS)
+    {
+        $this->pCOFINS = $pCOFINS;
+        
+        return $this;
+    }
+    
+    
+    /**
+     * @param \MotorFiscal\ItemFiscal $item
+     * @param                         $tributacaoCOFINS
+     */
+    protected function calcularPorQuantidade(ItemFiscal $item, $tributacaoCOFINS)
+    {
+        $this->setCST($tributacaoCOFINS->CST);
+        $this->setQBCProd($item->prod()->qTrib());
+        $this->setVAliqProd($tributacaoCOFINS->ValorCOFINS);
+        $this->setvCOFINS($this->qBCProd() * $this->vAliqProd());
+    }
+    
+    
+    /**
+     * @return mixed
+     */
+    public function qBCProd()
+    {
+        return $this->qBCProd;
+    }
+    
+    
+    /**
+     * @param mixed $qBCProd
+     *
+     * @return COFINS
+     */
+    public function setQBCProd($qBCProd)
+    {
+        $this->qBCProd = $qBCProd;
+        
+        return $this;
+    }
+    
+    
+    /**
+     * @return mixed
+     */
+    public function vAliqProd()
+    {
+        return $this->vAliqProd;
+    }
+    
+    
+    /**
+     * @param mixed $vAliqProd
+     *
+     * @return COFINS
+     */
+    public function setVAliqProd($vAliqProd)
+    {
+        $this->vAliqProd = $vAliqProd;
+        
+        return $this;
+    }
+    
+    
+    /**
+     * @return mixed
+     */
+    public function CST()
+    {
+        return $this->CST;
+    }
+    
+    
+    /**
+     * @param mixed $CST
+     *
+     * @return COFINS
+     */
+    public function setCST($CST)
+    {
+        $this->CST = $CST;
+        
+        return $this;
+    }
+    
+    
+    /**
+     * @return mixed
+     */
+    public function vCOFINS()
+    {
+        return $this->vCOFINS;
+    }
+    
+    
+    /**
+     * @param mixed $vCOFINS
+     *
+     * @return COFINS
+     */
+    public function setVCOFINS($vCOFINS)
+    {
+        $this->vCOFINS = $vCOFINS;
+        
+        return $this;
     }
     
 }

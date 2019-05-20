@@ -131,7 +131,7 @@ class Produto extends Base
     /**
      * NF-e/NFC-e :I17a - vOutro.
      */
-    protected $vOutro       = 0;
+    protected $vOutro = 0;
     
     protected $identificador;
     
@@ -322,6 +322,7 @@ class Produto extends Base
     {
         return $this->formaAquisicao;
     }
+    
     
     /**
      * @param int $formaAquisicao
