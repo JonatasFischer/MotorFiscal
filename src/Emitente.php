@@ -7,11 +7,11 @@ namespace MotorFiscal;
  */
 class Emitente extends Base
 {
-    protected $PercCreditoSimples;
+    protected $percCreditoSimples;
     
     protected $identificador;
     
-    protected $ContribuinteIPI;
+    protected $contribuinteIPI;
     
     /**
      * NF-e/NFC-e :C02 - CNPJ.
@@ -123,20 +123,20 @@ class Emitente extends Base
     /**
      * @return mixed
      */
-    public function PercCreditoSimples()
+    public function percCreditoSimples()
     {
-        return $this->PercCreditoSimples;
+        return $this->percCreditoSimples;
     }
     
     
     /**
-     * @param mixed $PercCreditoSimples
+     * @param mixed $percCreditoSimples
      *
      * @return Emitente
      */
-    public function setPercCreditoSimples($PercCreditoSimples)
+    public function setPercCreditoSimples($percCreditoSimples)
     {
-        $this->PercCreditoSimples = $PercCreditoSimples;
+        $this->percCreditoSimples = $percCreditoSimples;
         
         return $this;
     }
@@ -167,20 +167,20 @@ class Emitente extends Base
     /**
      * @return mixed
      */
-    public function ContribuinteIPI()
+    public function contribuinteIPI()
     {
-        return $this->ContribuinteIPI;
+        return $this->contribuinteIPI;
     }
     
     
     /**
-     * @param mixed $ContribuinteIPI
+     * @param mixed $contribuinteIPI
      *
      * @return Emitente
      */
-    public function setContribuinteIPI($ContribuinteIPI)
+    public function setContribuinteIPI($contribuinteIPI)
     {
-        $this->ContribuinteIPI = $ContribuinteIPI;
+        $this->contribuinteIPI = $contribuinteIPI;
         
         return $this;
     }

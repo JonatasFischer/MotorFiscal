@@ -4,9 +4,76 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4ed8cdfbf2efd94edfae747cedef50dd",
-    "packages": [],
-    "packages-dev": [
+	"content-hash": "6ff95f9707d1cb55476cc2e9788993df",
+	"packages": [
+		{
+			"name": "doctrine/annotations",
+			"version": "v1.6.1",
+			"source": {
+				"type": "git",
+				"url": "https://github.com/doctrine/annotations.git",
+				"reference": "53120e0eb10355388d6ccbe462f1fea34ddadb24"
+			},
+			"dist": {
+				"type": "zip",
+				"url": "https://api.github.com/repos/doctrine/annotations/zipball/53120e0eb10355388d6ccbe462f1fea34ddadb24",
+				"reference": "53120e0eb10355388d6ccbe462f1fea34ddadb24",
+				"shasum": ""
+			},
+			"require": {
+				"doctrine/lexer": "1.*",
+				"php": "^7.1"
+			},
+			"require-dev": {
+				"doctrine/cache": "1.*",
+				"phpunit/phpunit": "^6.4"
+			},
+			"type": "library",
+			"extra": {
+				"branch-alias": {
+					"dev-master": "1.6.x-dev"
+				}
+			},
+			"autoload": {
+				"psr-4": {
+					"Doctrine\\Common\\Annotations\\": "lib/Doctrine/Common/Annotations"
+				}
+			},
+			"notification-url": "https://packagist.org/downloads/",
+			"license": [
+				"MIT"
+			],
+			"authors": [
+				{
+					"name": "Roman Borschel",
+					"email": "roman@code-factory.org"
+				},
+				{
+					"name": "Benjamin Eberlei",
+					"email": "kontakt@beberlei.de"
+				},
+				{
+					"name": "Guilherme Blanco",
+					"email": "guilhermeblanco@gmail.com"
+				},
+				{
+					"name": "Jonathan Wage",
+					"email": "jonwage@gmail.com"
+				},
+				{
+					"name": "Johannes Schmitt",
+					"email": "schmittjoh@gmail.com"
+				}
+			],
+			"description": "Docblock Annotations Parser",
+			"homepage": "http://www.doctrine-project.org",
+			"keywords": [
+				"annotations",
+				"docblock",
+				"parser"
+			],
+			"time": "2019-03-25T19:12:02+00:00"
+		},
         {
             "name": "doctrine/instantiator",
             "version": "1.2.0",
@@ -64,17 +131,1360 @@
             "time": "2019-03-17T17:37:11+00:00"
         },
         {
+	        "name": "doctrine/lexer",
+	        "version": "v1.0.1",
+	        "source": {
+		        "type": "git",
+		        "url": "https://github.com/doctrine/lexer.git",
+		        "reference": "83893c552fd2045dd78aef794c31e694c37c0b8c"
+	        },
+	        "dist": {
+		        "type": "zip",
+		        "url": "https://api.github.com/repos/doctrine/lexer/zipball/83893c552fd2045dd78aef794c31e694c37c0b8c",
+		        "reference": "83893c552fd2045dd78aef794c31e694c37c0b8c",
+		        "shasum": ""
+	        },
+	        "require": {
+		        "php": ">=5.3.2"
+	        },
+	        "type": "library",
+	        "extra": {
+		        "branch-alias": {
+			        "dev-master": "1.0.x-dev"
+		        }
+	        },
+	        "autoload": {
+		        "psr-0": {
+			        "Doctrine\\Common\\Lexer\\": "lib/"
+		        }
+	        },
+	        "notification-url": "https://packagist.org/downloads/",
+	        "license": [
+		        "MIT"
+	        ],
+	        "authors": [
+		        {
+			        "name": "Roman Borschel",
+			        "email": "roman@code-factory.org"
+		        },
+		        {
+			        "name": "Guilherme Blanco",
+			        "email": "guilhermeblanco@gmail.com"
+		        },
+		        {
+			        "name": "Johannes Schmitt",
+			        "email": "schmittjoh@gmail.com"
+		        }
+	        ],
+	        "description": "Base library for a lexer that can be used in Top-Down, Recursive Descent Parsers.",
+	        "homepage": "http://www.doctrine-project.org",
+	        "keywords": [
+		        "lexer",
+		        "parser"
+	        ],
+	        "time": "2014-09-09T13:34:57+00:00"
+        },
+		{
+			"name": "goetas-webservices/xsd2php-runtime",
+			"version": "v0.2.10",
+			"source": {
+				"type": "git",
+				"url": "https://github.com/goetas-webservices/xsd2php-runtime.git",
+				"reference": "caf7967f59d1cf04d7276051d1873e0ffe39bcb1"
+			},
+			"dist": {
+				"type": "zip",
+				"url": "https://api.github.com/repos/goetas-webservices/xsd2php-runtime/zipball/caf7967f59d1cf04d7276051d1873e0ffe39bcb1",
+				"reference": "caf7967f59d1cf04d7276051d1873e0ffe39bcb1",
+				"shasum": ""
+			},
+			"require": {
+				"jms/serializer": "^1.2|^2.0|^3.0",
+				"php": "^5.5|^7.0",
+				"symfony/yaml": "^2.2|^3.0|^4.0"
+			},
+			"conflict": {
+				"jms/serializer": "1.4.1|1.6.1|1.6.2"
+			},
+			"require-dev": {
+				"phpunit/phpunit": "^4.8|^5.0"
+			},
+			"type": "library",
+			"extra": {
+				"branch-alias": {
+					"dev-master": "0.2-dev"
+				}
+			},
+			"autoload": {
+				"psr-4": {
+					"GoetasWebservices\\Xsd\\XsdToPhpRuntime\\": "src/"
+				}
+			},
+			"notification-url": "https://packagist.org/downloads/",
+			"license": [
+				"LGPL-3.0-or-later"
+			],
+			"authors": [
+				{
+					"name": "Asmir Mustafic"
+				}
+			],
+			"description": "Convert XSD  (XML Schema) definitions into PHP classes",
+			"keywords": [
+				"converter",
+				"jms",
+				"php",
+				"serializer",
+				"xml",
+				"xsd"
+			],
+			"time": "2019-04-23T07:23:47+00:00"
+		},
+		{
+			"name": "hoa/compiler",
+			"version": "3.17.08.08",
+			"source": {
+				"type": "git",
+				"url": "https://github.com/hoaproject/Compiler.git",
+				"reference": "aa09caf0bf28adae6654ca6ee415ee2f522672de"
+			},
+			"dist": {
+				"type": "zip",
+				"url": "https://api.github.com/repos/hoaproject/Compiler/zipball/aa09caf0bf28adae6654ca6ee415ee2f522672de",
+				"reference": "aa09caf0bf28adae6654ca6ee415ee2f522672de",
+				"shasum": ""
+			},
+			"require": {
+				"hoa/consistency": "~1.0",
+				"hoa/exception": "~1.0",
+				"hoa/file": "~1.0",
+				"hoa/iterator": "~2.0",
+				"hoa/math": "~1.0",
+				"hoa/protocol": "~1.0",
+				"hoa/regex": "~1.0",
+				"hoa/visitor": "~2.0"
+			},
+			"require-dev": {
+				"hoa/json": "~2.0",
+				"hoa/test": "~2.0"
+			},
+			"type": "library",
+			"extra": {
+				"branch-alias": {
+					"dev-master": "3.x-dev"
+				}
+			},
+			"autoload": {
+				"psr-4": {
+					"Hoa\\Compiler\\": "."
+				}
+			},
+			"notification-url": "https://packagist.org/downloads/",
+			"license": [
+				"BSD-3-Clause"
+			],
+			"authors": [
+				{
+					"name": "Ivan Enderlin",
+					"email": "ivan.enderlin@hoa-project.net"
+				},
+				{
+					"name": "Hoa community",
+					"homepage": "https://hoa-project.net/"
+				}
+			],
+			"description": "The Hoa\\Compiler library.",
+			"homepage": "https://hoa-project.net/",
+			"keywords": [
+				"algebraic",
+				"ast",
+				"compiler",
+				"context-free",
+				"coverage",
+				"exhaustive",
+				"grammar",
+				"isotropic",
+				"language",
+				"lexer",
+				"library",
+				"ll1",
+				"llk",
+				"parser",
+				"pp",
+				"random",
+				"regular",
+				"rule",
+				"sampler",
+				"syntax",
+				"token",
+				"trace",
+				"uniform"
+			],
+			"time": "2017-08-08T07:44:07+00:00"
+		},
+		{
+			"name": "hoa/consistency",
+			"version": "1.17.05.02",
+			"source": {
+				"type": "git",
+				"url": "https://github.com/hoaproject/Consistency.git",
+				"reference": "fd7d0adc82410507f332516faf655b6ed22e4c2f"
+			},
+			"dist": {
+				"type": "zip",
+				"url": "https://api.github.com/repos/hoaproject/Consistency/zipball/fd7d0adc82410507f332516faf655b6ed22e4c2f",
+				"reference": "fd7d0adc82410507f332516faf655b6ed22e4c2f",
+				"shasum": ""
+			},
+			"require": {
+				"hoa/exception": "~1.0",
+				"php": ">=5.5.0"
+			},
+			"require-dev": {
+				"hoa/stream": "~1.0",
+				"hoa/test": "~2.0"
+			},
+			"type": "library",
+			"extra": {
+				"branch-alias": {
+					"dev-master": "1.x-dev"
+				}
+			},
+			"autoload": {
+				"psr-4": {
+					"Hoa\\Consistency\\": "."
+				},
+				"files": [
+					"Prelude.php"
+				]
+			},
+			"notification-url": "https://packagist.org/downloads/",
+			"license": [
+				"BSD-3-Clause"
+			],
+			"authors": [
+				{
+					"name": "Ivan Enderlin",
+					"email": "ivan.enderlin@hoa-project.net"
+				},
+				{
+					"name": "Hoa community",
+					"homepage": "https://hoa-project.net/"
+				}
+			],
+			"description": "The Hoa\\Consistency library.",
+			"homepage": "https://hoa-project.net/",
+			"keywords": [
+				"autoloader",
+				"callable",
+				"consistency",
+				"entity",
+				"flex",
+				"keyword",
+				"library"
+			],
+			"time": "2017-05-02T12:18:12+00:00"
+		},
+		{
+			"name": "hoa/event",
+			"version": "1.17.01.13",
+			"source": {
+				"type": "git",
+				"url": "https://github.com/hoaproject/Event.git",
+				"reference": "6c0060dced212ffa3af0e34bb46624f990b29c54"
+			},
+			"dist": {
+				"type": "zip",
+				"url": "https://api.github.com/repos/hoaproject/Event/zipball/6c0060dced212ffa3af0e34bb46624f990b29c54",
+				"reference": "6c0060dced212ffa3af0e34bb46624f990b29c54",
+				"shasum": ""
+			},
+			"require": {
+				"hoa/consistency": "~1.0",
+				"hoa/exception": "~1.0"
+			},
+			"require-dev": {
+				"hoa/test": "~2.0"
+			},
+			"type": "library",
+			"extra": {
+				"branch-alias": {
+					"dev-master": "1.x-dev"
+				}
+			},
+			"autoload": {
+				"psr-4": {
+					"Hoa\\Event\\": "."
+				}
+			},
+			"notification-url": "https://packagist.org/downloads/",
+			"license": [
+				"BSD-3-Clause"
+			],
+			"authors": [
+				{
+					"name": "Ivan Enderlin",
+					"email": "ivan.enderlin@hoa-project.net"
+				},
+				{
+					"name": "Hoa community",
+					"homepage": "https://hoa-project.net/"
+				}
+			],
+			"description": "The Hoa\\Event library.",
+			"homepage": "https://hoa-project.net/",
+			"keywords": [
+				"event",
+				"library",
+				"listener",
+				"observer"
+			],
+			"time": "2017-01-13T15:30:50+00:00"
+		},
+		{
+			"name": "hoa/exception",
+			"version": "1.17.01.16",
+			"source": {
+				"type": "git",
+				"url": "https://github.com/hoaproject/Exception.git",
+				"reference": "091727d46420a3d7468ef0595651488bfc3a458f"
+			},
+			"dist": {
+				"type": "zip",
+				"url": "https://api.github.com/repos/hoaproject/Exception/zipball/091727d46420a3d7468ef0595651488bfc3a458f",
+				"reference": "091727d46420a3d7468ef0595651488bfc3a458f",
+				"shasum": ""
+			},
+			"require": {
+				"hoa/consistency": "~1.0",
+				"hoa/event": "~1.0"
+			},
+			"require-dev": {
+				"hoa/test": "~2.0"
+			},
+			"type": "library",
+			"extra": {
+				"branch-alias": {
+					"dev-master": "1.x-dev"
+				}
+			},
+			"autoload": {
+				"psr-4": {
+					"Hoa\\Exception\\": "."
+				}
+			},
+			"notification-url": "https://packagist.org/downloads/",
+			"license": [
+				"BSD-3-Clause"
+			],
+			"authors": [
+				{
+					"name": "Ivan Enderlin",
+					"email": "ivan.enderlin@hoa-project.net"
+				},
+				{
+					"name": "Hoa community",
+					"homepage": "https://hoa-project.net/"
+				}
+			],
+			"description": "The Hoa\\Exception library.",
+			"homepage": "https://hoa-project.net/",
+			"keywords": [
+				"exception",
+				"library"
+			],
+			"time": "2017-01-16T07:53:27+00:00"
+		},
+		{
+			"name": "hoa/file",
+			"version": "1.17.07.11",
+			"source": {
+				"type": "git",
+				"url": "https://github.com/hoaproject/File.git",
+				"reference": "35cb979b779bc54918d2f9a4e02ed6c7a1fa67ca"
+			},
+			"dist": {
+				"type": "zip",
+				"url": "https://api.github.com/repos/hoaproject/File/zipball/35cb979b779bc54918d2f9a4e02ed6c7a1fa67ca",
+				"reference": "35cb979b779bc54918d2f9a4e02ed6c7a1fa67ca",
+				"shasum": ""
+			},
+			"require": {
+				"hoa/consistency": "~1.0",
+				"hoa/event": "~1.0",
+				"hoa/exception": "~1.0",
+				"hoa/iterator": "~2.0",
+				"hoa/stream": "~1.0"
+			},
+			"require-dev": {
+				"hoa/test": "~2.0"
+			},
+			"type": "library",
+			"extra": {
+				"branch-alias": {
+					"dev-master": "1.x-dev"
+				}
+			},
+			"autoload": {
+				"psr-4": {
+					"Hoa\\File\\": "."
+				}
+			},
+			"notification-url": "https://packagist.org/downloads/",
+			"license": [
+				"BSD-3-Clause"
+			],
+			"authors": [
+				{
+					"name": "Ivan Enderlin",
+					"email": "ivan.enderlin@hoa-project.net"
+				},
+				{
+					"name": "Hoa community",
+					"homepage": "https://hoa-project.net/"
+				}
+			],
+			"description": "The Hoa\\File library.",
+			"homepage": "https://hoa-project.net/",
+			"keywords": [
+				"Socket",
+				"directory",
+				"file",
+				"finder",
+				"library",
+				"link",
+				"temporary"
+			],
+			"time": "2017-07-11T07:42:15+00:00"
+		},
+		{
+			"name": "hoa/iterator",
+			"version": "2.17.01.10",
+			"source": {
+				"type": "git",
+				"url": "https://github.com/hoaproject/Iterator.git",
+				"reference": "d1120ba09cb4ccd049c86d10058ab94af245f0cc"
+			},
+			"dist": {
+				"type": "zip",
+				"url": "https://api.github.com/repos/hoaproject/Iterator/zipball/d1120ba09cb4ccd049c86d10058ab94af245f0cc",
+				"reference": "d1120ba09cb4ccd049c86d10058ab94af245f0cc",
+				"shasum": ""
+			},
+			"require": {
+				"hoa/consistency": "~1.0",
+				"hoa/exception": "~1.0"
+			},
+			"require-dev": {
+				"hoa/test": "~2.0"
+			},
+			"type": "library",
+			"extra": {
+				"branch-alias": {
+					"dev-master": "2.x-dev"
+				}
+			},
+			"autoload": {
+				"psr-4": {
+					"Hoa\\Iterator\\": "."
+				}
+			},
+			"notification-url": "https://packagist.org/downloads/",
+			"license": [
+				"BSD-3-Clause"
+			],
+			"authors": [
+				{
+					"name": "Ivan Enderlin",
+					"email": "ivan.enderlin@hoa-project.net"
+				},
+				{
+					"name": "Hoa community",
+					"homepage": "https://hoa-project.net/"
+				}
+			],
+			"description": "The Hoa\\Iterator library.",
+			"homepage": "https://hoa-project.net/",
+			"keywords": [
+				"iterator",
+				"library"
+			],
+			"time": "2017-01-10T10:34:47+00:00"
+		},
+		{
+			"name": "hoa/math",
+			"version": "1.17.05.16",
+			"source": {
+				"type": "git",
+				"url": "https://github.com/hoaproject/Math.git",
+				"reference": "7150785d30f5d565704912116a462e9f5bc83a0c"
+			},
+			"dist": {
+				"type": "zip",
+				"url": "https://api.github.com/repos/hoaproject/Math/zipball/7150785d30f5d565704912116a462e9f5bc83a0c",
+				"reference": "7150785d30f5d565704912116a462e9f5bc83a0c",
+				"shasum": ""
+			},
+			"require": {
+				"hoa/compiler": "~3.0",
+				"hoa/consistency": "~1.0",
+				"hoa/exception": "~1.0",
+				"hoa/iterator": "~2.0",
+				"hoa/protocol": "~1.0",
+				"hoa/zformat": "~1.0"
+			},
+			"require-dev": {
+				"hoa/test": "~2.0"
+			},
+			"type": "library",
+			"extra": {
+				"branch-alias": {
+					"dev-master": "1.x-dev"
+				}
+			},
+			"autoload": {
+				"psr-4": {
+					"Hoa\\Math\\": "."
+				}
+			},
+			"notification-url": "https://packagist.org/downloads/",
+			"license": [
+				"BSD-3-Clause"
+			],
+			"authors": [
+				{
+					"name": "Ivan Enderlin",
+					"email": "ivan.enderlin@hoa-project.net"
+				},
+				{
+					"name": "Hoa community",
+					"homepage": "https://hoa-project.net/"
+				}
+			],
+			"description": "The Hoa\\Math library.",
+			"homepage": "https://hoa-project.net/",
+			"keywords": [
+				"arrangement",
+				"combination",
+				"combinatorics",
+				"counting",
+				"library",
+				"math",
+				"permutation",
+				"sampler",
+				"set"
+			],
+			"time": "2017-05-16T08:02:17+00:00"
+		},
+		{
+			"name": "hoa/protocol",
+			"version": "1.17.01.14",
+			"source": {
+				"type": "git",
+				"url": "https://github.com/hoaproject/Protocol.git",
+				"reference": "5c2cf972151c45f373230da170ea015deecf19e2"
+			},
+			"dist": {
+				"type": "zip",
+				"url": "https://api.github.com/repos/hoaproject/Protocol/zipball/5c2cf972151c45f373230da170ea015deecf19e2",
+				"reference": "5c2cf972151c45f373230da170ea015deecf19e2",
+				"shasum": ""
+			},
+			"require": {
+				"hoa/consistency": "~1.0",
+				"hoa/exception": "~1.0"
+			},
+			"require-dev": {
+				"hoa/test": "~2.0"
+			},
+			"type": "library",
+			"extra": {
+				"branch-alias": {
+					"dev-master": "1.x-dev"
+				}
+			},
+			"autoload": {
+				"psr-4": {
+					"Hoa\\Protocol\\": "."
+				},
+				"files": [
+					"Wrapper.php"
+				]
+			},
+			"notification-url": "https://packagist.org/downloads/",
+			"license": [
+				"BSD-3-Clause"
+			],
+			"authors": [
+				{
+					"name": "Ivan Enderlin",
+					"email": "ivan.enderlin@hoa-project.net"
+				},
+				{
+					"name": "Hoa community",
+					"homepage": "https://hoa-project.net/"
+				}
+			],
+			"description": "The Hoa\\Protocol library.",
+			"homepage": "https://hoa-project.net/",
+			"keywords": [
+				"library",
+				"protocol",
+				"resource",
+				"stream",
+				"wrapper"
+			],
+			"time": "2017-01-14T12:26:10+00:00"
+		},
+		{
+			"name": "hoa/regex",
+			"version": "1.17.01.13",
+			"source": {
+				"type": "git",
+				"url": "https://github.com/hoaproject/Regex.git",
+				"reference": "7e263a61b6fb45c1d03d8e5ef77668518abd5bec"
+			},
+			"dist": {
+				"type": "zip",
+				"url": "https://api.github.com/repos/hoaproject/Regex/zipball/7e263a61b6fb45c1d03d8e5ef77668518abd5bec",
+				"reference": "7e263a61b6fb45c1d03d8e5ef77668518abd5bec",
+				"shasum": ""
+			},
+			"require": {
+				"hoa/consistency": "~1.0",
+				"hoa/exception": "~1.0",
+				"hoa/math": "~1.0",
+				"hoa/protocol": "~1.0",
+				"hoa/ustring": "~4.0",
+				"hoa/visitor": "~2.0"
+			},
+			"type": "library",
+			"extra": {
+				"branch-alias": {
+					"dev-master": "1.x-dev"
+				}
+			},
+			"autoload": {
+				"psr-4": {
+					"Hoa\\Regex\\": "."
+				}
+			},
+			"notification-url": "https://packagist.org/downloads/",
+			"license": [
+				"BSD-3-Clause"
+			],
+			"authors": [
+				{
+					"name": "Ivan Enderlin",
+					"email": "ivan.enderlin@hoa-project.net"
+				},
+				{
+					"name": "Hoa community",
+					"homepage": "https://hoa-project.net/"
+				}
+			],
+			"description": "The Hoa\\Regex library.",
+			"homepage": "https://hoa-project.net/",
+			"keywords": [
+				"compiler",
+				"library",
+				"regex"
+			],
+			"time": "2017-01-13T16:10:24+00:00"
+		},
+		{
+			"name": "hoa/stream",
+			"version": "1.17.02.21",
+			"source": {
+				"type": "git",
+				"url": "https://github.com/hoaproject/Stream.git",
+				"reference": "3293cfffca2de10525df51436adf88a559151d82"
+			},
+			"dist": {
+				"type": "zip",
+				"url": "https://api.github.com/repos/hoaproject/Stream/zipball/3293cfffca2de10525df51436adf88a559151d82",
+				"reference": "3293cfffca2de10525df51436adf88a559151d82",
+				"shasum": ""
+			},
+			"require": {
+				"hoa/consistency": "~1.0",
+				"hoa/event": "~1.0",
+				"hoa/exception": "~1.0",
+				"hoa/protocol": "~1.0"
+			},
+			"require-dev": {
+				"hoa/test": "~2.0"
+			},
+			"type": "library",
+			"extra": {
+				"branch-alias": {
+					"dev-master": "1.x-dev"
+				}
+			},
+			"autoload": {
+				"psr-4": {
+					"Hoa\\Stream\\": "."
+				}
+			},
+			"notification-url": "https://packagist.org/downloads/",
+			"license": [
+				"BSD-3-Clause"
+			],
+			"authors": [
+				{
+					"name": "Ivan Enderlin",
+					"email": "ivan.enderlin@hoa-project.net"
+				},
+				{
+					"name": "Hoa community",
+					"homepage": "https://hoa-project.net/"
+				}
+			],
+			"description": "The Hoa\\Stream library.",
+			"homepage": "https://hoa-project.net/",
+			"keywords": [
+				"Context",
+				"bucket",
+				"composite",
+				"filter",
+				"in",
+				"library",
+				"out",
+				"protocol",
+				"stream",
+				"wrapper"
+			],
+			"time": "2017-02-21T16:01:06+00:00"
+		},
+		{
+			"name": "hoa/ustring",
+			"version": "4.17.01.16",
+			"source": {
+				"type": "git",
+				"url": "https://github.com/hoaproject/Ustring.git",
+				"reference": "e6326e2739178799b1fe3fdd92029f9517fa17a0"
+			},
+			"dist": {
+				"type": "zip",
+				"url": "https://api.github.com/repos/hoaproject/Ustring/zipball/e6326e2739178799b1fe3fdd92029f9517fa17a0",
+				"reference": "e6326e2739178799b1fe3fdd92029f9517fa17a0",
+				"shasum": ""
+			},
+			"require": {
+				"hoa/consistency": "~1.0",
+				"hoa/exception": "~1.0"
+			},
+			"require-dev": {
+				"hoa/test": "~2.0"
+			},
+			"suggest": {
+				"ext-iconv": "ext/iconv must be present (or a third implementation) to use Hoa\\Ustring::transcode().",
+				"ext-intl": "To get a better Hoa\\Ustring::toAscii() and Hoa\\Ustring::compareTo()."
+			},
+			"type": "library",
+			"extra": {
+				"branch-alias": {
+					"dev-master": "4.x-dev"
+				}
+			},
+			"autoload": {
+				"psr-4": {
+					"Hoa\\Ustring\\": "."
+				}
+			},
+			"notification-url": "https://packagist.org/downloads/",
+			"license": [
+				"BSD-3-Clause"
+			],
+			"authors": [
+				{
+					"name": "Ivan Enderlin",
+					"email": "ivan.enderlin@hoa-project.net"
+				},
+				{
+					"name": "Hoa community",
+					"homepage": "https://hoa-project.net/"
+				}
+			],
+			"description": "The Hoa\\Ustring library.",
+			"homepage": "https://hoa-project.net/",
+			"keywords": [
+				"library",
+				"search",
+				"string",
+				"unicode"
+			],
+			"time": "2017-01-16T07:08:25+00:00"
+		},
+		{
+			"name": "hoa/visitor",
+			"version": "2.17.01.16",
+			"source": {
+				"type": "git",
+				"url": "https://github.com/hoaproject/Visitor.git",
+				"reference": "c18fe1cbac98ae449e0d56e87469103ba08f224a"
+			},
+			"dist": {
+				"type": "zip",
+				"url": "https://api.github.com/repos/hoaproject/Visitor/zipball/c18fe1cbac98ae449e0d56e87469103ba08f224a",
+				"reference": "c18fe1cbac98ae449e0d56e87469103ba08f224a",
+				"shasum": ""
+			},
+			"require": {
+				"hoa/consistency": "~1.0"
+			},
+			"require-dev": {
+				"hoa/test": "~2.0"
+			},
+			"type": "library",
+			"extra": {
+				"branch-alias": {
+					"dev-master": "2.x-dev"
+				}
+			},
+			"autoload": {
+				"psr-4": {
+					"Hoa\\Visitor\\": "."
+				}
+			},
+			"notification-url": "https://packagist.org/downloads/",
+			"license": [
+				"BSD-3-Clause"
+			],
+			"authors": [
+				{
+					"name": "Ivan Enderlin",
+					"email": "ivan.enderlin@hoa-project.net"
+				},
+				{
+					"name": "Hoa community",
+					"homepage": "https://hoa-project.net/"
+				}
+			],
+			"description": "The Hoa\\Visitor library.",
+			"homepage": "https://hoa-project.net/",
+			"keywords": [
+				"library",
+				"structure",
+				"visit",
+				"visitor"
+			],
+			"time": "2017-01-16T07:02:03+00:00"
+		},
+		{
+			"name": "hoa/zformat",
+			"version": "1.17.01.10",
+			"source": {
+				"type": "git",
+				"url": "https://github.com/hoaproject/Zformat.git",
+				"reference": "522c381a2a075d4b9dbb42eb4592dd09520e4ac2"
+			},
+			"dist": {
+				"type": "zip",
+				"url": "https://api.github.com/repos/hoaproject/Zformat/zipball/522c381a2a075d4b9dbb42eb4592dd09520e4ac2",
+				"reference": "522c381a2a075d4b9dbb42eb4592dd09520e4ac2",
+				"shasum": ""
+			},
+			"require": {
+				"hoa/consistency": "~1.0",
+				"hoa/exception": "~1.0"
+			},
+			"type": "library",
+			"extra": {
+				"branch-alias": {
+					"dev-master": "1.x-dev"
+				}
+			},
+			"autoload": {
+				"psr-4": {
+					"Hoa\\Zformat\\": "."
+				}
+			},
+			"notification-url": "https://packagist.org/downloads/",
+			"license": [
+				"BSD-3-Clause"
+			],
+			"authors": [
+				{
+					"name": "Ivan Enderlin",
+					"email": "ivan.enderlin@hoa-project.net"
+				},
+				{
+					"name": "Hoa community",
+					"homepage": "https://hoa-project.net/"
+				}
+			],
+			"description": "The Hoa\\Zformat library.",
+			"homepage": "https://hoa-project.net/",
+			"keywords": [
+				"library",
+				"parameter",
+				"zformat"
+			],
+			"time": "2017-01-10T10:39:54+00:00"
+		},
+		{
+			"name": "jms/metadata",
+			"version": "2.0.0",
+			"source": {
+				"type": "git",
+				"url": "https://github.com/schmittjoh/metadata.git",
+				"reference": "e918c3a65105f73b74d94a0837b9f7d611d5bf0c"
+			},
+			"dist": {
+				"type": "zip",
+				"url": "https://api.github.com/repos/schmittjoh/metadata/zipball/e918c3a65105f73b74d94a0837b9f7d611d5bf0c",
+				"reference": "e918c3a65105f73b74d94a0837b9f7d611d5bf0c",
+				"shasum": ""
+			},
+			"require": {
+				"php": "^7.2"
+			},
+			"require-dev": {
+				"doctrine/cache": "^1.0",
+				"doctrine/coding-standard": "^4.0",
+				"phpunit/phpunit": "^7.0",
+				"symfony/cache": "^3.1|^4.0"
+			},
+			"type": "library",
+			"extra": {
+				"branch-alias": {
+					"dev-master": "2.x-dev"
+				}
+			},
+			"autoload": {
+				"psr-4": {
+					"Metadata\\": "src/"
+				}
+			},
+			"notification-url": "https://packagist.org/downloads/",
+			"license": [
+				"MIT"
+			],
+			"authors": [
+				{
+					"name": "Asmir Mustafic",
+					"email": "goetas@gmail.com"
+				},
+				{
+					"name": "Johannes M. Schmitt",
+					"email": "schmittjoh@gmail.com"
+				}
+			],
+			"description": "Class/method/property metadata management in PHP",
+			"keywords": [
+				"annotations",
+				"metadata",
+				"xml",
+				"yaml"
+			],
+			"time": "2018-11-09T13:57:43+00:00"
+		},
+		{
+			"name": "jms/serializer",
+			"version": "3.0.1",
+			"source": {
+				"type": "git",
+				"url": "https://github.com/schmittjoh/serializer.git",
+				"reference": "bf2bae374e565f443fc01fe60695061366bd3261"
+			},
+			"dist": {
+				"type": "zip",
+				"url": "https://api.github.com/repos/schmittjoh/serializer/zipball/bf2bae374e565f443fc01fe60695061366bd3261",
+				"reference": "bf2bae374e565f443fc01fe60695061366bd3261",
+				"shasum": ""
+			},
+			"require": {
+				"doctrine/annotations": "^1.0",
+				"doctrine/instantiator": "^1.0.3",
+				"hoa/compiler": "^3.17.08.08",
+				"jms/metadata": "^2.0",
+				"php": "^7.2"
+			},
+			"conflict": {
+				"hoa/consistency": "<1.17.05.02",
+				"hoa/core": "*",
+				"hoa/iterator": "<2.16.03.15"
+			},
+			"require-dev": {
+				"doctrine/coding-standard": "^5.0",
+				"doctrine/orm": "~2.1",
+				"doctrine/phpcr-odm": "^1.3|^2.0",
+				"ext-pdo_sqlite": "*",
+				"jackalope/jackalope-doctrine-dbal": "^1.1.5",
+				"phpunit/phpunit": "^7.5",
+				"psr/container": "^1.0",
+				"symfony/dependency-injection": "^3.0|^4.0",
+				"symfony/expression-language": "^3.0|^4.0",
+				"symfony/filesystem": "^3.0|^4.0",
+				"symfony/form": "^3.0|^4.0",
+				"symfony/translation": "^3.0|^4.0",
+				"symfony/validator": "^3.1.9|^4.0",
+				"symfony/yaml": "^3.3|^4.0",
+				"twig/twig": "~1.34|~2.4"
+			},
+			"suggest": {
+				"doctrine/cache": "Required if you like to use cache functionality.",
+				"doctrine/collections": "Required if you like to use doctrine collection types as ArrayCollection.",
+				"symfony/yaml": "Required if you'd like to use the YAML metadata format."
+			},
+			"type": "library",
+			"extra": {
+				"branch-alias": {
+					"dev-master": "3.0-dev"
+				}
+			},
+			"autoload": {
+				"psr-4": {
+					"JMS\\Serializer\\": "src/"
+				}
+			},
+			"notification-url": "https://packagist.org/downloads/",
+			"license": [
+				"MIT"
+			],
+			"authors": [
+				{
+					"name": "Asmir Mustafic",
+					"email": "goetas@gmail.com"
+				},
+				{
+					"name": "Johannes M. Schmitt",
+					"email": "schmittjoh@gmail.com"
+				}
+			],
+			"description": "Library for (de-)serializing data of any complexity; supports XML, JSON, and YAML.",
+			"homepage": "http://jmsyst.com/libs/serializer",
+			"keywords": [
+				"deserialization",
+				"jaxb",
+				"json",
+				"serialization",
+				"xml"
+			],
+			"time": "2019-04-23T17:53:59+00:00"
+		},
+		{
+			"name": "symfony/polyfill-ctype",
+			"version": "v1.11.0",
+			"source": {
+				"type": "git",
+				"url": "https://github.com/symfony/polyfill-ctype.git",
+				"reference": "82ebae02209c21113908c229e9883c419720738a"
+			},
+			"dist": {
+				"type": "zip",
+				"url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/82ebae02209c21113908c229e9883c419720738a",
+				"reference": "82ebae02209c21113908c229e9883c419720738a",
+				"shasum": ""
+			},
+			"require": {
+				"php": ">=5.3.3"
+			},
+			"suggest": {
+				"ext-ctype": "For best performance"
+			},
+			"type": "library",
+			"extra": {
+				"branch-alias": {
+					"dev-master": "1.11-dev"
+				}
+			},
+			"autoload": {
+				"psr-4": {
+					"Symfony\\Polyfill\\Ctype\\": ""
+				},
+				"files": [
+					"bootstrap.php"
+				]
+			},
+			"notification-url": "https://packagist.org/downloads/",
+			"license": [
+				"MIT"
+			],
+			"authors": [
+				{
+					"name": "Symfony Community",
+					"homepage": "https://symfony.com/contributors"
+				},
+				{
+					"name": "Gert de Pagter",
+					"email": "backendtea@gmail.com"
+				}
+			],
+			"description": "Symfony polyfill for ctype functions",
+			"homepage": "https://symfony.com",
+			"keywords": [
+				"compatibility",
+				"ctype",
+				"polyfill",
+				"portable"
+			],
+			"time": "2019-02-06T07:57:58+00:00"
+		},
+		{
+			"name": "symfony/yaml",
+			"version": "v4.2.8",
+			"source": {
+				"type": "git",
+				"url": "https://github.com/symfony/yaml.git",
+				"reference": "6712daf03ee25b53abb14e7e8e0ede1a770efdb1"
+			},
+			"dist": {
+				"type": "zip",
+				"url": "https://api.github.com/repos/symfony/yaml/zipball/6712daf03ee25b53abb14e7e8e0ede1a770efdb1",
+				"reference": "6712daf03ee25b53abb14e7e8e0ede1a770efdb1",
+				"shasum": ""
+			},
+			"require": {
+				"php": "^7.1.3",
+				"symfony/polyfill-ctype": "~1.8"
+			},
+			"conflict": {
+				"symfony/console": "<3.4"
+			},
+			"require-dev": {
+				"symfony/console": "~3.4|~4.0"
+			},
+			"suggest": {
+				"symfony/console": "For validating YAML files using the lint command"
+			},
+			"type": "library",
+			"extra": {
+				"branch-alias": {
+					"dev-master": "4.2-dev"
+				}
+			},
+			"autoload": {
+				"psr-4": {
+					"Symfony\\Component\\Yaml\\": ""
+				},
+				"exclude-from-classmap": [
+					"/Tests/"
+				]
+			},
+			"notification-url": "https://packagist.org/downloads/",
+			"license": [
+				"MIT"
+			],
+			"authors": [
+				{
+					"name": "Fabien Potencier",
+					"email": "fabien@symfony.com"
+				},
+				{
+					"name": "Symfony Community",
+					"homepage": "https://symfony.com/contributors"
+				}
+			],
+			"description": "Symfony Yaml Component",
+			"homepage": "https://symfony.com",
+			"time": "2019-03-30T15:58:42+00:00"
+		}
+	],
+	"packages-dev": [
+		{
+			"name": "doctrine/inflector",
+			"version": "v1.3.0",
+			"source": {
+				"type": "git",
+				"url": "https://github.com/doctrine/inflector.git",
+				"reference": "5527a48b7313d15261292c149e55e26eae771b0a"
+			},
+			"dist": {
+				"type": "zip",
+				"url": "https://api.github.com/repos/doctrine/inflector/zipball/5527a48b7313d15261292c149e55e26eae771b0a",
+				"reference": "5527a48b7313d15261292c149e55e26eae771b0a",
+				"shasum": ""
+			},
+			"require": {
+				"php": "^7.1"
+			},
+			"require-dev": {
+				"phpunit/phpunit": "^6.2"
+			},
+			"type": "library",
+			"extra": {
+				"branch-alias": {
+					"dev-master": "1.3.x-dev"
+				}
+			},
+			"autoload": {
+				"psr-4": {
+					"Doctrine\\Common\\Inflector\\": "lib/Doctrine/Common/Inflector"
+				}
+			},
+			"notification-url": "https://packagist.org/downloads/",
+			"license": [
+				"MIT"
+			],
+			"authors": [
+				{
+					"name": "Roman Borschel",
+					"email": "roman@code-factory.org"
+				},
+				{
+					"name": "Benjamin Eberlei",
+					"email": "kontakt@beberlei.de"
+				},
+				{
+					"name": "Guilherme Blanco",
+					"email": "guilhermeblanco@gmail.com"
+				},
+				{
+					"name": "Jonathan Wage",
+					"email": "jonwage@gmail.com"
+				},
+				{
+					"name": "Johannes Schmitt",
+					"email": "schmittjoh@gmail.com"
+				}
+			],
+			"description": "Common String Manipulations with regard to casing and singular/plural rules.",
+			"homepage": "http://www.doctrine-project.org",
+			"keywords": [
+				"inflection",
+				"pluralize",
+				"singularize",
+				"string"
+			],
+			"time": "2018-01-09T20:05:19+00:00"
+		},
+		{
+			"name": "goetas-webservices/xsd-reader",
+			"version": "v0.3.6",
+			"source": {
+				"type": "git",
+				"url": "https://github.com/goetas-webservices/xsd-reader.git",
+				"reference": "0b3ddc4080b4e00d79291b48dcb761b563f69916"
+			},
+			"dist": {
+				"type": "zip",
+				"url": "https://api.github.com/repos/goetas-webservices/xsd-reader/zipball/0b3ddc4080b4e00d79291b48dcb761b563f69916",
+				"reference": "0b3ddc4080b4e00d79291b48dcb761b563f69916",
+				"shasum": ""
+			},
+			"require": {
+				"php": "^7.1"
+			},
+			"require-dev": {
+				"friendsofphp/php-cs-fixer": "^2.10",
+				"phpstan/phpstan": "^0.9.1",
+				"phpstan/phpstan-strict-rules": "^0.9.0",
+				"phpunit/phpunit": "^6.5",
+				"sebastian/phpcpd": "^3.0",
+				"vimeo/psalm": "^0.3.85"
+			},
+			"type": "library",
+			"extra": {
+				"branch-alias": {
+					"dev-master": "0.3-dev"
+				}
+			},
+			"autoload": {
+				"psr-4": {
+					"GoetasWebservices\\CS\\": "./php-cs-fixer/",
+					"GoetasWebservices\\XML\\XSDReader\\": "src/"
+				}
+			},
+			"notification-url": "https://packagist.org/downloads/",
+			"license": [
+				"MIT"
+			],
+			"authors": [
+				{
+					"name": "Asmir Mustafic",
+					"email": "goetas@lignano.it"
+				}
+			],
+			"description": "Read any XML Schema (XSD) programmatically with PHP",
+			"keywords": [
+				"parser",
+				"php",
+				"xml",
+				"xmlschema",
+				"xsd"
+			],
+			"time": "2019-04-27T12:54:43+00:00"
+		},
+		{
+			"name": "goetas-webservices/xsd2php",
+			"version": "v0.3.8",
+			"source": {
+				"type": "git",
+				"url": "https://github.com/goetas-webservices/xsd2php.git",
+				"reference": "8cc75ce53ca4bcf003bf02dc2ebf94cf39d992c7"
+			},
+			"dist": {
+				"type": "zip",
+				"url": "https://api.github.com/repos/goetas-webservices/xsd2php/zipball/8cc75ce53ca4bcf003bf02dc2ebf94cf39d992c7",
+				"reference": "8cc75ce53ca4bcf003bf02dc2ebf94cf39d992c7",
+				"shasum": ""
+			},
+			"require": {
+				"doctrine/inflector": "^1.0",
+				"goetas-webservices/xsd-reader": "^0.2.7|^0.3.5",
+				"php": "^5.5|^7.0",
+				"psr/log": "^1.0",
+				"symfony/config": "^2.2|^3.0|^4.0",
+				"symfony/console": "^2.7|^3.0|^4.0",
+				"symfony/dependency-injection": "^2.2|^3.0|^4.0",
+				"symfony/yaml": "^2.1|^3.0|^4.0",
+				"zendframework/zend-code": "^3.0.3"
+			},
+			"require-dev": {
+				"ext-xmldiff": "*",
+				"goetas-webservices/xsd2php-runtime": "^0.2.8@dev",
+				"jms/serializer": "^1.9|^2.0|^3.0",
+				"phpunit/phpunit": "^4.8|^5.0"
+			},
+			"bin": [
+				"bin/xsd2php"
+			],
+			"type": "library",
+			"extra": {
+				"branch-alias": {
+					"dev-master": "0.2-dev"
+				}
+			},
+			"autoload": {
+				"psr-4": {
+					"GoetasWebservices\\Xsd\\XsdToPhp\\": "src/"
+				}
+			},
+			"notification-url": "https://packagist.org/downloads/",
+			"license": [
+				"MIT"
+			],
+			"authors": [
+				{
+					"name": "Asmir Mustafic",
+					"email": "goetas@gmail.com"
+				}
+			],
+			"description": "Convert XSD  (XML Schema) definitions into PHP classes and JMS metadata",
+			"keywords": [
+				"converter",
+				"jms",
+				"php",
+				"serializer",
+				"xml",
+				"xsd"
+			],
+			"time": "2019-04-23T07:26:07+00:00"
+		},
+		{
             "name": "myclabs/deep-copy",
-            "version": "1.8.1",
+			"version": "1.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/DeepCopy.git",
-                "reference": "3e01bdad3e18354c3dce54466b7fbe33a9f9f7f8"
+	            "reference": "e6828efaba2c9b79f4499dae1d66ef8bfa7b2b72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/3e01bdad3e18354c3dce54466b7fbe33a9f9f7f8",
-                "reference": "3e01bdad3e18354c3dce54466b7fbe33a9f9f7f8",
+	            "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/e6828efaba2c9b79f4499dae1d66ef8bfa7b2b72",
+	            "reference": "e6828efaba2c9b79f4499dae1d66ef8bfa7b2b72",
                 "shasum": ""
             },
             "require": {
@@ -109,7 +1519,7 @@
                 "object",
                 "object graph"
             ],
-            "time": "2018-06-11T23:09:50+00:00"
+			"time": "2019-04-07T13:18:21+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -269,16 +1679,16 @@
         },
         {
             "name": "phpdocumentor/reflection-docblock",
-            "version": "4.3.0",
+	        "version": "4.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
-                "reference": "94fd0001232e47129dd3504189fa1c7225010d08"
+	            "reference": "bdd9f737ebc2a01c06ea7ff4308ec6697db9b53c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/94fd0001232e47129dd3504189fa1c7225010d08",
-                "reference": "94fd0001232e47129dd3504189fa1c7225010d08",
+	            "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/bdd9f737ebc2a01c06ea7ff4308ec6697db9b53c",
+	            "reference": "bdd9f737ebc2a01c06ea7ff4308ec6697db9b53c",
                 "shasum": ""
             },
             "require": {
@@ -316,7 +1726,7 @@
                 }
             ],
             "description": "With this component, a library can provide support for annotations via DocBlocks or otherwise retrieve information that is embedded in a DocBlock.",
-            "time": "2017-11-30T07:14:17+00:00"
+	        "time": "2019-04-30T17:48:53+00:00"
         },
         {
             "name": "phpdocumentor/type-resolver",
@@ -682,16 +2092,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "7.5.8",
+	        "version": "7.5.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "c29c0525cf4572c11efe1db49a8b8aee9dfac58a"
+	            "reference": "64cb33f5b520da490a7b13149d39b43cf3c890c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c29c0525cf4572c11efe1db49a8b8aee9dfac58a",
-                "reference": "c29c0525cf4572c11efe1db49a8b8aee9dfac58a",
+	            "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/64cb33f5b520da490a7b13149d39b43cf3c890c6",
+	            "reference": "64cb33f5b520da490a7b13149d39b43cf3c890c6",
                 "shasum": ""
             },
             "require": {
@@ -762,7 +2172,103 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2019-03-26T13:23:54+00:00"
+	        "time": "2019-05-14T04:53:02+00:00"
+        },
+		{
+			"name": "psr/container",
+			"version": "1.0.0",
+			"source": {
+				"type": "git",
+				"url": "https://github.com/php-fig/container.git",
+				"reference": "b7ce3b176482dbbc1245ebf52b181af44c2cf55f"
+			},
+			"dist": {
+				"type": "zip",
+				"url": "https://api.github.com/repos/php-fig/container/zipball/b7ce3b176482dbbc1245ebf52b181af44c2cf55f",
+				"reference": "b7ce3b176482dbbc1245ebf52b181af44c2cf55f",
+				"shasum": ""
+			},
+			"require": {
+				"php": ">=5.3.0"
+			},
+			"type": "library",
+			"extra": {
+				"branch-alias": {
+					"dev-master": "1.0.x-dev"
+				}
+			},
+			"autoload": {
+				"psr-4": {
+					"Psr\\Container\\": "src/"
+				}
+			},
+			"notification-url": "https://packagist.org/downloads/",
+			"license": [
+				"MIT"
+			],
+			"authors": [
+				{
+					"name": "PHP-FIG",
+					"homepage": "http://www.php-fig.org/"
+				}
+			],
+			"description": "Common Container Interface (PHP FIG PSR-11)",
+			"homepage": "https://github.com/php-fig/container",
+			"keywords": [
+				"PSR-11",
+				"container",
+				"container-interface",
+				"container-interop",
+				"psr"
+			],
+			"time": "2017-02-14T16:28:37+00:00"
+		},
+		{
+			"name": "psr/log",
+			"version": "1.1.0",
+			"source": {
+				"type": "git",
+				"url": "https://github.com/php-fig/log.git",
+				"reference": "6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd"
+			},
+			"dist": {
+				"type": "zip",
+				"url": "https://api.github.com/repos/php-fig/log/zipball/6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd",
+				"reference": "6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd",
+				"shasum": ""
+			},
+			"require": {
+				"php": ">=5.3.0"
+			},
+			"type": "library",
+			"extra": {
+				"branch-alias": {
+					"dev-master": "1.0.x-dev"
+				}
+			},
+			"autoload": {
+				"psr-4": {
+					"Psr\\Log\\": "Psr/Log/"
+				}
+			},
+			"notification-url": "https://packagist.org/downloads/",
+			"license": [
+				"MIT"
+			],
+			"authors": [
+				{
+					"name": "PHP-FIG",
+					"homepage": "http://www.php-fig.org/"
+				}
+			],
+			"description": "Common interface for logging libraries",
+			"homepage": "https://github.com/php-fig/log",
+			"keywords": [
+				"log",
+				"psr",
+				"psr-3"
+			],
+			"time": "2018-11-20T15:27:04+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -931,16 +2437,16 @@
         },
         {
             "name": "sebastian/environment",
-            "version": "4.1.0",
+	        "version": "4.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/environment.git",
-                "reference": "6fda8ce1974b62b14935adc02a9ed38252eca656"
+	            "reference": "f2a2c8e1c97c11ace607a7a667d73d47c19fe404"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/6fda8ce1974b62b14935adc02a9ed38252eca656",
-                "reference": "6fda8ce1974b62b14935adc02a9ed38252eca656",
+	            "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/f2a2c8e1c97c11ace607a7a667d73d47c19fe404",
+	            "reference": "f2a2c8e1c97c11ace607a7a667d73d47c19fe404",
                 "shasum": ""
             },
             "require": {
@@ -955,7 +2461,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.1-dev"
+	                "dev-master": "4.2-dev"
                 }
             },
             "autoload": {
@@ -980,7 +2486,7 @@
                 "environment",
                 "hhvm"
             ],
-            "time": "2019-02-01T05:27:49+00:00"
+	        "time": "2019-05-05T09:05:15+00:00"
         },
         {
             "name": "sebastian/exporter",
@@ -1331,24 +2837,353 @@
             "time": "2016-10-03T07:35:21+00:00"
         },
         {
-            "name": "symfony/polyfill-ctype",
+	        "name": "symfony/config",
+	        "version": "v4.2.8",
+	        "source": {
+		        "type": "git",
+		        "url": "https://github.com/symfony/config.git",
+		        "reference": "0e745ead307d5dcd4e163e94a47ec04b1428943f"
+	        },
+	        "dist": {
+		        "type": "zip",
+		        "url": "https://api.github.com/repos/symfony/config/zipball/0e745ead307d5dcd4e163e94a47ec04b1428943f",
+		        "reference": "0e745ead307d5dcd4e163e94a47ec04b1428943f",
+		        "shasum": ""
+	        },
+	        "require": {
+		        "php": "^7.1.3",
+		        "symfony/filesystem": "~3.4|~4.0",
+		        "symfony/polyfill-ctype": "~1.8"
+	        },
+	        "conflict": {
+		        "symfony/finder": "<3.4"
+	        },
+	        "require-dev": {
+		        "symfony/dependency-injection": "~3.4|~4.0",
+		        "symfony/event-dispatcher": "~3.4|~4.0",
+		        "symfony/finder": "~3.4|~4.0",
+		        "symfony/yaml": "~3.4|~4.0"
+	        },
+	        "suggest": {
+		        "symfony/yaml": "To use the yaml reference dumper"
+	        },
+	        "type": "library",
+	        "extra": {
+		        "branch-alias": {
+			        "dev-master": "4.2-dev"
+		        }
+	        },
+	        "autoload": {
+		        "psr-4": {
+			        "Symfony\\Component\\Config\\": ""
+		        },
+		        "exclude-from-classmap": [
+			        "/Tests/"
+		        ]
+	        },
+	        "notification-url": "https://packagist.org/downloads/",
+	        "license": [
+		        "MIT"
+	        ],
+	        "authors": [
+		        {
+			        "name": "Fabien Potencier",
+			        "email": "fabien@symfony.com"
+		        },
+		        {
+			        "name": "Symfony Community",
+			        "homepage": "https://symfony.com/contributors"
+		        }
+	        ],
+	        "description": "Symfony Config Component",
+	        "homepage": "https://symfony.com",
+	        "time": "2019-04-01T14:03:25+00:00"
+        },
+		{
+			"name": "symfony/console",
+			"version": "v4.2.8",
+			"source": {
+				"type": "git",
+				"url": "https://github.com/symfony/console.git",
+				"reference": "e2840bb38bddad7a0feaf85931e38fdcffdb2f81"
+			},
+			"dist": {
+				"type": "zip",
+				"url": "https://api.github.com/repos/symfony/console/zipball/e2840bb38bddad7a0feaf85931e38fdcffdb2f81",
+				"reference": "e2840bb38bddad7a0feaf85931e38fdcffdb2f81",
+				"shasum": ""
+			},
+			"require": {
+				"php": "^7.1.3",
+				"symfony/contracts": "^1.0",
+				"symfony/polyfill-mbstring": "~1.0"
+			},
+			"conflict": {
+				"symfony/dependency-injection": "<3.4",
+				"symfony/process": "<3.3"
+			},
+			"provide": {
+				"psr/log-implementation": "1.0"
+			},
+			"require-dev": {
+				"psr/log": "~1.0",
+				"symfony/config": "~3.4|~4.0",
+				"symfony/dependency-injection": "~3.4|~4.0",
+				"symfony/event-dispatcher": "~3.4|~4.0",
+				"symfony/lock": "~3.4|~4.0",
+				"symfony/process": "~3.4|~4.0"
+			},
+			"suggest": {
+				"psr/log": "For using the console logger",
+				"symfony/event-dispatcher": "",
+				"symfony/lock": "",
+				"symfony/process": ""
+			},
+			"type": "library",
+			"extra": {
+				"branch-alias": {
+					"dev-master": "4.2-dev"
+				}
+			},
+			"autoload": {
+				"psr-4": {
+					"Symfony\\Component\\Console\\": ""
+				},
+				"exclude-from-classmap": [
+					"/Tests/"
+				]
+			},
+			"notification-url": "https://packagist.org/downloads/",
+			"license": [
+				"MIT"
+			],
+			"authors": [
+				{
+					"name": "Fabien Potencier",
+					"email": "fabien@symfony.com"
+				},
+				{
+					"name": "Symfony Community",
+					"homepage": "https://symfony.com/contributors"
+				}
+			],
+			"description": "Symfony Console Component",
+			"homepage": "https://symfony.com",
+			"time": "2019-04-08T14:23:48+00:00"
+		},
+		{
+			"name": "symfony/contracts",
+			"version": "v1.1.0",
+			"source": {
+				"type": "git",
+				"url": "https://github.com/symfony/contracts.git",
+				"reference": "d3636025e8253c6144358ec0a62773cae588395b"
+			},
+			"dist": {
+				"type": "zip",
+				"url": "https://api.github.com/repos/symfony/contracts/zipball/d3636025e8253c6144358ec0a62773cae588395b",
+				"reference": "d3636025e8253c6144358ec0a62773cae588395b",
+				"shasum": ""
+			},
+			"require": {
+				"php": "^7.1.3"
+			},
+			"require-dev": {
+				"psr/cache": "^1.0",
+				"psr/container": "^1.0",
+				"symfony/polyfill-intl-idn": "^1.10"
+			},
+			"suggest": {
+				"psr/cache": "When using the Cache contracts",
+				"psr/container": "When using the Service contracts",
+				"symfony/cache-contracts-implementation": "",
+				"symfony/event-dispatcher-implementation": "",
+				"symfony/http-client-contracts-implementation": "",
+				"symfony/service-contracts-implementation": "",
+				"symfony/translation-contracts-implementation": ""
+			},
+			"type": "library",
+			"extra": {
+				"branch-alias": {
+					"dev-master": "1.1-dev"
+				}
+			},
+			"autoload": {
+				"psr-4": {
+					"Symfony\\Contracts\\": ""
+				},
+				"exclude-from-classmap": [
+					"**/Tests/"
+				]
+			},
+			"notification-url": "https://packagist.org/downloads/",
+			"license": [
+				"MIT"
+			],
+			"authors": [
+				{
+					"name": "Nicolas Grekas",
+					"email": "p@tchwork.com"
+				},
+				{
+					"name": "Symfony Community",
+					"homepage": "https://symfony.com/contributors"
+				}
+			],
+			"description": "A set of abstractions extracted out of the Symfony components",
+			"homepage": "https://symfony.com",
+			"keywords": [
+				"abstractions",
+				"contracts",
+				"decoupling",
+				"interfaces",
+				"interoperability",
+				"standards"
+			],
+			"time": "2019-04-27T14:29:50+00:00"
+		},
+		{
+			"name": "symfony/dependency-injection",
+			"version": "v4.2.8",
+			"source": {
+				"type": "git",
+				"url": "https://github.com/symfony/dependency-injection.git",
+				"reference": "d161c0c8bc77ad6fdb8f5083b9e34c3015d43eb1"
+			},
+			"dist": {
+				"type": "zip",
+				"url": "https://api.github.com/repos/symfony/dependency-injection/zipball/d161c0c8bc77ad6fdb8f5083b9e34c3015d43eb1",
+				"reference": "d161c0c8bc77ad6fdb8f5083b9e34c3015d43eb1",
+				"shasum": ""
+			},
+			"require": {
+				"php": "^7.1.3",
+				"psr/container": "^1.0",
+				"symfony/contracts": "^1.0"
+			},
+			"conflict": {
+				"symfony/config": "<4.2",
+				"symfony/finder": "<3.4",
+				"symfony/proxy-manager-bridge": "<3.4",
+				"symfony/yaml": "<3.4"
+			},
+			"provide": {
+				"psr/container-implementation": "1.0",
+				"symfony/service-contracts-implementation": "1.0"
+			},
+			"require-dev": {
+				"symfony/config": "~4.2",
+				"symfony/expression-language": "~3.4|~4.0",
+				"symfony/yaml": "~3.4|~4.0"
+			},
+			"suggest": {
+				"symfony/config": "",
+				"symfony/expression-language": "For using expressions in service container configuration",
+				"symfony/finder": "For using double-star glob patterns or when GLOB_BRACE portability is required",
+				"symfony/proxy-manager-bridge": "Generate service proxies to lazy load them",
+				"symfony/yaml": ""
+			},
+			"type": "library",
+			"extra": {
+				"branch-alias": {
+					"dev-master": "4.2-dev"
+				}
+			},
+			"autoload": {
+				"psr-4": {
+					"Symfony\\Component\\DependencyInjection\\": ""
+				},
+				"exclude-from-classmap": [
+					"/Tests/"
+				]
+			},
+			"notification-url": "https://packagist.org/downloads/",
+			"license": [
+				"MIT"
+			],
+			"authors": [
+				{
+					"name": "Fabien Potencier",
+					"email": "fabien@symfony.com"
+				},
+				{
+					"name": "Symfony Community",
+					"homepage": "https://symfony.com/contributors"
+				}
+			],
+			"description": "Symfony DependencyInjection Component",
+			"homepage": "https://symfony.com",
+			"time": "2019-04-27T11:48:17+00:00"
+		},
+		{
+			"name": "symfony/filesystem",
+			"version": "v4.2.8",
+			"source": {
+				"type": "git",
+				"url": "https://github.com/symfony/filesystem.git",
+				"reference": "e16b9e471703b2c60b95f14d31c1239f68f11601"
+			},
+			"dist": {
+				"type": "zip",
+				"url": "https://api.github.com/repos/symfony/filesystem/zipball/e16b9e471703b2c60b95f14d31c1239f68f11601",
+				"reference": "e16b9e471703b2c60b95f14d31c1239f68f11601",
+				"shasum": ""
+			},
+			"require": {
+				"php": "^7.1.3",
+				"symfony/polyfill-ctype": "~1.8"
+			},
+			"type": "library",
+			"extra": {
+				"branch-alias": {
+					"dev-master": "4.2-dev"
+				}
+			},
+			"autoload": {
+				"psr-4": {
+					"Symfony\\Component\\Filesystem\\": ""
+				},
+				"exclude-from-classmap": [
+					"/Tests/"
+				]
+			},
+			"notification-url": "https://packagist.org/downloads/",
+			"license": [
+				"MIT"
+			],
+			"authors": [
+				{
+					"name": "Fabien Potencier",
+					"email": "fabien@symfony.com"
+				},
+				{
+					"name": "Symfony Community",
+					"homepage": "https://symfony.com/contributors"
+				}
+			],
+			"description": "Symfony Filesystem Component",
+			"homepage": "https://symfony.com",
+			"time": "2019-02-07T11:40:08+00:00"
+		},
+		{
+			"name": "symfony/polyfill-mbstring",
             "version": "v1.11.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/polyfill-ctype.git",
-                "reference": "82ebae02209c21113908c229e9883c419720738a"
+	            "url": "https://github.com/symfony/polyfill-mbstring.git",
+	            "reference": "fe5e94c604826c35a32fa832f35bd036b6799609"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/82ebae02209c21113908c229e9883c419720738a",
-                "reference": "82ebae02209c21113908c229e9883c419720738a",
+	            "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/fe5e94c604826c35a32fa832f35bd036b6799609",
+	            "reference": "fe5e94c604826c35a32fa832f35bd036b6799609",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
             "suggest": {
-                "ext-ctype": "For best performance"
+	            "ext-mbstring": "For best performance"
             },
             "type": "library",
             "extra": {
@@ -1358,7 +3193,7 @@
             },
             "autoload": {
                 "psr-4": {
-                    "Symfony\\Polyfill\\Ctype\\": ""
+	                "Symfony\\Polyfill\\Mbstring\\": ""
                 },
                 "files": [
                     "bootstrap.php"
@@ -1370,36 +3205,37 @@
             ],
             "authors": [
                 {
+	                "name": "Nicolas Grekas",
+	                "email": "p@tchwork.com"
+                },
+	            {
                     "name": "Symfony Community",
                     "homepage": "https://symfony.com/contributors"
-                },
-                {
-                    "name": "Gert de Pagter",
-                    "email": "backendtea@gmail.com"
                 }
             ],
-            "description": "Symfony polyfill for ctype functions",
+			"description": "Symfony polyfill for the Mbstring extension",
             "homepage": "https://symfony.com",
             "keywords": [
                 "compatibility",
-                "ctype",
+	            "mbstring",
                 "polyfill",
-                "portable"
+	            "portable",
+	            "shim"
             ],
             "time": "2019-02-06T07:57:58+00:00"
         },
         {
             "name": "theseer/tokenizer",
-            "version": "1.1.0",
+	        "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/theseer/tokenizer.git",
-                "reference": "cb2f008f3f05af2893a87208fe6a6c4985483f8b"
+	            "reference": "1c42705be2b6c1de5904f8afacef5895cab44bf8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/theseer/tokenizer/zipball/cb2f008f3f05af2893a87208fe6a6c4985483f8b",
-                "reference": "cb2f008f3f05af2893a87208fe6a6c4985483f8b",
+	            "url": "https://api.github.com/repos/theseer/tokenizer/zipball/1c42705be2b6c1de5904f8afacef5895cab44bf8",
+	            "reference": "1c42705be2b6c1de5904f8afacef5895cab44bf8",
                 "shasum": ""
             },
             "require": {
@@ -1426,7 +3262,7 @@
                 }
             ],
             "description": "A small library for converting tokenized PHP source code into XML and potentially other formats",
-            "time": "2017-04-07T12:08:54+00:00"
+	        "time": "2019-04-04T09:56:43+00:00"
         },
         {
             "name": "webmozart/assert",
@@ -1478,6 +3314,113 @@
                 "validate"
             ],
             "time": "2018-12-25T11:19:39+00:00"
+        },
+		{
+			"name": "zendframework/zend-code",
+			"version": "3.3.1",
+			"source": {
+				"type": "git",
+				"url": "https://github.com/zendframework/zend-code.git",
+				"reference": "c21db169075c6ec4b342149f446e7b7b724f95eb"
+			},
+			"dist": {
+				"type": "zip",
+				"url": "https://api.github.com/repos/zendframework/zend-code/zipball/c21db169075c6ec4b342149f446e7b7b724f95eb",
+				"reference": "c21db169075c6ec4b342149f446e7b7b724f95eb",
+				"shasum": ""
+			},
+			"require": {
+				"php": "^7.1",
+				"zendframework/zend-eventmanager": "^2.6 || ^3.0"
+			},
+			"require-dev": {
+				"doctrine/annotations": "~1.0",
+				"ext-phar": "*",
+				"phpunit/phpunit": "^6.2.3",
+				"zendframework/zend-coding-standard": "^1.0.0",
+				"zendframework/zend-stdlib": "^2.7 || ^3.0"
+			},
+			"suggest": {
+				"doctrine/annotations": "Doctrine\\Common\\Annotations >=1.0 for annotation features",
+				"zendframework/zend-stdlib": "Zend\\Stdlib component"
+			},
+			"type": "library",
+			"extra": {
+				"branch-alias": {
+					"dev-master": "3.3.x-dev",
+					"dev-develop": "3.4.x-dev"
+				}
+			},
+			"autoload": {
+				"psr-4": {
+					"Zend\\Code\\": "src/"
+				}
+			},
+			"notification-url": "https://packagist.org/downloads/",
+			"license": [
+				"BSD-3-Clause"
+			],
+			"description": "provides facilities to generate arbitrary code using an object oriented interface",
+			"homepage": "https://github.com/zendframework/zend-code",
+			"keywords": [
+				"code",
+				"zf2"
+			],
+			"time": "2018-08-13T20:36:59+00:00"
+		},
+		{
+			"name": "zendframework/zend-eventmanager",
+			"version": "3.2.1",
+			"source": {
+				"type": "git",
+				"url": "https://github.com/zendframework/zend-eventmanager.git",
+				"reference": "a5e2583a211f73604691586b8406ff7296a946dd"
+			},
+			"dist": {
+				"type": "zip",
+				"url": "https://api.github.com/repos/zendframework/zend-eventmanager/zipball/a5e2583a211f73604691586b8406ff7296a946dd",
+				"reference": "a5e2583a211f73604691586b8406ff7296a946dd",
+				"shasum": ""
+			},
+			"require": {
+				"php": "^5.6 || ^7.0"
+			},
+			"require-dev": {
+				"athletic/athletic": "^0.1",
+				"container-interop/container-interop": "^1.1.0",
+				"phpunit/phpunit": "^5.7.27 || ^6.5.8 || ^7.1.2",
+				"zendframework/zend-coding-standard": "~1.0.0",
+				"zendframework/zend-stdlib": "^2.7.3 || ^3.0"
+			},
+			"suggest": {
+				"container-interop/container-interop": "^1.1.0, to use the lazy listeners feature",
+				"zendframework/zend-stdlib": "^2.7.3 || ^3.0, to use the FilterChain feature"
+			},
+			"type": "library",
+			"extra": {
+				"branch-alias": {
+					"dev-master": "3.2-dev",
+					"dev-develop": "3.3-dev"
+				}
+			},
+			"autoload": {
+				"psr-4": {
+					"Zend\\EventManager\\": "src/"
+				}
+			},
+			"notification-url": "https://packagist.org/downloads/",
+			"license": [
+				"BSD-3-Clause"
+			],
+			"description": "Trigger and listen to events within a PHP application",
+			"homepage": "https://github.com/zendframework/zend-eventmanager",
+			"keywords": [
+				"event",
+				"eventmanager",
+				"events",
+				"zf2"
+			],
+			"time": "2018-04-25T15:33:34+00:00"
         }
     ],
     "aliases": [],

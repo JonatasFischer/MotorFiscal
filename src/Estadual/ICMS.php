@@ -907,6 +907,4 @@ class ICMS extends Base
         
         return $this;
     }
-    
-    
 }

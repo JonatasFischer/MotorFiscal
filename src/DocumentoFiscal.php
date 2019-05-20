@@ -7,6 +7,7 @@ use MotorFiscal\Estadual\ICMSTot;
 use MotorFiscal\Estadual\ICMSUFDest;
 use MotorFiscal\Estadual\ParametrosTributacaoICMS;
 use MotorFiscal\Federal\COFINS;
+use MotorFiscal\Federal\IPI;
 use MotorFiscal\Federal\PIS;
 use MotorFiscal\Federal\RetTrib;
 use MotorFiscal\Municipal\ISSQN;
@@ -377,7 +378,7 @@ class DocumentoFiscal extends Base
         if (empty($this->emit)) {
             throw new Exception('Informe o Emitente da nota fiscal antes de adicionar um produto');
         }
-        if ($this->emit()->ContribuinteIPI() === null) {
+        if ($this->emit()->contribuinteIPI() === null) {
             throw new Exception('Informe se o Emitente é contribuinte do IPI');
         }
         
@@ -457,8 +458,8 @@ class DocumentoFiscal extends Base
     {
         $item = $this->calcularTributacaoIPI($item);
         /* ============================= Calculo da Tributacao do ICMS =================== */
-        
-        $tributacaoICMS = $this->getTribICMS($item->prod(), $item->Operacao());
+    
+        $tributacaoICMS = $this->getTribICMS($item->prod(), $item->operacao());
         
         $item->imposto()->ICMS()->assign($tributacaoICMS);
         
@@ -475,8 +476,8 @@ class DocumentoFiscal extends Base
             /* Calcula valor de crédito do ICMS */
             $vBC_ICMS_CredSN = $item->prod()->vProd() - $item->prod()->vDesc() + $item->prod()->vSeg() + $item->prod()
                                                                                                               ->vOutro();
-            
-            if ($tributacaoICMS->IncluirIPIBaseICMS() && $this->emit()->ContribuinteIPI()) {
+    
+            if ($tributacaoICMS->IncluirIPIBaseICMS() && $this->emit()->contribuinteIPI()) {
                 $vBC_ICMS_CredSN += is_numeric($item->imposto()->IPI()->vIPI())
                     ? $item->imposto()->IPI()->vIPI()
                     : 0;
@@ -489,20 +490,20 @@ class DocumentoFiscal extends Base
             switch ($item->imposto()->ICMS()->CSOSN()) {
                 case '101':
                 case '201':
-                    if ($this->emit()->PercCreditoSimples()) {
+                    if ($this->emit()->percCreditoSimples()) {
                         /* N29 */
-                        $item->imposto()->ICMS()->setPCredSN($this->emit()->PercCreditoSimples());
+                        $item->imposto()->ICMS()->setPCredSN($this->emit()->percCreditoSimples());
                         /* N30 */
                         $item->imposto()->ICMS()->setVCredICMSSN((round($item->imposto()->ICMS()->pCredSN()
                                                                         * $vBC_ICMS_CredSN / 100, 2) * 100) / 100);
                     }
                     break;
                 case '900':
-                    if ($item->Operacao()->isDevolucao($item->prod()->CFOP())) {
+                    if ($item->operacao()->isDevolucao($item->prod()->CFOP())) {
                         $item = $this->calcularTributacaoIntegral($item, $tributacaoICMS);
-                    } elseif ($this->emit()->PercCreditoSimples() > 0 && $tributacaoICMS->DestacarICMS() == 1) {
+                    } elseif ($this->emit()->percCreditoSimples() > 0 && $tributacaoICMS->destacarICMS() == 1) {
                         /* N29 */
-                        $item->imposto()->ICMS()->setPCredSN($this->emit()->PercCreditoSimples());
+                        $item->imposto()->ICMS()->setPCredSN($this->emit()->percCreditoSimples());
                         /* N30 */
                         $item->imposto()->ICMS()->setVCredICMSSN(ceil(round($item->imposto()->ICMS()->pCredSN()
                                                                             * $vBC_ICMS_CredSN / 100, 2) * 100) / 100);
@@ -525,7 +526,7 @@ class DocumentoFiscal extends Base
                 case '51':
                 case '70':
                 case '90':
-                    $this->calcularTributacaoIntegral($item, $tributacaoICMS, $item->prod());
+                    $this->calcularTributacaoIntegral($item, $tributacaoICMS);
                     
                     break;
             }
@@ -572,7 +573,7 @@ class DocumentoFiscal extends Base
                                        + $item->prod()->vSeg() + $item->prod()->vOutro();
                         /* Incluindo IPI na base do ICMS-ST */
                         //se o Emitente é contribuinte do IPI
-                        if ($this->emit()->ContribuinteIPI()) {
+                        if ($this->emit()->contribuinteIPI()) {
                             $vBC_ICMS_ST += $item->imposto()->IPI()->vIPI()
                                 ? : 0;
                         }
@@ -617,17 +618,17 @@ class DocumentoFiscal extends Base
                     } else {
                         if ($item->prod()->formaAquisicao() === 1) {
                             /* I08 */
-                            $item->prod()->setCFOP($item->Operacao()->CFOPMercadoriaST());
+                            $item->prod()->setCFOP($item->operacao()->CFOPMercadoriaST());
                         } else {
                             /* I08 */
-                            $item->prod()->setCFOP($item->Operacao()->CFOPProdutoST());
+                            $item->prod()->setCFOP($item->operacao()->CFOPProdutoST());
                         }
                     }
                 }
                 break;
             case '60':
             case '500':
-                /* I08 */ $item->prod()->setCFOP($item->Operacao()->CFOPMercadoriaSTSubstituido());
+                /* I08 */ $item->prod()->setCFOP($item->operacao()->CFOPMercadoriaSTSubstituido());
                 break;
         }
         
@@ -638,59 +639,26 @@ class DocumentoFiscal extends Base
     private function &calcularTributacaoIPI(ItemFiscal $item)
     {
         /* ================= Calcula Tributação do IPI ============================== */
-        if (isset($this->buscaTribFunctionIPI) && $this->emit()->ContribuinteIPI()) {
-            $tributacaoIPI = $this->getTribIPI($item->prod(), $item->Operacao());
-            $item->imposto()->IPI()->assign($tributacaoIPI);
-            $item->imposto()->IPI()->setCST($tributacaoIPI->CST);
-            $item->imposto()->IPI()->setClEnq($tributacaoIPI->clEnq);
-            $item->imposto()->IPI()->setCNPJProd($tributacaoIPI->CNPJProd);
-            $item->imposto()->IPI()->setCSelo($tributacaoIPI->cSelo);
-            $item->imposto()->IPI()->setQSelo($tributacaoIPI->qSelo);
-            $item->imposto()->IPI()->setCEnq($tributacaoIPI->cEnq);
-            
-            switch ($item->imposto()->IPI()->CST()) {
-                case '00':
-                case '49':
-                case '50':
-                case '99':
-                    
-                    if ($item->prod()->tipoTributacaoIPI() == 0) {/* Tributado por aliquota */
-                        /* O10 */
-                        $item->imposto()->IPI()->setVBC($item->prod()->vProd() - $item->prod()->vDesc());
-                        /* O13 */
-                        $item->imposto()->IPI()->setPIPI($tributacaoIPI->Aliquota);
-                        /* O14 */
-                        $item->imposto()->IPI()->setVIPI(round($item->imposto()->IPI()->vBC() * $item->imposto()
-                                                                                                     ->IPI()
-                                                                                                     ->pIPI()) / 100,
-                            2);
-                    } else { /* Tributado por quantidade */
-                        /* O11 */
-                        $item->imposto()->IPI()->setQUnid($item->prod()->qTrib());
-                        /* O12 */
-                        $item->imposto()->IPI()->setVUnid($tributacaoIPI->vUnidTribIPI);
-                        /* O14 */
-                        $item->imposto()->IPI()->setVIPI($item->imposto()->IPI()->qUnid() * $item->imposto()
-                                                                                                 ->IPI()
-                                                                                                 ->vUnid());
-                    }
-                    break;
-            }
+        if (isset($this->buscaTribFunctionIPI) && $this->emit()->contribuinteIPI()) {
+            $tributacaoIPI = $this->getTribIPI($item->prod(), $item->operacao());
+            $item->imposto()->setIPI(IPI::Createfrom($item, $tributacaoIPI));
         }
-        
+
         return $item;
     }
     
     
-    private function getTribIPI(Produto $produto, Operacao $operacao)
+    private function getTribIPI(ItemFiscal $item)
     {
         $callback = $this->buscaTribFunctionIPI;
+    
+        if (!$this->tipoParametroPesquisa() === self::IDENTIFICADOR) {
         
-        if (!$this->tipoParametroPesquisa === self::IDENTIFICADOR) {
-            return $callback($produto->identificador(), $operacao->identificador(), $this->emit()->identificador(),
-                $this->dest->identificador());
+            return $callback($item->prod()->identificador(), $item->operacao()->identificador(),
+                $this->emit()->identificador(), $this->dest->identificador());
         } else {
-            return $callback($produto, $operacao, $this->emit, $this->dest);
+        
+            return $callback($item->prod(), $item->operacao(), $this->emit, $this->dest);
         }
     }
     
@@ -726,8 +694,8 @@ class DocumentoFiscal extends Base
         if ($item->imposto()->ICMS()->modBC() === 3 || $item->imposto()->ICMS()->modBC() === 0) {
             $vBC_ICMS = $item->prod()->vProd() - $item->prod()->vDesc() + $item->prod()->vSeg() + $item->prod()
                                                                                                        ->vOutro();
-            
-            if ($tributacaoICMS->IncluirIPIBaseICMS() && $this->emit()->ContribuinteIPI()) {
+    
+            if ($tributacaoICMS->IncluirIPIBaseICMS() && $this->emit()->contribuinteIPI()) {
                 $vBC_ICMS += is_numeric($item->imposto()->IPI()->vIPI())
                     ? $item->imposto()->IPI()->vIPI()
                     : 0;
@@ -768,7 +736,7 @@ class DocumentoFiscal extends Base
         }
         
         //destaca o ICMS apenas se estiver configurado para destacar o ICMS
-        if ($tributacaoICMS->DestacarICMS() == 1) {
+        if ($tributacaoICMS->destacarICMS() == 1) {
             /* N15 */
             $item->imposto()->ICMS()->setVBC(number_format($vBC_ICMS, 2, '.', ''));
             /* N17 */
@@ -820,7 +788,7 @@ class DocumentoFiscal extends Base
          ****************************************************************/
         
         //se for operação interestadual para consumidor final e o emitente não for simples nacional
-        if ($tributacaoICMS->DestacarICMS() == 1
+        if ($tributacaoICMS->destacarICMS() == 1
             && $this->emit()->UF() != $this->dest()->UF()
             && $this->ide()->indFinal() == 1) {
             
@@ -865,7 +833,7 @@ class DocumentoFiscal extends Base
     private function &calcularTributacaoServicos(ItemFiscal $item)
     {
         if ($item->prod()->tipoItem() === Produto::SERVICO) {
-            $tributacaoISSQN = $this->getTribISSQN($item->prod(), $item->Operacao());
+            $tributacaoISSQN = $this->getTribISSQN($item->prod(), $item->operacao());
             
             $item->imposto()->setISSQN(ISSQN::createfrom($item, $tributacaoISSQN, $this->emit()));
         }

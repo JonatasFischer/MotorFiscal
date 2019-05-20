@@ -3,6 +3,7 @@
 namespace MotorFiscal\Federal;
 
 use MotorFiscal\Base;
+use MotorFiscal\ItemFiscal;
 
 /**
  * Classe com todas as informações para escrituração do IPI.
@@ -304,5 +305,46 @@ class IPI extends Base
         $this->vIPI = $vIPI;
         
         return $this;
+    }
+    
+    
+    public static function createfrom(ItemFiscal $item, $tributacaoIPI)
+    {
+        
+        $IPI = new self();
+        
+        $IPI->assign($tributacaoIPI);
+        $IPI->setCST($tributacaoIPI->CST);
+        $IPI->setClEnq($tributacaoIPI->clEnq);
+        $IPI->setCNPJProd($tributacaoIPI->CNPJProd);
+        $IPI->setCSelo($tributacaoIPI->cSelo);
+        $IPI->setQSelo($tributacaoIPI->qSelo);
+        $IPI->setCEnq($tributacaoIPI->cEnq);
+        
+        switch ($IPI->CST()) {
+            case '00':
+            case '49':
+            case '50':
+            case '99':
+                
+                if ($item->prod()->tipoTributacaoIPI() == 0) {/* Tributado por aliquota */
+                    /* O10 */
+                    $IPI->setVBC($item->prod()->vProd() - $item->prod()->vDesc());
+                    /* O13 */
+                    $IPI->setPIPI($tributacaoIPI->Aliquota);
+                    /* O14 */
+                    $IPI->setVIPI(round($IPI->vBC() * $IPI->pIPI()) / 100, 2);
+                } else { /* Tributado por quantidade */
+                    /* O11 */
+                    $IPI->setQUnid($item->prod()->qTrib());
+                    /* O12 */
+                    $IPI->setVUnid($tributacaoIPI->vUnidTribIPI);
+                    /* O14 */
+                    $IPI->setVIPI($IPI->qUnid() * $IPI->vUnid());
+                }
+                break;
+        }
+        
+        return $IPI;
     }
 }

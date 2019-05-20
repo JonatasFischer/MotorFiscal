@@ -35,7 +35,7 @@ class Imposto extends Base
      *
      * @var \MotorFiscal\Federal\IPI
      */
-    protected $IPI;
+    private $IPI;
     
     /**
      * NF-e/NFC-e :P01 - II.
@@ -95,7 +95,7 @@ class Imposto extends Base
             $imposto->ICMS()->setOrig($produto->origemMercadoria());
             
             //se o emitente é contribuinte do IPI
-            if ($documento->emit()->ContribuinteIPI()) {
+            if ($documento->emit()->contribuinteIPI()) {
                 $imposto->IPI = new IPI();
             }
         } else {

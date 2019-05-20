@@ -117,10 +117,10 @@ class COFINS extends Base
         }
         
         if ($documento->tipoParametroPesquisa() === DocumentoFiscal::IDENTIFICADOR) {
-            $tributacaoCOFINS = $callback($item->prod()->identificador(), $item->Operacao()->identificador(),
+            $tributacaoCOFINS = $callback($item->prod()->identificador(), $item->operacao()->identificador(),
                 $documento->emit()->identificador(), $documento->dest()->identificador());
         } else {
-            $tributacaoCOFINS = $callback($item->prod(), $item->Operacao(), $documento->emit(), $documento->dest());
+            $tributacaoCOFINS = $callback($item->prod(), $item->operacao(), $documento->emit(), $documento->dest());
         }
         
         return $tributacaoCOFINS;

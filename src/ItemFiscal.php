@@ -57,7 +57,7 @@ class ItemFiscal extends Base
         if ($produto->tipoItem() === Produto::PRODUTO) {
             if ($item->prod()->formaAquisicao() === 1) {
                 /* I08 */
-                $item->prod()->setCFOP($item->Operacao()->CFOPMercadoria());
+                $item->prod()->setCFOP($item->operacao()->CFOPMercadoria());
             } else {
                 /* I08 */
                 $item->prod()->setCFOP($operacao->CFOPProduto());
@@ -93,7 +93,7 @@ class ItemFiscal extends Base
     /**
      * @return \MotorFiscal\Operacao
      */
-    public function Operacao()
+    public function operacao()
     {
         return $this->Operacao;
     }

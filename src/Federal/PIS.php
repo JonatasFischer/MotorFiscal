@@ -119,10 +119,10 @@ class PIS extends Base
         }
         
         if ($documento->tipoParametroPesquisa() === DocumentoFiscal::IDENTIFICADOR) {
-            $tributacaoPIS = $callback($item->prod()->identificador(), $item->Operacao()->identificador(),
+            $tributacaoPIS = $callback($item->prod()->identificador(), $item->operacao()->identificador(),
                 $documento->emit()->identificador(), $documento->dest()->identificador());
         } else {
-            $tributacaoPIS = $callback($item->prod(), $item->Operacao(), $documento->emit(), $documento->dest());
+            $tributacaoPIS = $callback($item->prod(), $item->operacao(), $documento->emit(), $documento->dest());
         }
         
         return $tributacaoPIS;
