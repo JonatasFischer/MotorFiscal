@@ -101,7 +101,7 @@ class Imposto extends Base
             }
             
             if ($documento->emit()->UF() != $documento->dest()->UF() && $documento->ide()->indFinal() == 1) {
-                $imposto->setICMSUFDest(new ICMSUFDest());
+                $imposto->ICMSUFDest = new ICMSUFDest();
             }
         } else {
             $imposto->ISSQN = ISSQN::createFromProduct($produto);

@@ -3,6 +3,7 @@
 namespace MotorFiscal;
 
 use MotorFiscal\Estadual\ICMSTot;
+use MotorFiscal\Estadual\ParametrosTributacaoICMS;
 use MotorFiscal\Federal\COFINS;
 use MotorFiscal\Federal\PIS;
 use MotorFiscal\Federal\RetTrib;
@@ -397,7 +398,8 @@ class DocumentoFiscal extends Base
         
         if ($produto->tipoItem() === Produto::SERVICO) {
             if ($produto->cMunFG() === '') {
-                throw new Exception("Deve ser informado o código do município do fato gerador do ISS na classe MotorFiscal\Produto para itens de serviço. Atual \"{$produto->cMunFG}\"");
+                throw new Exception("Deve ser informado o código do município do fato gerador do ISS na classe MotorFiscal\Produto para itens de serviço. Atual '"
+                                    . $produto->cMunFG() . "'");
             }
             
             if ($produto->cMun() === '') {
@@ -505,25 +507,25 @@ class DocumentoFiscal extends Base
         
         if ($this->emit()->CRT() == 1) {/* Simples Nacional */
             /* N12a */
-            $item->imposto()->ICMS()->setCSOSN($tributacaoICMS->CSOSN);
+            $item->imposto()->ICMS()->setCSOSN($tributacaoICMS->CSOSN());
             /* Base/valor ficto do ICMS para fins de substituição tributária */
             $vBC_ICMS_FICTO = $item->prod()->vProd() - $item->prod()->vDesc() + $item->prod()->vFrete() + $item->prod()
                                                                                                                ->vOutro()
                               + $item->prod()->vSeg();
-            
-            $item->imposto()->ICMS()->setVICMSFicto(round($vBC_ICMS_FICTO * $tributacaoICMS->AliquotaICMS / 100, 2));
+    
+            $item->imposto()->ICMS()->setVICMSFicto(round($vBC_ICMS_FICTO * $tributacaoICMS->AliquotaICMS() / 100, 2));
             
             /* Calcula valor de crédito do ICMS */
             $vBC_ICMS_CredSN = $item->prod()->vProd() - $item->prod()->vDesc() + $item->prod()->vSeg() + $item->prod()
                                                                                                               ->vOutro();
-            
-            if ($tributacaoICMS->IncluirIPIBaseICMS && $this->emit()->ContribuinteIPI()) {
-                $vBC_ICMS_CredSN += is_numeric($item->imposto()->PIS()->vIPI)
+    
+            if ($tributacaoICMS->IncluirIPIBaseICMS() && $this->emit()->ContribuinteIPI()) {
+                $vBC_ICMS_CredSN += is_numeric($item->imposto()->IPI()->vIPI())
                     ? $item->imposto()->PIS()->vIPI
                     : 0;
             }
-            
-            if ($tributacaoICMS->IncluirFreteBaseICMS && is_numeric($item->prod()->vFrete())) {
+    
+            if ($tributacaoICMS->IncluirFreteBaseICMS() && is_numeric($item->prod()->vFrete())) {
                 $vBC_ICMS_CredSN += $item->prod()->vFrete();
             }
             
@@ -541,7 +543,7 @@ class DocumentoFiscal extends Base
                 case '900':
                     if ($item->Operacao()->isDevolucao($item->prod()->CFOP())) {
                         $item = $this->calcularTributacaoIntegral($item, $tributacaoICMS);
-                    } elseif ($this->emit()->PercCreditoSimples() > 0 && $tributacaoICMS->DestacarICMS == 1) {
+                    } elseif ($this->emit()->PercCreditoSimples() > 0 && $tributacaoICMS->DestacarICMS() == 1) {
                         /* N29 */
                         $item->imposto()->ICMS()->setPCredSN($this->emit()->PercCreditoSimples());
                         //TODO: Adicionar Frete e outras despesas neste calculo
@@ -553,7 +555,7 @@ class DocumentoFiscal extends Base
             }
         } else {
             /* N12a */
-            $item->imposto()->ICMS()->setCST($tributacaoICMS->CST);
+            $item->imposto()->ICMS()->setCST($tributacaoICMS->CST());
             
             /* Calcula valor de crédito do ICMS */
             switch ($item->imposto()->ICMS()->CST()) {
@@ -590,24 +592,24 @@ class DocumentoFiscal extends Base
             case '30':
             case '70':
             case '90':
+    
+                // ======= Se existe informacao válida de ICMS ST ==========================
+    
+                if ($tributacaoICMS->ModalidadeBaseICMSST() >= 0) {
                 
-                /* ======= Se existe informacao válida de ICMS ST ========================== */ if (!empty($tributacaoICMS->ModalidadeBaseICMSST)
-                                                                                                    && $tributacaoICMS->ModalidadeBaseICMSST
-                                                                                                       >= 0) {
                 /* N18 */
-                $item->imposto()->ICMS()->setModBCST($tributacaoICMS->ModalidadeBaseICMSST);
+                    $item->imposto()->ICMS()->setModBCST($tributacaoICMS->ModalidadeBaseICMSST());
                 /* N20 */
-                $item->imposto()->ICMS()->setPRedBCST((empty($tributacaoICMS->PercRedICMSST))
-                    ? 0
-                    : $tributacaoICMS->PercRedICMSST);
+                    $item->imposto()->ICMS()->setPRedBCST($tributacaoICMS->PercRedICMSST()
+                        ? : 0);
                 /* N22 */
-                $item->imposto()->ICMS()->setPICMSST($tributacaoICMS->AliquotaICMSST);
+                    $item->imposto()->ICMS()->setPICMSST($tributacaoICMS->AliquotaICMSST());
                 
                 /* Margem Valor Agregado (%) */
                 if ($item->imposto()->ICMS()->modBCST() == 4) {
                     /* Percentual MVA Ajustado */
                     /* N19 */
-                    $item->imposto()->ICMS()->setPMVAST($tributacaoICMS->PercMVAAjustadoST);
+                    $item->imposto()->ICMS()->setPMVAST($tributacaoICMS->PercMVAAjustadoST());
                     
                     /* ============= Base do ICMS-ST ================= */
                     $vBC_ICMS_ST = $item->prod()->vProd() - $item->prod()->vDesc() + $item->prod()->vFrete()
@@ -628,16 +630,16 @@ class DocumentoFiscal extends Base
                     $item->imposto()->ICMS()->setVBCST(number_format($vBC_ICMS_ST, 2, '.', ''));
                 } else {
                     /* N21 */
-                    $item->imposto()->ICMS()->setVBCST($tributacaoICMS->BaseCalcICMSST);
+                    $item->imposto()->ICMS()->setVBCST($tributacaoICMS->BaseCalcICMSST());
                 }
                 
                 /* N23 */
                 $item->imposto()->ICMS()->setVICMSST(number_format(round($item->imposto()->ICMS()->vBCST()
-                                                                         * $tributacaoICMS->AliquotaICMSST / 100, 2)
+                                                                         * $tributacaoICMS->AliquotaICMSST() / 100, 2)
                                                                    - $item->imposto()->ICMS()->vICMSFicto(), 2, '.',
                     '')); //." - $vICMS - {$item->imposto()->ICMS()->vBCST()}";
-                
-                if (!$tributacaoICMS->DestacarICMSST) {
+        
+                    if (!$tributacaoICMS->DestacarICMSST()) {
                     
                     /* Salva os valores do ICMS-ST Nao destacado */
                     /* N21 */
@@ -666,7 +668,6 @@ class DocumentoFiscal extends Base
                         $item->prod()->setCFOP($item->Operacao()->CFOPProdutoST());
                     }
                 }
-                //Calcula a partilha do ICMS
             }
                 break;
             case '60':
@@ -739,6 +740,13 @@ class DocumentoFiscal extends Base
     }
     
     
+    /**
+     * @param \MotorFiscal\Produto  $produto
+     * @param \MotorFiscal\Operacao $operacao
+     *
+     * @return \MotorFiscal\Estadual\ParametrosTributacaoICMS
+     * @throws \Exception
+     */
     private function getTribICMS(Produto $produto, Operacao $operacao)
     {
         $callback = $this->buscaTribFunctionICMS;
@@ -749,32 +757,33 @@ class DocumentoFiscal extends Base
         } else {
             $tributacaoICMS = $callback($produto, $operacao, $this->emit, $this->dest);
         }
-        
-        return $tributacaoICMS;
+    
+        return new ParametrosTributacaoICMS($tributacaoICMS);
     }
     
     
-    private function &calcularTributacaoIntegral(ItemFiscal &$item, $tributacaoICMS)
+    private function &calcularTributacaoIntegral(ItemFiscal &$item, ParametrosTributacaoICMS $tributacaoICMS)
     {
         /* N13 */
-        $item->imposto()->ICMS()->setModBC($tributacaoICMS->ModalidadeBaseICMS);
+        $item->imposto()->ICMS()->setModBC($tributacaoICMS->ModalidadeBaseICMS());
         if ($item->imposto()->ICMS()->modBC() === 3 || $item->imposto()->ICMS()->modBC() === 0) {
             $vBC_ICMS = $item->prod()->vProd() - $item->prod()->vDesc() + $item->prod()->vSeg() + $item->prod()
                                                                                                        ->vOutro();
-            if ($tributacaoICMS->IncluirIPIBaseICMS && $this->emit()->ContribuinteIPI()) {
-                $vBC_ICMS += is_numeric($item->imposto()->PIS()->vIPI)
-                    ? $item->imposto()->PIS()->vIPI
+    
+            if ($tributacaoICMS->IncluirIPIBaseICMS() && $this->emit()->ContribuinteIPI()) {
+                $vBC_ICMS += is_numeric($item->imposto()->IPI()->vIPI())
+                    ? $item->imposto()->IPI()->vIPI()
                     : 0;
             }
-            if ($tributacaoICMS->IncluirFreteBaseICMS && is_numeric($item->prod()->vFrete())) {
+            if ($tributacaoICMS->IncluirFreteBaseICMS() && is_numeric($item->prod()->vFrete())) {
                 $vBC_ICMS += $item->prod()->vFrete();
             }
             //aplica MVA sobre ICMS próprio
             if ($item->imposto()->ICMS()->modBC() == 0) {
-                $vBC_ICMS = $vBC_ICMS * (100 + $tributacaoICMS->PercMVAProprio) / 100;
+                $vBC_ICMS = $vBC_ICMS * (100 + $tributacaoICMS->PercMVAProprio()) / 100;
             }
         } elseif ($item->imposto()->ICMS()->modBC() == 1 || $item->imposto()->ICMS()->modBC() == 2) {
-            $vBC_ICMS = $tributacaoICMS->ValorBaseICMS;
+            $vBC_ICMS = $tributacaoICMS->ValorBaseICMS();
         }
     
         //calcula a redução da base de calculo apenas para os casos
@@ -785,80 +794,77 @@ class DocumentoFiscal extends Base
             || $item->imposto()->ICMS()->CST() == '90'
             || $item->imposto()->ICMS()->CSOSN() == '900') {
             /* N14 */
-            $item->imposto()->ICMS()->setPRedBC($tributacaoICMS->PercRedICMS);
+            $item->imposto()->ICMS()->setPRedBC($tributacaoICMS->PercRedICMS());
             $vBC_ICMS_Red = round($vBC_ICMS * (100 - $item->imposto()->ICMS()->pRedBC()) / 100, 2);
-            $item->imposto()->ICMS()->setVICMSFicto(round($vBC_ICMS_Red * $tributacaoICMS->AliquotaICMS / 100, 2));
-            
-            if ($tributacaoICMS->DestacarICMSDes) {
-                $vICMSNorm = round($vBC_ICMS * $tributacaoICMS->AliquotaICMS / 100, 2);
+            $item->imposto()->ICMS()->setVICMSFicto(round($vBC_ICMS_Red * $tributacaoICMS->AliquotaICMS() / 100, 2));
+    
+            if ($tributacaoICMS->DestacarICMSDes()) {
+                $vICMSNorm = round($vBC_ICMS * $tributacaoICMS->AliquotaICMS() / 100, 2);
                 /* N27a */
                 $item->imposto()->ICMS()->setVICMSDeson($vICMSNorm - $item->imposto()->ICMS()->vICMSFicto());
                 /* N27a */
-                $item->imposto()->ICMS()->setMotDesICMS($tributacaoICMS->MotivoDesICMS);
+                $item->imposto()->ICMS()->setMotDesICMS($tributacaoICMS->MotivoDesICMS());
             }
             $vBC_ICMS = $vBC_ICMS_Red;
         } else {
-            $item->imposto()->ICMS()->setVICMSFicto(round($vBC_ICMS * $tributacaoICMS->AliquotaICMS / 100, 2));
+            $item->imposto()->ICMS()->setVICMSFicto(round($vBC_ICMS * $tributacaoICMS->AliquotaICMS() / 100, 2));
         }
     
         //destaca o ICMS apenas se estiver configurado para destacar o ICMS
-        if ($tributacaoICMS->DestacarICMS == 1) {
+        if ($tributacaoICMS->DestacarICMS() == 1) {
             /* N15 */
             $item->imposto()->ICMS()->setVBC(number_format($vBC_ICMS, 2, '.', ''));
             /* N17 */
             $item->imposto()->ICMS()->setVICMS(number_format($item->imposto()->ICMS()->vICMSFicto(), 2, '.', ''));
             /* N16 */
-            $item->imposto()->ICMS()->setPICMS($tributacaoICMS->AliquotaICMS);
-            
-            //Calculo da Partilha do ICMS
-            //se a propriedade ICMSUFDest não é nula
+            $item->imposto()->ICMS()->setPICMS($tributacaoICMS->AliquotaICMS());
+        
+            //Partilha do ICMS - NT 2015 - 003 - v150
             if ($item->imposto()->ICMSUFDest() /* NA01 */) {
                 $item->imposto()->ICMSUFDest()->setVBCUFDest($item->imposto()->ICMS()->vBC());
-                $item->imposto()->ICMSUFDest()->setPFCPUFDest($tributacaoICMS->PercFCPUFDest);
-                $item->imposto()->ICMSUFDest()->setPICMSUFDest($tributacaoICMS->PercIcmsUFDest);
+                $item->imposto()->ICMSUFDest()->setPFCPUFDest($tributacaoICMS->PercFCPUFDest());
+                $item->imposto()->ICMSUFDest()->setPICMSUFDest($tributacaoICMS->PercIcmsUFDest());
                 $item->imposto()->ICMSUFDest()->setPICMSInter($item->imposto()->ICMS()->pICMS());
                 $item->imposto()->ICMSUFDest()->setPICMSInterPart($this->getDiferencialAliquota(date('Y')));
     
                 $item->imposto()->ICMSUFDest()->setVFCPUFDest($item->imposto()->ICMSUFDest()->vBCUFDest()
                                                               * $item->imposto()->ICMSUFDest()->pFCPUFDest() / 100);
     
-                $diferencial_icms = ceil(round(($item->imposto()->ICMSUFDest()->vBCUFDest() * $item->imposto()
-                                                                                                   ->ICMSUFDest()
-                                                                                                   ->pICMSUFDest()
-                                                / 100) - $item->imposto()->ICMS()->vICMS()));
-                
-                if ($diferencial_icms < 0) {
-                    $diferencial_icms = 0;
+                $vICMSUFDestino = round($item->imposto()->ICMSUFDest()->vBCUFDest() * $item->imposto()
+                                                                                           ->ICMSUFDest()
+                                                                                           ->pICMSUFDest() / 100, 2);
+    
+                $diferencialIcms = $vICMSUFDestino - $item->imposto()->ICMS()->vICMS();
+    
+                if ($diferencialIcms < 0) {
+                    $diferencialIcms = 0;
                 }
     
-                $item->imposto()->ICMSUFDest()->setVICMSUFDest(ceil(round($diferencial_icms * $item->imposto()
-                                                                                                   ->ICMSUFDest()
-                                                                                                   ->pICMSInterPart()
-                                                                          / 100)));
-                $item->imposto()->ICMSUFDest()->setVICMSUFRemet($diferencial_icms - $item->imposto()
-                                                                                         ->ICMSUFDest()
-                                                                                         ->vICMSUFDest());
+                $item->imposto()->ICMSUFDest()->setVICMSUFDest(round($diferencialIcms * $item->imposto()
+                                                                                             ->ICMSUFDest()
+                                                                                             ->pICMSInterPart() / 100));
+                $item->imposto()->ICMSUFDest()->setVICMSUFRemet($diferencialIcms - $item->imposto()
+                                                                                        ->ICMSUFDest()
+                                                                                        ->vICMSUFDest());
             }
         }
     
-        if ($item->imposto()->ICMS()->CST() == '51') {
+        if ($item->imposto()->ICMS()->CST() === '51') {
             $item->imposto()->ICMS()->setVBC(ceil($vBC_ICMS * 100) / 100);
             /* N16 */
-            $item->imposto()->ICMS()->setPICMS($tributacaoICMS->AliquotaICMS);
+            $item->imposto()->ICMS()->setPICMS($tributacaoICMS->AliquotaICMS());
             /* N16a */
-            $item->imposto()->ICMS()->setVICMSO(ceil($item->imposto()->ICMS()->vICMS_Ficto * 100) / 100);
+            $item->imposto()->ICMS()->setVICMS(ceil($item->imposto()->ICMS()->vICMSFicto() * 100) / 100);
             /* N16b */
-            $item->imposto()->ICMS()->setPDif($tributacaoICMS->PercDiferimento);
+            $item->imposto()->ICMS()->setPDif($tributacaoICMS->PercDiferimento());
             /* N16c */
-            $item->imposto()->ICMS()->setVICMSDif(ceil(round($item->imposto()->ICMS()->vICMS_Ficto - ($item->imposto()
-                                                                                                           ->ICMS()->vICMS_Ficto
-                                                                                                      * $tributacaoICMS->PercDiferimento
-                                                                                                      / 100), 2) * 100)
+            $item->imposto()->ICMS()->setVICMSDif($item->imposto()->ICMS()->vICMSFicto() * (100
+                                                                                            - $tributacaoICMS->PercDiferimento())
                                                   / 100);
             /* N17 */
-            $item->imposto()->ICMS()->setVICMS($item->imposto()->ICMS()->vICMS_Ficto - $item->imposto()
-                                                                                            ->ICMS()
-                                                                                            ->vICMSDif());
+            $item->imposto()->ICMS()->setVICMS($item->imposto()->ICMS()->vICMSFicto() - $item->imposto()
+                                                                                             ->ICMS()
+                                                                                             ->vICMSDif());
         }
     
         return $item;
@@ -886,10 +892,10 @@ class DocumentoFiscal extends Base
     }
     
     
-    private function &calcularPartilhaICMS($tributacaoICMS, ItemFiscal &$item)
+    private function &calcularPartilhaICMS(ParametrosTributacaoICMS $tributacaoICMS, ItemFiscal &$item)
     {
         //se for operação interestadual para consumidor final e o emitente não for simples nacional
-        if ($tributacaoICMS->DestacarICMS == 1) {
+        if ($tributacaoICMS->DestacarICMS() == 1) {
             
             
             /****************************************************************
@@ -902,14 +908,14 @@ class DocumentoFiscal extends Base
             //Interestadual para consumidor final
             if ($item->imposto()->ICMSUFDest()) {
                 //Se não foi informado o ICMS para a UF de destino deve subir uma exceção
-                if (!isset($tributacaoICMS->PercIcmsUFDest)) {
+                if (!$tributacaoICMS->PercIcmsUFDest()) {
                     throw new Exception('Deve ser informada a alíquota de ICMS interestadual para operações com partilha de ICMS');
                 }
                 //Calculo da Partilha do ICMS
                 $item->imposto()->ICMSUFDest()->setVBCUFDest($item->imposto()->ICMS()->vICMS_Ficto);
-                $item->imposto()->ICMSUFDest()->setPFCPUFDest($tributacaoICMS->PercFCPUFDest);
-                $item->imposto()->ICMSUFDest()->setPICMSUFDest($tributacaoICMS->PercIcmsUFDest);
-                $item->imposto()->ICMSUFDest()->setPICMSInter($tributacaoICMS->AliquotaICMS);
+                $item->imposto()->ICMSUFDest()->setPFCPUFDest($tributacaoICMS->PercFCPUFDest());
+                $item->imposto()->ICMSUFDest()->setPICMSUFDest($tributacaoICMS->PercIcmsUFDest());
+                $item->imposto()->ICMSUFDest()->setPICMSInter($tributacaoICMS->AliquotaICMS());
                 $item->imposto()->ICMSUFDest()->setPICMSInterPart($this->getDiferencialAliquota(date('Y')));
                 $item->imposto()->ICMSUFDest()->setvFCPUFDest($item->imposto()->ICMSUFDest()->vBCUFDest()
                                                               * $item->imposto()->ICMSUFDest()->pFCPUFDest() / 100);
